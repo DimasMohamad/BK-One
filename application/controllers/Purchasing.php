@@ -157,4 +157,23 @@ class Purchasing extends CI_Controller
         $row = json_encode($this->M_purc->get_penilaian_supp());
         echo $row;
     }
+
+    public function supplier_appraisal() // belum diregistrasi
+    {
+        $akses = $this->M_user->get_akses(9);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('supplier_appraisal');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function idunik()
+    {
+        echo $uniqueString = uniqid('', true);
+    }
+
+    
 }
