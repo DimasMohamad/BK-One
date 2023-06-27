@@ -151,4 +151,10 @@ class Purchasing extends CI_Controller
             echo"<option value=".$d['Code'].">".$d['Dept']."</option>";
         }
     }
+
+    public function penilaian_supp()
+    {
+        $row = json_encode($this->M_purc->get_penilaian_supp());
+        echo $row;
+    }
 }

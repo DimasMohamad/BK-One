@@ -257,4 +257,16 @@ class M_purc extends CI_Model
 		$hanadb = $this->load->database('hana', TRUE);
 		return $hanadb->query('select "Code","Name" as "Dept" from "BKI_LIVE"."OUDP";')->result_array();
 	}
+
+	public function get_penilaian_supp()
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select distinct "CardCode","CardName" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' order by "CardCode";')->result_array();
+	}
+
+	public function get_penilaian_po($supp)
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select distinct "DocNum" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' and "CardCode" = '."'$supp'".' order by "DocNum";')->result_array();
+	}
 }
