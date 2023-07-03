@@ -264,9 +264,25 @@ class M_purc extends CI_Model
 		return $hanadb->query('select distinct "CardCode","CardName" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' order by "CardCode";')->result_array();
 	}
 
-	public function get_penilaian_po($supp)
+	public function get_penilaian_po_list()
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('select distinct "DocNum" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' and "CardCode" = '."'$supp'".' order by "DocNum";')->result_array();
+		return $hanadb->query('select distinct "DocNum",TO_VARCHAR (TO_DATE("DocDate"), '."'DD'".') || '."'.'".' ||
+		TO_VARCHAR (left(monthname(TO_DATE("DocDate")),3)) || '."'.'".' ||
+		TO_VARCHAR (year(TO_DATE("DocDate"))) as "Posting_date","DocDate","CardCode","CardName" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' order by "DocDate";')->result_array();
+	}
+
+	public function get_penilaian_po_list_item()
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select A."DocNum",A."DocEntry",B."ItemCode",B."Dscription",B."Quantity",B."UomCode" 
+		from "BKI_LIVE"."OPOR" A
+		Left join(Select "DocEntry","ItemCode","Dscription","Quantity","UomCode" from "BKI_LIVE"."POR1")B on B."DocEntry" = A."DocEntry" 
+		where A."CANCELED" = '."'N'".';')->result_array();
+	}
+
+	public function get_nopo($nopo)
+	{
+		return $this->db->query("SELECT count(rowid) as rowid FROM tb_supp_p_2 where nopo = $nopo;")->result_array();
 	}
 }

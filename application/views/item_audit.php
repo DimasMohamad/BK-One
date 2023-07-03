@@ -379,11 +379,11 @@
                         },
                         onLoadSuccess:function(){
                             setTimeout(function(){
-                                    $('#dg').datagrid('fixDetailRowHeight',index);
-                                },0);
-                            }
-                        });
-                        $('#dg').datagrid('fixDetailRowHeight',index);
+                                $('#dg').datagrid('fixDetailRowHeight',index);
+                            },0);
+                        }
+                });
+                $('#dg').datagrid('fixDetailRowHeight',index);
             }
         });
     }

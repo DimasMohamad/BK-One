@@ -158,9 +158,9 @@ class Purchasing extends CI_Controller
         echo $row;
     }
 
-    public function supplier_appraisal() // belum diregistrasi
+    public function supplier_appraisal()
     {
-        $akses = $this->M_user->get_akses(9);
+        $akses = $this->M_user->get_akses(15);
         $this->load->view('header');
         if(!$akses['akses'] == 0){
         $this->load->view('supplier_appraisal');
@@ -170,9 +170,54 @@ class Purchasing extends CI_Controller
         $this->load->view('footer');
     }
 
+    public function tb_po_list()
+    {
+        $row['head'] = [];
+        $head = $this->M_purc->get_penilaian_po_list();
+        foreach($head as $h){
+            $r = [];
+            $nopo = $this->M_purc->get_nopo($h['DocNum']);
+            foreach($nopo as $n){
+                if($n['rowid']==0){
+                    $r['DocNum'] = $h['DocNum'];
+                    $r['Posting_date'] = $h['Posting_date'];
+                    $r['DocDate'] = $h['DocDate'];
+                    $r['CardCode'] = $h['CardCode'];
+                    $r['CardName'] = $h['CardName'];
+                    array_push($row['head'],$r);
+                }
+            }
+            
+        }
+        //$row['head'] = $this->M_purc->get_penilaian_po_list();
+        $row['item'] = $this->M_purc->get_penilaian_po_list_item();
+        $datapo = json_encode($row);
+        //echo $datapo;
+        $this->load->view('tb_po_list',["data" => $datapo]);
+    }
+
     public function idunik()
     {
         echo $uniqueString = uniqid('', true);
+    }
+
+    public function simpan_nilai()
+    {
+        $nopo = $this->input->post('id_penilaian');
+        $tgl = $this->input->post('tgl');
+        $mutu = $this->input->post('mutu');
+        $pelayanan = $this->input->post('pelayanan');
+        $kuantiti = $this->input->post('kuantiti');
+        $keterangan = $this->input->post('keterangan');
+        $data = array(
+            'nopo' => $nopo,
+            'n1' => $mutu,
+            'n2' => $pelayanan,
+            'n3' => $kuantiti,
+            'keterangan' => $keterangan,
+            'tgl' => $tgl
+        );
+        $this->db->insert('tb_supp_p_2', $data);
     }
 
     
