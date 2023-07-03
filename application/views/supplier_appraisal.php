@@ -205,13 +205,13 @@
         if(tgl==''){
             pesan('tanggal pengisian mohon diisi');
         }else{
-            if(mutu==0){
+            if(mutu == 0){
                 pesan('Penilaian Mutu belum diisi');
             }else{
-                if(pelayanan==0){
+                if(pelayanan == 0){
                     pesan('Penilaian pelayanan belum diisi');
                 }else{
-                    if(kuantiti==0){
+                    if(kuantiti == 0){
                         pesan('Penilaian kuantiti belum diisi');
                     }else{
                         if(keterangan == ''){
