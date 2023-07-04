@@ -44,17 +44,32 @@
                                     <div class="col-xl-3">
                                         <input type="date" id="hingga" class="form-control">
                                     </div>
-                                        <div class="col-xl-5">
+                                    <div class="col-xl-3">
+                                        <select class="form-control" id="filter_supp">
+                                            <option value='0'>-- Pilih Supplier --</option>
+                                            <?php
+                                            foreach($filter as $fs){
+                                                $supp = $this->M_purc->get_supp($fs['id_supp']);
+                                                echo"<option value='".$fs['id_supp']."'>".$supp['CardName']."</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                        <div class="col-xl-3">
                                             <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
                                             <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Loading...</button>
+                                            <button class="btn btn-warning" onclick="cetak()">Print</button>
                                         </div>
-                                    </div>
+                                    </div><br><br>
+                                    <div id="tampildatapenilaian"></div>
                                 </div>
                             </div>
                         </div><!-- End Default Tabs -->
-
+                    </div>
+                    <div class="card-body">
+                    
                     </div>
                 </div>
                 
@@ -73,6 +88,7 @@
             </div>
             <div class="modal-body">
             <input type="hidden" id="id_penilaian">
+            <input type="hidden" id="id_supp">
             <form class="row g-3">
                 <div class="col-12">
                     <label for="inputNanme4" class="form-label">Tgl Penilaian</label>
@@ -92,20 +108,20 @@
                     <label for="inputNanme4" class="form-label">Pelayanan</label>
                     <select id="pelayanan" class="form-control">
                         <option value="0">-- Pilih --</option>
-                        <option value="1">Tidak sesuai persyaratan yang diminta</option>
-                        <option value="2">Kurang sesuai permintaan yang diminta</option>
-                        <option value="3">Sesuai permintaan yang diminta</option>
-                        <option value="4">Melebihi persyaratan yang diminta</option>
+                        <option value="1">Kurang Tanggap, Informasi tidak cukup, Respon sangat lambat (≥48 Jam)</option>
+                        <option value="2">Cukup Tanggap, Informasi Cukup Menjawab, Respon agak lambat</option>
+                        <option value="3">Cepat Tanggap, Informasi sangat menjawab, Respon Tepat Waktu</option>
+                        <option value="4">Sangat Tanggap, Informasi sangat memuaskan, Respon Tepat Waktu</option>
                     </select>
                 </div>
                 <div class="col-4">
                     <label for="inputNanme4" class="form-label">Kuantiti</label>
                     <select id="kuantiti" class="form-control">
                         <option value="0">-- Pilih --</option>
-                        <option value="1">Tidak sesuai persyaratan yang diminta</option>
-                        <option value="2">Kurang sesuai permintaan yang diminta</option>
-                        <option value="3">Sesuai permintaan yang diminta</option>
-                        <option value="4">Melebihi persyaratan yang diminta</option>
+                        <option value="1">Kelebihan atau Kekurangan > 5%</option>
+                        <option value="2">Kelebihan atau Kekurangan ≥ 5%</option>
+                        <option value="3">Kelebihan atau Kekurangan < 5%</option>
+                        <option value="4">Pas Sesuai Pemintaan</option>
                     </select>
                 </div>
                 <div class="col-12">
@@ -127,24 +143,22 @@
     function tampildata(){
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
+        let supp = $("#filter_supp").val();
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById('btnloading').style.display = '';
         
-        $.get("<?= base_url('Purchasing/tb_outstanding_po?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+        $.get("<?= base_url('Purchasing/laporan_penilaian_supp?mulai=') ?>"+mulai+"&hingga="+hingga+"&id_supp="+supp, function(data, status) {
             document.getElementById('btntampil').style.display = '';
             document.getElementById('btnloading').style.display = 'none';
             
-            $("#tampildataspp").html(data);
+            $("#tampildatapenilaian").html(data);
         });
     }
 
-    function add(docnum,supp){
+    function add(docnum,supp,id){
         $("#nama_supp").html(supp);
         $("#id_penilaian").val(docnum);
+        $("#id_supp").val(id);
         $("#add_penilaian").modal("show");
     }
 
@@ -202,6 +216,7 @@
         var pelayanan = $("#pelayanan").val();
         var kuantiti = $("#kuantiti").val();
         var keterangan = $("#keterangan").val();
+        var id_supp = $("#id_supp").val();
         if(tgl==''){
             pesan('tanggal pengisian mohon diisi');
         }else{
@@ -228,6 +243,7 @@
                                     pelayanan: pelayanan,
                                     kuantiti: kuantiti,
                                     keterangan : keterangan,
+                                    id_supp: id_supp,
                                     csrf_test_name: $.cookie('csrf_cookie_name')
                                 },
                                 success: function() {
@@ -248,5 +264,12 @@
                 }
             }
         }
+    }
+
+    function cetak(){
+        let mulai = $("#mulai").val();
+        let hingga = $("#hingga").val();
+        let supp = $("#filter_supp").val();
+        window.open("<?= base_url('Purchasing/cetak_laporan_penilaian_supp?mulai=') ?>"+mulai+"&hingga="+hingga+"&id_supp="+supp,"_blank");
     }
 </script>

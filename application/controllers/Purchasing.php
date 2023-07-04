@@ -160,10 +160,14 @@ class Purchasing extends CI_Controller
 
     public function supplier_appraisal()
     {
+        // get filter supplier
+        $this->db->select('id_supp');
+        $this->db->distinct();
+        $filtersupp = $this->db->get('tb_supp_p_2')->result_array();
         $akses = $this->M_user->get_akses(15);
         $this->load->view('header');
         if(!$akses['akses'] == 0){
-        $this->load->view('supplier_appraisal');
+        $this->load->view('supplier_appraisal',["filter" => $filtersupp]);
         }else{
             $this->load->view('denied');
         }
@@ -204,6 +208,7 @@ class Purchasing extends CI_Controller
     public function simpan_nilai()
     {
         $nopo = $this->input->post('id_penilaian');
+        $id_supp = $this->input->post('id_supp');
         $tgl = $this->input->post('tgl');
         $mutu = $this->input->post('mutu');
         $pelayanan = $this->input->post('pelayanan');
@@ -215,10 +220,30 @@ class Purchasing extends CI_Controller
             'n2' => $pelayanan,
             'n3' => $kuantiti,
             'keterangan' => $keterangan,
-            'tgl' => $tgl
+            'tgl' => $tgl,
+            'id_supp' => $id_supp
         );
         $this->db->insert('tb_supp_p_2', $data);
     }
 
+    public function laporan_penilaian_supp()
+    {
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $id_supp = $this->input->get('id_supp');
+        $data = json_encode($this->M_purc->laporan_penilaian_supp($mulai,$hingga,$id_supp));
+        $supp = $this->M_purc->get_supp($id_supp);
+        $this->load->view("laporan_penilaian_supp",["data" => $data,"mulai" => $mulai,"hingga" => $hingga,"supp" => $supp]);
+    }
+
+    public function cetak_laporan_penilaian_supp()
+    {
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $id_supp = $this->input->get('id_supp');
+        $data = json_encode($this->M_purc->laporan_penilaian_supp($mulai,$hingga,$id_supp));
+        $supp = $this->M_purc->get_supp($id_supp);
+        $this->load->view("cetaklaporan_penilaian_supp",["data" => $data,"mulai" => $mulai,"hingga" => $hingga,"supp" => $supp]);
+    }
     
 }

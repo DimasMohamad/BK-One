@@ -15,7 +15,7 @@
         foreach($row['head'] as $r){
             echo"<tr>";
             echo"<td style='vertical-align:top;'>".$i."</td>";
-            echo"<td style='vertical-align:top;'><button class='btn btn-warning btn-sm' onclick='add(".$r['DocNum'].",\"".$r['CardName']."\")'>".$r['DocNum']."</button></td>";
+            echo"<td style='vertical-align:top;'><button class='btn btn-warning btn-sm' onclick='add(".$r['DocNum'].",\"".$r['CardName']."\",\"".$r['CardCode']."\")'>".$r['DocNum']."</button></td>";
             echo"<td style='vertical-align:top;'>".$r['Posting_date']."</td>";
             echo"<td style='vertical-align:top;'>".$r['CardName']."</td>";
             echo"<td style='vertical-align:top;'>";

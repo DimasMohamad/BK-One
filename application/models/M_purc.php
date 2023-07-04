@@ -285,4 +285,30 @@ class M_purc extends CI_Model
 	{
 		return $this->db->query("SELECT count(rowid) as rowid FROM tb_supp_p_2 where nopo = $nopo;")->result_array();
 	}
+
+	public function laporan_penilaian_supp($mulai,$hingga,$id_supp)
+	{
+		return $this->db->query("SELECT 
+		rowid,
+		id_supp,
+		tgl,
+		nopo,
+		n1,n2,n3,
+		(n1+n2+n3) AS total,
+		case when (n1+n2+n3) > 8 then 'Ya'
+		when (n1+n2+n3) < 8 then 'Tidak' END AS keputusan,
+		keterangan 
+		FROM tb_supp_p_2 WHERE tgl BETWEEN '$mulai' AND '$hingga' AND id_supp = '$id_supp';")->result_array();
+	}
+
+	public function get_supp($id)
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select "CardName" from "BKI_LIVE"."OCRD" where "CardCode"= '."'$id'".';')->row_array();
+	}
+
+	public function get_supp_filter()
+	{
+		return $this->db->query('SELECT distinct id_supp FROM tb_supp_p_2;')->result_array();
+	}
 }
