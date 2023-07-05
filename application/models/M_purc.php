@@ -264,21 +264,22 @@ class M_purc extends CI_Model
 		return $hanadb->query('select distinct "CardCode","CardName" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' order by "CardCode";')->result_array();
 	}
 
-	public function get_penilaian_po_list()
+	public function get_penilaian_po_list($mulai,$hingga)
 	{
 		$hanadb = $this->load->database('hana', TRUE);
 		return $hanadb->query('select distinct "DocNum",TO_VARCHAR (TO_DATE("DocDate"), '."'DD'".') || '."'.'".' ||
 		TO_VARCHAR (left(monthname(TO_DATE("DocDate")),3)) || '."'.'".' ||
-		TO_VARCHAR (year(TO_DATE("DocDate"))) as "Posting_date","DocDate","CardCode","CardName" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' and "DocType" = '."'I'".' order by "DocDate";')->result_array();
+		TO_VARCHAR (year(TO_DATE("DocDate"))) as "Posting_date","DocDate","CardCode","CardName" from "BKI_LIVE"."OPOR" where "CANCELED" = '."'N'".' and "DocType" = '."'I'".' 
+		and "DocDate" between '."'$mulai'".' and '."'$hingga'".' order by "DocDate";')->result_array();
 	}
 
-	public function get_penilaian_po_list_item()
+	public function get_penilaian_po_list_item($mulai,$hingga)
 	{
 		$hanadb = $this->load->database('hana', TRUE);
 		return $hanadb->query('select A."DocNum",A."DocEntry",B."ItemCode",B."Dscription",B."Quantity",B."UomCode" 
 		from "BKI_LIVE"."OPOR" A
 		Left join(Select "DocEntry","ItemCode","Dscription","Quantity","UomCode" from "BKI_LIVE"."POR1")B on B."DocEntry" = A."DocEntry" 
-		where A."CANCELED" = '."'N'".' and A."DocType" = '."'I'".';')->result_array();
+		where A."CANCELED" = '."'N'".' and A."DocType" = '."'I'".' and A."DocDate" between '."'$mulai'".' and '."'$hingga'".';')->result_array();
 	}
 
 	public function get_nopo($nopo)
@@ -286,7 +287,7 @@ class M_purc extends CI_Model
 		return $this->db->query("SELECT count(rowid) as rowid FROM tb_supp_p_2 where nopo = $nopo;")->result_array();
 	}
 
-	public function laporan_penilaian_supp($mulai,$hingga,$id_supp)
+	public function laporan_penilaian_supp($s,$t,$id_supp)
 	{
 		return $this->db->query("SELECT 
 		rowid,
@@ -298,7 +299,7 @@ class M_purc extends CI_Model
 		case when (n1+n2+n3) > 8 then 'Ya'
 		when (n1+n2+n3) < 8 then 'Tidak' END AS keputusan,
 		keterangan 
-		FROM tb_supp_p_2 WHERE tgl BETWEEN '$mulai' AND '$hingga' AND id_supp = '$id_supp';")->result_array();
+		FROM tb_supp_p_2 WHERE semester = $s AND tahun = $t AND id_supp = '$id_supp';")->result_array();
 	}
 
 	public function get_supp($id)
@@ -310,5 +311,25 @@ class M_purc extends CI_Model
 	public function get_supp_filter()
 	{
 		return $this->db->query('SELECT distinct id_supp FROM tb_supp_p_2;')->result_array();
+	}
+
+	public function get_year()
+	{
+		return $this->db->query("SELECT YEAR(NOW()) AS tahun
+		UNION ALL
+		SELECT YEAR(NOW())-1 AS tahun
+		UNION ALL
+		SELECT YEAR(NOW())-2 AS tahun
+		UNION ALL
+		SELECT YEAR(NOW())-3 AS tahun
+		UNION ALL
+		SELECT YEAR(NOW())-4 AS tahun
+		UNION ALL
+		SELECT YEAR(NOW())-5 AS tahun;")->result_array();
+	}
+
+	public function get_filter_tahun()
+	{
+		return $this->db->query("SELECT distinct tahun from tb_supp_p_2;")->result_array();
 	}
 }

@@ -158,16 +158,34 @@ class Purchasing extends CI_Controller
         echo $row;
     }
 
+    public function get_filter_supp()
+    {
+        $filtersupp = $this->db->get('tb_supp_p_2')->result_array();
+        echo"<option value='0'>--Pilih Supplier--</option>";
+        foreach($filtersupp as $fs){
+            $supp = $this->M_purc->get_supp($fs['id_supp']);
+            echo"<option value='".$fs['id_supp']."'>".$supp['CardName']."</option>";
+        }
+    }
+
+    public function get_filter_tahun()
+    {
+        $filtertahun = $this->M_purc->get_filter_tahun();
+        echo"<option value='0'>--Tahun--</option>";
+        foreach($filtertahun as $ft){
+            echo"<option value='".$ft['tahun']."'>".$ft['tahun']."</option>";
+        }
+    }
+
     public function supplier_appraisal()
     {
-        // get filter supplier
         $this->db->select('id_supp');
         $this->db->distinct();
-        $filtersupp = $this->db->get('tb_supp_p_2')->result_array();
         $akses = $this->M_user->get_akses(15);
+        $tahun = $this->M_purc->get_year();
         $this->load->view('header');
         if(!$akses['akses'] == 0){
-        $this->load->view('supplier_appraisal',["filter" => $filtersupp]);
+        $this->load->view('supplier_appraisal',["tahun" => $tahun]);
         }else{
             $this->load->view('denied');
         }
@@ -176,8 +194,10 @@ class Purchasing extends CI_Controller
 
     public function tb_po_list()
     {
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
         $row['head'] = [];
-        $head = $this->M_purc->get_penilaian_po_list();
+        $head = $this->M_purc->get_penilaian_po_list($mulai,$hingga);
         foreach($head as $h){
             $r = [];
             $nopo = $this->M_purc->get_nopo($h['DocNum']);
@@ -193,10 +213,8 @@ class Purchasing extends CI_Controller
             }
             
         }
-        //$row['head'] = $this->M_purc->get_penilaian_po_list();
-        $row['item'] = $this->M_purc->get_penilaian_po_list_item();
+        $row['item'] = $this->M_purc->get_penilaian_po_list_item($mulai,$hingga);
         $datapo = json_encode($row);
-        //echo $datapo;
         $this->load->view('tb_po_list',["data" => $datapo]);
     }
 
@@ -209,41 +227,43 @@ class Purchasing extends CI_Controller
     {
         $nopo = $this->input->post('id_penilaian');
         $id_supp = $this->input->post('id_supp');
-        $tgl = $this->input->post('tgl');
         $mutu = $this->input->post('mutu');
         $pelayanan = $this->input->post('pelayanan');
         $kuantiti = $this->input->post('kuantiti');
         $keterangan = $this->input->post('keterangan');
+        $semester = $this->input->post('semester');
+        $tahun = $this->input->post('tahun');
         $data = array(
             'nopo' => $nopo,
             'n1' => $mutu,
             'n2' => $pelayanan,
             'n3' => $kuantiti,
             'keterangan' => $keterangan,
-            'tgl' => $tgl,
-            'id_supp' => $id_supp
+            'id_supp' => $id_supp,
+            'semester' => $semester,
+            'tahun' => $tahun
         );
         $this->db->insert('tb_supp_p_2', $data);
     }
 
     public function laporan_penilaian_supp()
     {
-        $mulai = $this->input->get('mulai');
-        $hingga = $this->input->get('hingga');
+        $s = $this->input->get('s');
+        $t = $this->input->get('t');
         $id_supp = $this->input->get('id_supp');
-        $data = json_encode($this->M_purc->laporan_penilaian_supp($mulai,$hingga,$id_supp));
+        $data = json_encode($this->M_purc->laporan_penilaian_supp($s,$t,$id_supp));
         $supp = $this->M_purc->get_supp($id_supp);
-        $this->load->view("laporan_penilaian_supp",["data" => $data,"mulai" => $mulai,"hingga" => $hingga,"supp" => $supp]);
+        $this->load->view("laporan_penilaian_supp",["data" => $data,"supp" => $supp]);
     }
 
     public function cetak_laporan_penilaian_supp()
     {
-        $mulai = $this->input->get('mulai');
-        $hingga = $this->input->get('hingga');
+        $s = $this->input->get('s');
+        $t = $this->input->get('t');
         $id_supp = $this->input->get('id_supp');
-        $data = json_encode($this->M_purc->laporan_penilaian_supp($mulai,$hingga,$id_supp));
+        $data = json_encode($this->M_purc->laporan_penilaian_supp($s,$t,$id_supp));
         $supp = $this->M_purc->get_supp($id_supp);
-        $this->load->view("cetaklaporan_penilaian_supp",["data" => $data,"mulai" => $mulai,"hingga" => $hingga,"supp" => $supp]);
+        $this->load->view("cetaklaporan_penilaian_supp",["data" => $data,"supp" => $supp]);
     }
     
 }

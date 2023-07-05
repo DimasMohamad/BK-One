@@ -81,26 +81,41 @@
     function tampildata(){
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
-        document.getElementById('btntampil').style.display = 'none';
-        document.getElementById('btnloading').style.display = '';
-        
-        $.get("<?= base_url('produksi/tb_outstanding_order?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
-            document.getElementById('btntampil').style.display = '';
-            document.getElementById('btnloading').style.display = 'none';
-            
-            $("#tampildata").html(data);
-        });
+        if(mulai == ''){
+            pesan('tanggal mulai mohon diisi');
+        }else{
+            if(hingga == ''){
+                pesan('tanggal hingga mohon diisi');
+            }else{
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                });
+                document.getElementById('btntampil').style.display = 'none';
+                document.getElementById('btnloading').style.display = '';
+                
+                $.get("<?= base_url('produksi/tb_outstanding_order?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+                    document.getElementById('btntampil').style.display = '';
+                    document.getElementById('btnloading').style.display = 'none';
+                    $("#tampildata").html(data);
+                });
+            }
+        }
     }
 
 
     function preview(){
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
-        window.open("<?= base_url('produksi/tb_outstanding_order_page?mulai=') ?>"+mulai+"&hingga="+hingga,"_blank");
+        if(mulai == ''){
+            pesan('tanggal mulai mohon diisi');
+        }else{
+            if(hingga == ''){
+                pesan('tanggal hingga mohon diisi');
+            }else{
+                window.open("<?= base_url('produksi/tb_outstanding_order_page?mulai=') ?>"+mulai+"&hingga="+hingga,"_blank");
+            }
+        }
     }
 
     function detail(id,tgl){
@@ -157,6 +172,33 @@
     function unduh(){
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
-        window.open("<?= base_url('produksi/tb_outstanding_order_xls?mulai=')?>"+mulai+"&hingga="+hingga,"_self");
+        if(mulai == ''){
+            pesan('tanggal mulai mohon diisi');
+        }else{
+            if(hingga == ''){
+                pesan('tanggal hingga mohon diisi');
+            }else{
+                window.open("<?= base_url('produksi/tb_outstanding_order_xls?mulai=')?>"+mulai+"&hingga="+hingga,"_self");
+            }
+        }
+    }
+
+    function pesan(txt){
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+        })
+
+        Toast.fire({
+        icon: 'error',
+        title: txt
+        })
     }
 </script>

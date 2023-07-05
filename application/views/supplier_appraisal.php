@@ -27,33 +27,43 @@
                             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">PO LIST</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Penilaian</button>
+                            <button onclick="get_filter_supp()" class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Penilaian</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <button class="btn btn-primary" onclick="tampilpo()">View</button>
+                                <!-- -->
+                                <div class="row"> 
+                                    <div class="col-xl-2">
+                                        <input type="date" id="mulai" class="form-control">
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <input type="date" id="hingga" class="form-control">
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <button class="btn btn-primary" onclick="tampilpo()" id="btntampilpo">View</button>
+                                        <button class="btn btn-primary" type="button" disabled="" id="btnloadingpo" style="display:none;">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...</button>
+                                    </div>
+                                </div>
                                 <br><br>
                                 <div id="tbpo"></div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <!-- -->
                                 <div class="row"> 
-                                    <div class="col-xl-3">
-                                        <input type="date" id="mulai" class="form-control">
-                                    </div>
-                                    <div class="col-xl-3">
-                                        <input type="date" id="hingga" class="form-control">
-                                    </div>
-                                    <div class="col-xl-3">
-                                        <select class="form-control" id="filter_supp">
-                                            <option value='0'>-- Pilih Supplier --</option>
-                                            <?php
-                                            foreach($filter as $fs){
-                                                $supp = $this->M_purc->get_supp($fs['id_supp']);
-                                                echo"<option value='".$fs['id_supp']."'>".$supp['CardName']."</option>";
-                                            }
-                                            ?>
+                                    <div class="col-xl-2">
+                                        <select class="form-control" id="filter_smstr">
+                                            <option value='1'>Semester 1</option>
+                                            <option value='2'>Semester 2</option>
                                         </select>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <select class="form-control" id="filter_tahun"></select>
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <select class="form-control" id="filter_supp"></select>
                                     </div>
                                         <div class="col-xl-3">
                                             <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
@@ -90,9 +100,22 @@
             <input type="hidden" id="id_penilaian">
             <input type="hidden" id="id_supp">
             <form class="row g-3">
-                <div class="col-12">
-                    <label for="inputNanme4" class="form-label">Tgl Penilaian</label>
-                    <input type="date" id="tglnilai" class="form-control">
+                <div class="col-8">
+                    <label for="inputNanme4" class="form-label">Semester</label>
+                    <select id="semester" class="form-control">
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <label for="inputNanme4" class="form-label">Tahun</label>
+                    <select id="tahun" class="form-control">
+                        <?php
+                        foreach($tahun as $th){
+                            echo"<option value='".$th['tahun']."'>".$th['tahun']."</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
                 <div class="col-4">
                     <label for="inputNanme4" class="form-label">Mutu</label>
@@ -141,18 +164,20 @@
     
 
     function tampildata(){
-        let mulai = $("#mulai").val();
-        let hingga = $("#hingga").val();
-        let supp = $("#filter_supp").val();
-        document.getElementById('btntampil').style.display = 'none';
-        document.getElementById('btnloading').style.display = '';
-        
-        $.get("<?= base_url('Purchasing/laporan_penilaian_supp?mulai=') ?>"+mulai+"&hingga="+hingga+"&id_supp="+supp, function(data, status) {
-            document.getElementById('btntampil').style.display = '';
-            document.getElementById('btnloading').style.display = 'none';
-            
-            $("#tampildatapenilaian").html(data);
-        });
+        var s = $("#filter_smstr").val();
+        var t = $("#filter_tahun").val();
+        var supp = $("#filter_supp").val();
+        if(supp == 0){
+            pesan('Pilih supplier');
+        }else{
+            document.getElementById('btntampil').style.display = 'none';
+            document.getElementById('btnloading').style.display = '';
+            $.get("<?= base_url('Purchasing/laporan_penilaian_supp?s=') ?>"+s+"&t="+t+"&id_supp="+supp, function(data, status) {
+                document.getElementById('btntampil').style.display = '';
+                document.getElementById('btnloading').style.display = 'none';
+                $("#tampildatapenilaian").html(data);
+            });
+        }
     }
 
     function add(docnum,supp,id){
@@ -163,12 +188,23 @@
     }
 
     function tampilpo(){
-        $.get("<?= base_url('purchasing/tb_po_list') ?>", function(data, status) {
-            document.getElementById('btntampil').style.display = '';
-            document.getElementById('btnloading').style.display = 'none';
-            
-            $("#tbpo").html(data);
-        });
+        var mulai = $("#mulai").val();
+        var hingga = $("#hingga").val();
+        if(mulai == ''){
+            pesan('Tgl mulai belum diisi');
+        }else{
+            if(hingga == ''){
+                pesan('Tgl hingga belum diisi');
+            }else{
+                document.getElementById('btntampilpo').style.display = 'none';
+                document.getElementById('btnloadingpo').style.display = '';
+                $.get("<?= base_url('purchasing/tb_po_list?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+                    document.getElementById('btntampilpo').style.display = '';
+                    document.getElementById('btnloadingpo').style.display = 'none';
+                    $("#tbpo").html(data);
+                });
+            }
+        }
     }
 
     function pesan(txt){
@@ -211,15 +247,13 @@
 
     function simpannilai(){
         var id_penilaian = $("#id_penilaian").val();
-        var tgl = $("#tglnilai").val();
         var mutu = $("#mutu").val();
         var pelayanan = $("#pelayanan").val();
         var kuantiti = $("#kuantiti").val();
         var keterangan = $("#keterangan").val();
         var id_supp = $("#id_supp").val();
-        if(tgl==''){
-            pesan('tanggal pengisian mohon diisi');
-        }else{
+        var semester = $("#semester").val();
+        var tahun = $("#tahun").val();
             if(mutu == 0){
                 pesan('Penilaian Mutu belum diisi');
             }else{
@@ -238,12 +272,13 @@
                                 cache: false,
                                 data: {
                                     id_penilaian: id_penilaian,
-                                    tgl: tgl,
                                     mutu: mutu,
                                     pelayanan: pelayanan,
                                     kuantiti: kuantiti,
                                     keterangan : keterangan,
                                     id_supp: id_supp,
+                                    semester: semester,
+                                    tahun: tahun,
                                     csrf_test_name: $.cookie('csrf_cookie_name')
                                 },
                                 success: function() {
@@ -251,7 +286,6 @@
                                     pesan_sukses('Tersimpan');
                                     tampilpo();
                                     $("#add_penilaian").modal("hide");
-                                    document.getElementById("tglnilai").value = "";
                                     document.getElementById("mutu").value = "0";
                                     document.getElementById("pelayanan").value = "0";
                                     document.getElementById("kuantiti").value = "0";
@@ -263,13 +297,25 @@
                     }
                 }
             }
-        }
     }
 
     function cetak(){
-        let mulai = $("#mulai").val();
-        let hingga = $("#hingga").val();
-        let supp = $("#filter_supp").val();
-        window.open("<?= base_url('Purchasing/cetak_laporan_penilaian_supp?mulai=') ?>"+mulai+"&hingga="+hingga+"&id_supp="+supp,"_blank");
+        var s = $("#filter_smstr").val();
+        var t = $("#filter_tahun").val();
+        var supp = $("#filter_supp").val();
+        if(supp == 0){
+            pesan('Pilih supplier');
+        }else{
+            window.open("<?= base_url('Purchasing/cetak_laporan_penilaian_supp?s=') ?>"+s+"&t="+t+"&id_supp="+supp,"_blank");
+        }
+    }
+
+    function get_filter_supp(){
+        $.get("<?= base_url('purchasing/get_filter_supp') ?>", function(data, status) {
+            $("#filter_supp").html(data);
+        });
+        $.get("<?= base_url('purchasing/get_filter_tahun') ?>", function(data, status) {
+            $("#filter_tahun").html(data);
+        });
     }
 </script>

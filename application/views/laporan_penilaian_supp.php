@@ -2,7 +2,7 @@
     <thead>
         <tr>
         <th style='text-align:center;vertical-align:top;' rowspan="5" colspan="2"><img src="<?= base_url('assets\img\bk.png')?>" style="width:70px;height:50px;"></th>
-        <th style='text-align:center;vertical-align:top;' rowspan="5" colspan="4">PT. BEAUTY KASATAMA INDONESIA<br>EVALUASI KINERJA SUPPLIER<br>Periode : <?= $mulai;?>&nbsp;s/d&nbsp;<?= $hingga;?></th>
+        <th style='text-align:center;vertical-align:top;' rowspan="5" colspan="4">PT. BEAUTY KASATAMA INDONESIA<br>EVALUASI KINERJA SUPPLIER</th>
         </tr>
         <tr>
         <th style='text-align:left;vertical-align:top;'>No. Dokumen</th>
@@ -67,7 +67,7 @@
         </tr>
         <tr>
         <th colspan="3">Dyah P</th>
-        <th colspan="2">R. Bhimo P</th>
+        <th colspan="2">Wawan Y</th>
         </tr>
         <tr>
         <th colspan="8" style='text-align:left;vertical-align:bottom;' height="60px">Keterangan :</th>
