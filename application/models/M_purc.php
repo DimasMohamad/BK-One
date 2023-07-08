@@ -305,7 +305,10 @@ class M_purc extends CI_Model
 	public function get_supp($id)
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('select "CardName" from "BKI_LIVE"."OCRD" where "CardCode"= '."'$id'".';')->row_array();
+		return $hanadb->query('select A."CardName",B."Address",B."Tel1" 
+		from "BKI_LIVE"."OCRD" A
+		Left Join(select "CardCode","Address","Tel1" from "BKI_LIVE"."OCPR")B on B."CardCode" = A."CardCode"  
+		where A."CardCode"= '."'$id'".';')->row_array();
 	}
 
 	public function get_supp_filter()
@@ -331,5 +334,23 @@ class M_purc extends CI_Model
 	public function get_filter_tahun()
 	{
 		return $this->db->query("SELECT distinct tahun from tb_supp_p_2;")->result_array();
+	}
+
+	public function get_ocrd()
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select "CardCode","CardName","Phone1" from "BKI_LIVE"."OCRD" where "CardType" = '."'S'".' and "frozenFor" = '."'N'".' order by "CardCode";')->result_array();
+	}
+
+	public function get_supp_exists($id,$s,$e)
+	{
+		return $this->db->query("SELECT COUNT(id_supp) AS id_supp FROM tb_pemilihan_supp WHERE id_supp = '$id' and mulai = '$s' AND hingga = '$e';")->row_array();
+	}
+
+	public function get_penilaian_supplier($mulai,$hingga)
+	{
+		return $this->db->query("SELECT rowid,id_supp,supp,alamat,telp,id_penilaian,nilai 
+		FROM tb_pemilihan_supp 
+		WHERE mulai >= '$mulai' AND hingga <='$hingga';")->result_array();
 	}
 }

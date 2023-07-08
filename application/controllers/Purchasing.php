@@ -265,5 +265,117 @@ class Purchasing extends CI_Controller
         $supp = $this->M_purc->get_supp($id_supp);
         $this->load->view("cetaklaporan_penilaian_supp",["data" => $data,"supp" => $supp]);
     }
+
+    public function master_kriteria_penilaian() // belum registrasi
+    {
+        $akses = $this->M_user->get_akses(10);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('master_kriteria_penilaian');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function tb_kriteria_penilaian()
+    {
+        $head = $this->db->get_where('tb_kriteria_penilaian',['fatherid' => 0])->result_array();
+        $child = $this->db->get_where('tb_kriteria_penilaian',['fatherid' <> 0])->result_array();
+        $this->load->view('tb_kriteria_penilaian',["head" => $head,"child" => $child]);
+        //print_r($child);
+    }
+
+    public function simpan_kriteria_nilai_head()
+    {
+        $header = $this->input->post('header');
+        $data = array(
+            'penilaian' => $header,
+            'nilai' => 0,
+            'fatherid' => 0,
+            'sts' => 1
+        );
+        $this->db->insert('tb_kriteria_penilaian', $data);
+    }
+
+    public function simpan_kriteria_nilai_subtitle()
+    {
+        $idtitle = $this->input->post('idjudul');
+        $subtitle = $this->input->post('subtitle');
+        $nilai = $this->input->post('nilai');
+        $data = array(
+            'penilaian' => $subtitle,
+            'nilai' => $nilai,
+            'fatherid' => $idtitle,
+            'sts' => 1
+        );
+        $this->db->insert('tb_kriteria_penilaian', $data);
+    }
+
+    public function get_supp_penilaian()
+    {
+        $s = $this->input->get('s');
+        $e = $this->input->get('e');
+        $dataocrd = $this->M_purc->get_ocrd();
+        $row['ocrd'] = [];
+        foreach($dataocrd as $d){
+            $r = [];
+            $de = $this->M_purc->get_supp_exists($d['CardCode'],$s,$e);
+            if($de['id_supp'] == 0){
+                echo"<option value='".$d['CardCode']."'>".$d['CardName']."</option>";
+            }
+        }
+    }
+
+    public function pemilihan_supplier() // belum registrasi
+    {
+        $akses = $this->M_user->get_akses(10);
+        $tahun = $this->M_purc->get_year();
+        $judul = $this->db->get_where('tb_kriteria_penilaian',['fatherid' => 0])->result_array();
+        $subtitle = $this->db->get_where('tb_kriteria_penilaian',['fatherid' <> 0])->result_array();
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('pemilihan_supp',["tahun" => $tahun,"judul" => $judul,"subtitle" => $subtitle]);
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function simpan_pemilihan_supp()
+    {
+        $s = $this->input->post('tglmulai');
+        $e = $this->input->post('tglhingga');
+        $supp = $this->input->post('supp');
+        $idnilai = $this->input->post('idnilai');
+        $nilai = $this->input->post('addnilai');
+        $jmlsupp = count($supp);
+        $jmlnilai = count($nilai);
+        
+        for ($no = 0; $no < $jmlsupp; $no++) {
+            $namasupp = $this->M_purc->get_supp($supp[$no]);
+            for ($nmr = 0; $nmr < $jmlnilai; $nmr++) {
+                $data = array(
+                    'id_supp' => $supp[$no],
+                    'supp' => $namasupp['CardName'],
+                    'alamat' => $namasupp['Address'],
+                    'telp' => $namasupp['Tel1'],
+                    'id_penilaian' => $idnilai[$nmr],
+                    'nilai' => $nilai[$nmr],
+                    'mulai' => $s,
+                    'hingga' => $e
+                );    
+                $this->db->insert('tb_pemilihan_supp', $data);
+            }
+        }        
+    }
+
+    public function tb_penilaian_supplier()
+    {
+        $mulai = $this->input->get("s");
+        $hingga = $this->input->get("e");
+        $datasupp = $this->M_purc->get_penilaian_supplier($mulai,$hingga);
+        $this->load->view("tb_penilaian_supplier",["data"=>$datasupp]);
+    }
     
 }
