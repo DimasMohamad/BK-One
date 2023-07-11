@@ -55,6 +55,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
         <form id="input_supp" name="input_supp" method="POST" action="">
+        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
             <input type="hidden" name="tglmulai" id="tglmulai">
             <input type="hidden" name="tglhingga" id="tglhingga">
             <div class="modal-header">

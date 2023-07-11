@@ -106,8 +106,9 @@ class Purchasing extends CI_Controller
     {
         $mulai = $this->input->get('mulai');
         $hingga = $this->input->get('hingga');
-        $data['head'] = $this->M_purc->laporan_spp($mulai,$hingga);
-        $data['po'] = $this->M_purc->laporan_spp_detail($mulai,$hingga);
+        $dept = $this->input->get('dept');
+        $data['head'] = $this->M_purc->laporan_spp($mulai,$hingga,$dept);
+        $data['po'] = $this->M_purc->laporan_spp_detail($mulai,$hingga,$dept);
         //$data['grpo'] = $this->M_purc->outs_po_detail($mulai,$hingga);
         $data['grpo'] = $this->M_purc->outs_grpo_detail($mulai,$hingga);
         $row = json_encode($data);

@@ -22,11 +22,14 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row"> 
-                                <div class="col-xl-3">
+                                <div class="col-xl-2">
                                     <input type="date" id="mulai" class="form-control">
                                 </div>
-                                <div class="col-xl-3">
+                                <div class="col-xl-2">
                                     <input type="date" id="hingga" class="form-control">
+                                </div>
+                                <div class="col-xl-2">
+                                    <select id="dept" class="form-control"></select>
                                 </div>
                                 <div class="col-xl-5">
                                     <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
@@ -91,16 +94,23 @@
 </div><!-- End Basic Modal-->
 
 <script>
+    $(document).ready(function() {
+        $.get("<?= base_url('Purchasing/dept') ?>", function(data, status) {
+            $("#dept").html(data);
+        });
+    });
+
     function tampildata(){
-        let mulai = $("#mulai").val();
-        let hingga = $("#hingga").val();
+        var mulai = $("#mulai").val();
+        var hingga = $("#hingga").val();
+        var dept = $("#dept").val();
         const formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
         });
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById('btnloading').style.display = '';
-        $.get("<?= base_url('Purchasing/tb_outstanding_purchase?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+        $.get("<?= base_url('Purchasing/tb_outstanding_purchase?mulai=') ?>"+mulai+"&hingga="+hingga+"&dept="+dept, function(data, status) {
             $("#tampildataspp").html(data);
             
             if(status == 'success'){
