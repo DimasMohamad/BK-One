@@ -181,7 +181,7 @@
         <i class="bi bi-cart2"></i><span>Purchasing - A/P</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-          if($current_url == base_url('Purchasing/spp') || $current_url == base_url('Purchasing/outstanding_po') || $current_url == base_url('Purchasing/outstanding_purchase') || $current_url == base_url('Purchasing/supplier_appraisal')){
+          if($current_url == base_url('Purchasing/spp') || $current_url == base_url('Purchasing/outstanding_po') || $current_url == base_url('Purchasing/outstanding_purchase') || $current_url == base_url('Purchasing/supplier_appraisal') || $current_url == base_url('Purchasing/pemilihan_supplier')){
             echo "<ul id='forms-purchasing' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
           }else{
             echo "<ul id='forms-purchasing' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -209,6 +209,12 @@
             echo"<li><a href='".base_url('Purchasing/supplier_appraisal')."' class='active'><i class='bi bi-circle'></i><span>Penilaian Supplier</span></a></li>";
           }else{
             echo"<li><a href='".base_url('Purchasing/supplier_appraisal')."'><i class='bi bi-circle'></i><span>Penilaian Supplier</span></a></li>";
+          };
+
+          if($current_url == base_url('Purchasing/pemilihan_supplier')){
+            echo"<li><a href='".base_url('Purchasing/pemilihan_supplier')."' class='active'><i class='bi bi-circle'></i><span>Pemilihan Supplier</span></a></li>";
+          }else{
+            echo"<li><a href='".base_url('Purchasing/pemilihan_supplier')."'><i class='bi bi-circle'></i><span>Pemilihan Supplier</span></a></li>";
           };
           echo "</ul>";
           ?>

@@ -35,7 +35,7 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 Loading...</button>
                                 <button type="button" class="btn btn-warning" onclick="add_supp()">Penilaian</button>
-                                <button type="button" class="btn btn-success" onclick="pesan_sukses('Ok')"><i class="bi bi-download"></i>&nbsp;Download</button>
+                                <a href="<?= base_url('purchasing/master_kriteria_penilaian')?>" class="btn btn-secondary">master nilai</a>
                             </div>
                             
                         </div><br>
@@ -102,7 +102,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button class="btn btn-primary" type="button" disabled="" id="btnloading2" style="display:none;">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...</button>
+                <button type="submit" class="btn btn-primary" id="btnsimpan2">Save changes</button>
             </div>
         </form>
         </div>
@@ -120,6 +123,8 @@
         });
 
         $('#input_supp').on('submit', function(e) {
+            document.getElementById('btnsimpan2').style.display = 'none';
+            document.getElementById('btnloading2').style.display = '';
             e.preventDefault();
             $.ajax({
                 url: "<?= base_url('Purchasing/simpan_pemilihan_supp') ?>",
@@ -129,6 +134,8 @@
                 cache: false,
                 processData: false,
                 success: function(status) {                    
+                    document.getElementById('btnsimpan2').style.display = '';
+                    document.getElementById('btnloading2').style.display = 'none';
                     pesan_sukses('Nilai telah disimpan');
                     $("#f_add_supp").modal("hide");  
                     tampil();    
@@ -230,9 +237,9 @@
     function pesan_sukses(txt){
         const Toast = Swal.mixin({
         toast: true,
-        position: 'center',
+        position: 'top-end',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

@@ -349,8 +349,30 @@ class M_purc extends CI_Model
 
 	public function get_penilaian_supplier($mulai,$hingga)
 	{
-		return $this->db->query("SELECT rowid,id_supp,supp,alamat,telp,id_penilaian,nilai 
+		return $this->db->query("SELECT distinct id_supp,supp,alamat,telp
 		FROM tb_pemilihan_supp 
 		WHERE mulai >= '$mulai' AND hingga <='$hingga';")->result_array();
+	}
+
+	public function get_supp_pv($s,$e)
+	{
+		return $this->db->query("SELECT distinct id_supp FROM tb_pemilihan_supp 
+		WHERE mulai <= '$s' AND hingga >= '$e';")->result_array();
+	}
+
+	public function get_supp_nilai($s,$e,$id,$rowid)
+	{
+		return $this->db->query("SELECT id_supp,id_penilaian,nilai FROM tb_pemilihan_supp 
+		WHERE mulai <= '$s' AND hingga >= '$e' AND id_supp = '$id' and id_penilaian = $rowid;")->row_array();
+	}
+
+	public function get_kriteria_nilai()
+	{
+		return $this->db->query("SELECT distinct id_supp FROM tb_pemilihan_supp;")->result_array();
+	}
+
+	public function get_kriteria_penilaian()
+	{
+		return $this->db->query("SELECT rowid,penilaian,nilai,fatherid,sts FROM tb_kriteria_penilaian WHERE fatherid = 0;")->result_array();
 	}
 }

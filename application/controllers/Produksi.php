@@ -232,6 +232,7 @@ class Produksi extends CI_Controller
             }
             array_push($item, $data);
         };
+        //echo json_encode($item);
         $this->load->view('tb_outstanding_order_page',['item' => $item]);
     }
 

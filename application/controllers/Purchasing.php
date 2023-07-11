@@ -268,7 +268,7 @@ class Purchasing extends CI_Controller
 
     public function master_kriteria_penilaian() // belum registrasi
     {
-        $akses = $this->M_user->get_akses(10);
+        $akses = $this->M_user->get_akses(16);
         $this->load->view('header');
         if(!$akses['akses'] == 0){
         $this->load->view('master_kriteria_penilaian');
@@ -329,7 +329,7 @@ class Purchasing extends CI_Controller
 
     public function pemilihan_supplier() // belum registrasi
     {
-        $akses = $this->M_user->get_akses(10);
+        $akses = $this->M_user->get_akses(16);
         $tahun = $this->M_purc->get_year();
         $judul = $this->db->get_where('tb_kriteria_penilaian',['fatherid' => 0])->result_array();
         $subtitle = $this->db->get_where('tb_kriteria_penilaian',['fatherid' <> 0])->result_array();
@@ -372,10 +372,65 @@ class Purchasing extends CI_Controller
 
     public function tb_penilaian_supplier()
     {
-        $mulai = $this->input->get("s");
-        $hingga = $this->input->get("e");
-        $datasupp = $this->M_purc->get_penilaian_supplier($mulai,$hingga);
-        $this->load->view("tb_penilaian_supplier",["data"=>$datasupp]);
+        $s = $this->input->get("s");
+        $e = $this->input->get("e");
+        $datasupp = $this->M_purc->get_penilaian_supplier($s,$e);
+        //------ penilaian
+        $list_supp = [];
+        $supp = $this->M_purc->get_supp_pv($s,$e);
+        foreach ($supp as $sp) {
+			array_push($list_supp, $sp['id_supp']);
+		}
+        $list_kriteria = $this->M_purc->get_kriteria_penilaian();
+        $kriteria = [];
+        $i = 1;
+        foreach ($list_kriteria as $lk) {
+            $data = [];
+            $data['rowid'] = $lk['penilaian'];
+            foreach ($list_supp as $lp) {
+                $row = $this->M_purc->get_supp_nilai($s,$e,$lp,$i);
+                $data[$lp] = $row['nilai'];                                
+            }      
+            $i++;
+            array_push($kriteria, $data);      
+        }
+        $datakriteria = json_encode($kriteria);
+        //----------------
+        $this->load->view("tb_penilaian_supplier",["data" => $datasupp,"kriteria" => $kriteria]);
     }
     
+    public function tb_supp_pv()
+    {
+        $s = $this->input->get('s');
+        $e = $this->input->get('e');
+        $list_supp = [];
+        $supp = $this->M_purc->get_supp_pv($s,$e);
+        foreach ($supp as $sp) {
+			array_push($list_supp, $sp['id_supp']);
+		}
+        $list_kriteria = $this->M_purc->get_kriteria_penilaian();
+        $kriteria = [];
+        $i = 1;
+        foreach ($list_kriteria as $lk) {
+            $data = [];
+            $data['rowid'] = $lk['penilaian'];
+            foreach ($list_supp as $lp) {
+                $row = $this->M_purc->get_supp_nilai($s,$e,$lp,$i);
+                $data[$lp] = $row['nilai'];                                
+            }      
+            $i++;
+            array_push($kriteria, $data);      
+        }
+        $datakriteria = json_encode($kriteria);        
+        $this->load->view('tb_penilaian_supp',["kriteria" => $kriteria]);  
+    }
+
+    public function get_supp_nilai()
+	{
+        $s = $this->input->get('s');
+        $e = $this->input->get('e');
+        $id = $this->input->get('id');
+        $data = $this->M_purc->get_supp_nilai($s,$e,$id);
+        print_r($data);
+    }
 }
