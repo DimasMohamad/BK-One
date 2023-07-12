@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'http://103.141.181.230:8080/bki_rep/';
-$config['base_url'] = 'http://127.0.0.1/bki_rep/';
+$config['base_url'] = 'http://103.141.181.230:8080/bki_rep/';
+//$config['base_url'] = 'http://127.0.0.1/bki_rep/';
 /*
 |--------------------------------------------------------------------------
 | Index File
