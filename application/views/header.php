@@ -225,7 +225,7 @@
         <i class="bi bi-people"></i><span>Business Partners</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-          if($current_url == base_url('Busines_partner/daftar_rekanan')){
+          if($current_url == base_url('Busines_partner/daftar_rekanan')||$current_url == base_url('Busines_partner/daftar_rekanan_terpilih') || $current_url == base_url('Busines_partner/daftar_rekanan_tidakterpilih')){
             echo "<ul id='forms-bp' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
           }else{
             echo "<ul id='forms-bp' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -235,6 +235,18 @@
             echo"<li><a href='".base_url('Busines_partner/daftar_rekanan')."' class='active'><i class='bi bi-circle'></i><span>Daftar Rekanan</span></a></li>";
           }else{
             echo"<li><a href='".base_url('Busines_partner/daftar_rekanan')."'><i class='bi bi-circle'></i><span>Daftar Rekanan</span></a></li>";
+          };
+
+          if($current_url == base_url('Busines_partner/daftar_rekanan_terpilih')){
+            echo"<li><a href='".base_url('Busines_partner/daftar_rekanan_terpilih')."' class='active'><i class='bi bi-circle'></i><span>Daftar Rekanan Terpilih</span></a></li>";
+          }else{
+            echo"<li><a href='".base_url('Busines_partner/daftar_rekanan_terpilih')."'><i class='bi bi-circle'></i><span>Daftar Rekanan Terpilih</span></a></li>";
+          };
+
+          if($current_url == base_url('Busines_partner/daftar_rekanan_tidakterpilih')){
+            echo"<li><a href='".base_url('Busines_partner/daftar_rekanan_tidakterpilih')."' class='active'><i class='bi bi-circle'></i><span>Daftar Rekanan Tidak Terpilih</span></a></li>";
+          }else{
+            echo"<li><a href='".base_url('Busines_partner/daftar_rekanan_tidakterpilih')."'><i class='bi bi-circle'></i><span>Daftar Rekanan Tidak Terpilih</span></a></li>";
           };
 
           echo "</ul>";
@@ -302,6 +314,26 @@
             echo"<li><a href='".base_url('produksi/outstanding_order')."' class='active'><i class='bi bi-circle'></i><span>Barang Jadi</span></a></li>";
           }else{
             echo"<li><a href='".base_url('produksi/outstanding_order')."'><i class='bi bi-circle'></i><span>Barang Jadi</span></a></li>";
+          };
+          echo "</ul>";
+          ?>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-signature" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-pen"></i><span>Signature</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+          <?php
+          if($current_url == base_url('siganture/employee')){
+            echo "<ul id='forms-signature' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
+          }else{
+            echo "<ul id='forms-signature' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
+          };
+
+          if($current_url == base_url('signature/employee')){
+            echo"<li><a href='".base_url('signature/employee')."' class='active'><i class='bi bi-circle' ></i><span>Signature</span></a></li>";
+          }else{
+            echo"<li><a href='".base_url('signature/employee')."'><i class='bi bi-circle'></i><span>Signature</span></a></li>";
           };
           echo "</ul>";
           ?>
