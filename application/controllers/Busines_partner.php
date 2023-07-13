@@ -67,6 +67,7 @@ class Busines_partner extends CI_Controller
         $dt['head'] = $this->M_bp->bp_terpilih($mulai, $hingga);
         $dt['detail'] = $this->M_bp->bp_detail_terpilih($mulai, $hingga);
         $data = json_encode($dt);
+        //echo $data;
         $this->load->view("tb_daftar_rekanan_terpilih", ["data" => $data]);
     }
     
@@ -97,6 +98,14 @@ class Busines_partner extends CI_Controller
         $dt['detail'] = $this->M_bp->bp_detail_terpilih($mulai, $hingga);
         $data = json_encode($dt);
         $this->load->view("print_daftar_rekanan_terpilih", ["data" => $data]);
+    }
+
+    public function print_rekanan_tidakterpilih()
+    {
+        $dt['head'] = $this->db->query("Select * from tb_supp_p")->result_array();
+        $data = json_encode($dt);
+        $this->load->view("print_daftar_rekanan_tidakterpilih", ["data" => $data]);
+        //echo $data;
     }
 
     

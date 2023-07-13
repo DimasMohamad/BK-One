@@ -33,7 +33,7 @@
                                     <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
-                                    <button class="btn btn-primary" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
+                                    <button class="btn btn-warning" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
                                 </div>
                                 <div class="col-xl-12">
                                     <br>

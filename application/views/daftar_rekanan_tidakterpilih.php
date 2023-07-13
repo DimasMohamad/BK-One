@@ -26,9 +26,8 @@
                                     <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
                                     <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                    Loading...</button>
-                                    
-                                    <!--<button class="btn btn-success" onclick="add_supp()"><i class="bi bi-pencil-square"></i>&nbsp;Input</button>-->
+                                    Loading...</button>                                    
+                                    <button class="btn btn-warning" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
                                 </div>
                                 <div class="col-xl-12">
                                     <br>
@@ -57,7 +56,9 @@
         });
     }
 
-    function add_supp(){
-        $("#add_supp").modal("show");
+    function printData() {
+        let mulai = $("#mulai").val();
+        let hingga = $("#hingga").val();
+        window.open("<?= base_url('Busines_partner/print_rekanan_tidakterpilih?mulai=') ?>");
     }
 </script>
