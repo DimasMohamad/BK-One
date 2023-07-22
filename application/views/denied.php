@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <h4 class="alert-heading">Access denied</h4>
-                    <p>Please contact youre system administrator.</p>
+                    <p>Please contact your system administrator.</p>
                 </div>
             </div>
         </div>

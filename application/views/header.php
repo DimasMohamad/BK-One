@@ -304,7 +304,7 @@
         <i class="bi bi-box-seam"></i><span>Production</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-          if($current_url == base_url('produksi/outstanding_order')){
+          if($current_url == base_url('produksi/outstanding_order') || $current_url == base_url('ppic/spk')){
             echo "<ul id='forms-fg' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
           }else{
             echo "<ul id='forms-fg' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -315,6 +315,12 @@
           }else{
             echo"<li><a href='".base_url('produksi/outstanding_order')."'><i class='bi bi-circle'></i><span>Barang Jadi</span></a></li>";
           };
+
+          if($current_url == base_url('ppic/spk')){
+            echo"<li><a href='".base_url('ppic/spk')."' class='active'><i class='bi bi-circle'></i><span>SPK</span></a></li>";
+          }else{
+            echo"<li><a href='".base_url('ppic/spk')."'><i class='bi bi-circle'></i><span>SPK</span></a></li>";
+          };
           echo "</ul>";
           ?>
       </li>
@@ -324,16 +330,16 @@
           <i class="bi bi-pen"></i><span>Signature</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
           <?php
-          if($current_url == base_url('siganture/employee')){
+          if($current_url == base_url('Document_control/signature_dc')){
             echo "<ul id='forms-signature' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
           }else{
             echo "<ul id='forms-signature' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
           };
 
-          if($current_url == base_url('signature/employee')){
-            echo"<li><a href='".base_url('signature/employee')."' class='active'><i class='bi bi-circle' ></i><span>Signature</span></a></li>";
+          if($current_url == base_url('Document_control/signature_dc')){
+            echo"<li><a href='".base_url('Document_control/signature_dc')."' class='active'><i class='bi bi-circle' ></i><span>Signature</span></a></li>";
           }else{
-            echo"<li><a href='".base_url('signature/employee')."'><i class='bi bi-circle'></i><span>Signature</span></a></li>";
+            echo"<li><a href='".base_url('Document_control/signature_dc')."'><i class='bi bi-circle'></i><span>Signature</span></a></li>";
           };
           echo "</ul>";
           ?>
