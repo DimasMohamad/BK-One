@@ -20,6 +20,7 @@ $row = json_decode($data,true);
         <th>Tanggal Acc (DC)</th>
         <th>Tanggal Acc (MR)</th>
         <th>Tanggal Acc (GM)</th>
+        <th>Status</th>
         <th width='120px'>Action</th>
         </thead>
         <tbody>";
@@ -33,11 +34,48 @@ $row = json_decode($data,true);
             echo"<td style='vertical-align:top;'>".$h['date_signmr']."</td>";
             echo"<td style='vertical-align:top;'>".$h['date_signgm']."</td>";
             echo"<td style='vertical-align:top;'>";
-                echo"<button type='button' class='btn btn-success'><i class='bi bi-check-circle'></i></i></button>";                
-                echo "&nbsp;";
-                echo"<button type='button' class='btn btn-danger'><i class='bi bi-file-earmark-excel'></i></button>";
-                echo "&nbsp;";
-                echo"<button type='button' class='btn btn-primary'><i class='bi bi-download'></i></button>";
+            if($h['status'] == "0"){
+                echo "<span class='badge bg-warning'>Proses DC</span>";
+            }elseif($h['status'] == "1") {
+                echo "<span class='badge bg-warning'>Proses MR</span>";
+            }elseif($h['status'] == "2") {
+                echo "<span class='badge bg-warning'>Proses GM</span>";
+            }elseif($h['status'] == "3") {
+                echo "<span class='badge bg-success'>Disetujui</span>";
+            }elseif($h['status'] == "4") {
+                echo "<span class='badge bg-danger'>Ditolak</span>";
+            }
+            echo"</td>";
+            echo"<td style='vertical-align:top;'>";
+            if ($sesi == '18') {
+                if ($h['status'] == '0') {
+                    echo"<button type='button' class='btn btn-success' onclick='btnapprove(".$h['rowid'].")'><i class='bi bi-check-circle'></i></i></button>";
+                    echo "&nbsp;";
+                    echo"<button type='button' class='btn btn-danger' onclick='btnreject(".$h['rowid'].")'><i class='bi bi-file-earmark-excel'></i></button>";
+                    echo "&nbsp;";
+                }else{
+                    echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
+                }
+            }elseif ($sesi == '19') {
+                if ($h['status'] == '1') {
+                    echo"<button type='button' class='btn btn-success' onclick='btnapprove(".$h['rowid'].")'><i class='bi bi-check-circle'></i></i></button>";
+                    echo "&nbsp;";
+                    echo"<button type='button' class='btn btn-danger' onclick='btnreject(".$h['rowid'].")'><i class='bi bi-file-earmark-excel'></i></button>";
+                    echo "&nbsp;";
+                }else{
+                    echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
+                }
+            }elseif ($sesi == '9') {
+                if ($h['status'] == '2') {
+                    echo"<button type='button' class='btn btn-success' onclick='btnapprove(".$h['rowid'].")'><i class='bi bi-check-circle'></i></i></button>";
+                    echo "&nbsp;";
+                    echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
+                }else{
+                    echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
+                }
+            }else{
+                echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
+            }
             echo"</td>";
             echo"</tr>";
             $i++;
@@ -52,6 +90,7 @@ $row = json_decode($data,true);
             <th>Tanggal Acc (DC)</th>
             <th>Tanggal Acc (MR)</th>
             <th>Tanggal Acc (GM)</th>
+            <th>Status</th>
             <th width='80px'>Action</th>
             </thead>
             <tbody>";
@@ -65,11 +104,24 @@ $row = json_decode($data,true);
                 echo"<td style='vertical-align:top;'>".$h['date_signmr']."</td>";
                 echo"<td style='vertical-align:top;'>".$h['date_signgm']."</td>";
                 echo"<td style='vertical-align:top;'>";
-                    echo"<button type='button' class='btn btn-primary'><i class='bi bi-download'></i></button>";
+                if($h['status'] == "0"){
+                    echo "<span class='badge bg-warning'>Proses DC</span>";
+                }elseif($h['status'] == "1") {
+                    echo "<span class='badge bg-warning'>Proses MR</span>";
+                }elseif($h['status'] == "2") {
+                    echo "<span class='badge bg-warning'>Proses GM</span>";
+                }elseif($h['status'] == "3") {
+                    echo "<span class='badge bg-success'>Disetujui</span>";
+                }elseif($h['status'] == "4") {
+                    echo "<span class='badge bg-danger'>Ditolak</span>";
+                }
+                echo"</td>";
+                echo"<td style='vertical-align:top;'>";
+                    echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
                     echo "&nbsp;";
                     if ($h['date_signdc'] == '') {
-                        echo"<button type='button' class='btn btn-danger' onclick='btnhapus(".$h['rowid'].", \"".$h['docnum']."\")'><i class='bi bi-trash'></i></button>";
-                    }else{}
+                        echo"<button type='button' class='btn btn-danger' onclick='btnhapus(".$h['rowid'].", \"".$h['file']."\")'><i class='bi bi-trash'></i></button>";
+                    }
                 echo"</td>";
                 echo"</tr>";
                 $i++;

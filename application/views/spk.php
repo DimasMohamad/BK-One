@@ -93,9 +93,11 @@
                     document.getElementById('btntampil').style.display = '';
                     document.getElementById('btnloading').style.display = 'none';
                     var obj = $.parseJSON(data);
+                    var i = 1;
                     if(status == 'success'){
                         var table = '<table class="table table-sm table-bordered table-hover" style="font-size:14px;">'+
                             '<thead>'+
+                            '<th>#</th>'+
                             '<th>Spk</th>'+
                             '<th>Spk Child</th>'+
                             '<th>No Prod</th>'+
@@ -113,6 +115,7 @@
                             '<tbody>';
                     $.each(obj, function(key, row) {
                         table += '<tr>';
+                        table += '<td onclick="detail('+row['id_spk']+')">'+i+'</td>';
                         table += '<td onclick="detail('+row['id_spk']+')">'+row['spk']+'</td>';
                         table += '<td onclick="detail('+row['id_spk']+')">'+row['spk_detail']+'</td>';
                         table += '<td onclick="detail('+row['id_spk']+')">'+row['production']+'</td>';
@@ -126,6 +129,7 @@
                         table += '<td onclick="detail('+row['id_spk']+')">'+row['start_date']+'</td>';
                         table += '<td onclick="detail('+row['id_spk']+')">'+row['end_date']+'</td>';
                         table += '</tr>';
+                        i++;
                     });
                     table += '</tbody>'+
                              '</table>'; 

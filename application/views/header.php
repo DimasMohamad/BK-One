@@ -317,9 +317,9 @@
           };
 
           if($current_url == base_url('ppic/spk')){
-            echo"<li><a href='".base_url('ppic/spk')."' class='active'><i class='bi bi-circle'></i><span>SPK</span></a></li>";
+            echo"<li><a href='".base_url('ppic/spk_list')."' class='active' target='_blank'><i class='bi bi-circle'></i><span>SPK</span></a></li>";
           }else{
-            echo"<li><a href='".base_url('ppic/spk')."'><i class='bi bi-circle'></i><span>SPK</span></a></li>";
+            echo"<li><a href='".base_url('ppic/spk_list')."'><i class='bi bi-circle'></i><span>SPK</span></a></li>";
           };
           echo "</ul>";
           ?>
@@ -337,9 +337,9 @@
           };
 
           if($current_url == base_url('Document_control/signature_dc')){
-            echo"<li><a href='".base_url('Document_control/signature_dc')."' class='active'><i class='bi bi-circle' ></i><span>Signature</span></a></li>";
+            echo"<li><a href='".base_url('Document_control/signature_dc')."' class='active'><i class='bi bi-circle' ></i><span>Registration Dokumen</span></a></li>";
           }else{
-            echo"<li><a href='".base_url('Document_control/signature_dc')."'><i class='bi bi-circle'></i><span>Signature</span></a></li>";
+            echo"<li><a href='".base_url('Document_control/signature_dc')."'><i class='bi bi-circle'></i><span>Registration Dokumen</span></a></li>";
           };
           echo "</ul>";
           ?>

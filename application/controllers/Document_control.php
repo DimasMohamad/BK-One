@@ -28,16 +28,6 @@ class Document_control extends CI_Controller
         $this->load->view('footer');
     }
 
-    //Tidak dipakai
-    public function tb_signature()
-    {
-        $dt['head'] = $this->db->query("SELECT * FROM signature")->result_array();
-        //$dt['detail'] = $this->M_bp->bp_detail();
-        $data = json_encode($dt);
-        $this->load->view("tb_signature_dcc",["data"=>$data]);
-        //echo $data;
-    }
-
     //Simpan ke database sql
     public function upload()
     {
@@ -102,7 +92,7 @@ class Document_control extends CI_Controller
         //$data_posisi = json_encode($posisi);
         //echo $posisi['position1'];
         if ($posisi['position1']=='DC' || $posisi['position1']=='MR' || $posisi['position1']=='GM') {
-            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file
+            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status
             FROM signature s 
             LEFT JOIN tb_user udc ON s.user_dc = udc.id_user
             LEFT JOIN tb_user umr ON s.user_mr = umr.id_user 
@@ -110,10 +100,11 @@ class Document_control extends CI_Controller
             LEFT JOIN tb_user username ON s.user_upload = username.id_user
             WHERE udc.position1 = '".$posisi['position1']."' or umr.position1 = '".$posisi['position1']."' or ugm.position1 = '".$posisi['position1']."';")->result_array();
             $data = json_encode($dt);
+            //echo "DC, MR, GM";
             //echo $data;
             $this->load->view("tb_signature_dc",["data"=>$data]);
         }else{
-            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.nama AS user_dc, s.date_signdc, umr.nama AS user_mr, s.date_signmr, ugm.nama AS user_gm, s.date_signgm, s.file
+            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.nama AS user_dc, s.date_signdc, umr.nama AS user_mr, s.date_signmr, ugm.nama AS user_gm, s.date_signgm, s.file, s.status
             FROM signature s 
             LEFT JOIN tb_user udc ON s.user_dc = udc.id_user
             LEFT JOIN tb_user umr ON s.user_mr = umr.id_user 
@@ -121,6 +112,7 @@ class Document_control extends CI_Controller
             LEFT JOIN tb_user username ON s.user_upload = username.id_user
             WHERE username.nama = '".$nama_user."';")->result_array();
             $data = json_encode($dt);
+            //echo "User";
             //echo $data;
             $this->load->view("tb_signature_dc",["data"=>$data]);
         }
@@ -132,13 +124,14 @@ class Document_control extends CI_Controller
             //echo time();
         }
 
-        public function tes_upload()
-        {
-            $this->load->view('upload_form', array('error' => ' ' ));
-        }
-    
         public function do_upload()
         {
+            $filename = $_FILES['userfile']['name'];
+            $filename_parts = pathinfo($filename);
+            $file_name_without_ext = $filename_parts['filename'];
+            $file_extension = $filename_parts['extension'];
+            $file_name_without_ext = str_replace('.', '_', $file_name_without_ext);
+            $new_filename = $file_name_without_ext . '.' . $file_extension;
             $user_upload = $this->session->id_user;
             $config['upload_path'] = './uploads/';
             $config['allowed_types'] = 'pdf';
@@ -147,9 +140,8 @@ class Document_control extends CI_Controller
             $user_dc = $this->input->post('user_dc');
             $user_mr = $this->input->post('user_mr');
             $user_gm = $this->input->post('user_gm');
-
-            $gambar = $_FILES['userfile']['name'];
-
+            $statusawal = "0";
+            
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload()) {
@@ -158,19 +150,65 @@ class Document_control extends CI_Controller
             } else {
                 $data = array(
                     //Nomor dokumen diganti dengan nama file yg diupload
-                    'docnum' => $gambar,
+                    'docnum' => $docnum,
                     'user_upload' => $user_upload,
                     'user_dc' => $user_dc,
                     'user_mr' => $user_mr,
                     'user_gm' => $user_gm,
-                    'file' => $gambar,
+                    'file' => $new_filename,
+                    'status' => $statusawal,
                 );
-                //echo $data;
                 $this->db->insert('signature', $data);
-                //$data = array('upload_data' => $this->upload->data());
-                //$this->load->view('upload_success', $data);
             }
         }
 
+        public function list_dokumen(){
+            $dt['user'] = $this->db->query("SELECT * from signature;")->result_array();
+            $data = json_encode($dt);
+            //echo $data;
+            $this->load->view("tb_listdokumen",["data"=>$data]);
+        }
 
+        public function sign_approve(){
+            $iddoc = $this->input->post('id');
+            $tanggal_sign = date('Y-m-d');
+            $sesi = $this->session->id_user;
+            $nama_user = $this->session->nama_user;
+            $posisi = $this->db->query("SELECT ifnull(position1,'user') as position1 FROM tb_user WHERE id_user = $sesi;")->row_array();
+            if ($posisi['position1'] == 'DC') {
+                $status = "1";
+                $data = array(
+                    'status' => $status,
+                    'date_signdc' => $tanggal_sign,
+                );
+                $this->db->where('rowid', $iddoc);
+                $this->db->update('signature', $data);
+            }elseif ($posisi['position1'] == 'MR') {
+                $status = "2";
+                $data = array(
+                    'status' => $status,
+                    'date_signmr' => $tanggal_sign,
+                );
+                $this->db->where('rowid', $iddoc);
+                $this->db->update('signature', $data);
+            }elseif ($posisi['position1'] == 'GM') {
+                $status = "3";
+                $data = array(
+                    'status' => $status,
+                    'date_signgm' => $tanggal_sign,
+                );
+                $this->db->where('rowid', $iddoc);
+                $this->db->update('signature', $data);
+            }
+        }
+
+        public function sign_reject(){
+            $iddoc = $this->input->post('id');
+            $status = "4";
+            $data = array(
+                'status' => $status,
+            );
+            $this->db->where('rowid', $iddoc);
+            $this->db->update('signature', $data);
+        }
 }

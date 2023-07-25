@@ -11,7 +11,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item">Document Control</li>
-                <li class="breadcrumb-item active">Signature</li>
+                <li class="breadcrumb-item active">Registration Dokumen</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -23,36 +23,45 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Upload Dokumen</button>
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Daftar Dokumen Baru</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Dokumen</button>
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">List Dokumen</button>
                             </li>
                         </ul>
-                        <!--Konten upload dokumen-->
+                        <!--Konten daftar dokumen baru-->
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <!-- -->
                                 <div class="row">
-                                    <div>
-                                        <label class="form-label"></label>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Upload File</button>
-                                    </div>
-                                </div>
-                            </div>
-                        <!--Konten daftar dokumen-->
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <!-- -->
-                                <div class="row">                          
                                     <div class="col-xl-3">
                                         <button class="btn btn-primary" onclick="tampildata1()" id="btntampil1"><i class="bi bi-search"></i>&nbsp;View</button>
                                         <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                         Loading...</button>                                        
+                                        <label class="form-label"></label>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Upload File</button>
                                     </div>
                                     <div class="col-xl-12">
                                         <br>
                                         <div id="tampildatasign"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!--Konten list dokumen-->
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <!-- -->
+                                <div class="row">
+                                    <div class='col-xl-3'>
+                                        <button class="btn btn-primary" onclick="tampildata2()" id="btntampil2"><i class="bi bi-search"></i>&nbsp;View</button>
+                                        <button class="btn btn-primary" type="button" disabled="" id="btnloading2" style="display:none;">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...</button>                                        
+                                        <label class="form-label"></label>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <br>
+                                        <div id="tampildatasign2"></div>
                                     </div>
                                 </div>
                             </div>
@@ -128,8 +137,15 @@
         });
     }
 
-    function tampiltabeluser(){
-        
+    function tampildata2(){
+        document.getElementById('btnloading2').style.display = '';
+        document.getElementById('btntampil2').style.display = 'none';
+        document.getElementById("tampildatasign").innerHTML = '';
+        $.get("<?= base_url('Document_control/list_dokumen') ?>", function(data, status) {
+            document.getElementById('btnloading2').style.display = 'none';
+            document.getElementById('btntampil2').style.display = '';
+            $("#tampildatasign2").html(data);
+        });
     }
 
     function pesan(txt){
@@ -191,7 +207,9 @@
                     document.getElementById("user_dc").value = "0";
                     document.getElementById("user_mr").value = "0";
                     document.getElementById("user_gm").value = "0";
-                    document.getElementById("userfile").value = "";
+                    setTimeout(function() {
+                        location.reload();
+                    }, 500);
                 }
             }
         });
@@ -224,9 +242,78 @@
             'Your file has been deleted.',
             'success'
             );
-            //tampildata1();
+            tampildata1();
             //end
         }
         })
     }
+
+    function btndownload(namafile){
+        window.open("<?= base_url('uploads/')?>"+namafile, '_blank');
+    }
+
+    function btnapprove(id){
+        Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Ingin menyetujui dokumen ini.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#00a000',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Approve'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            //Begin
+            $.ajax({
+                url: "<?= base_url('Document_control/sign_approve'); ?>",
+                type: 'POST',
+                cache: false,
+                data: {
+                    id: id,
+                    csrf_test_name: $.cookie('csrf_cookie_name')
+                }
+            });
+            Swal.fire(
+            'Approved!',
+            'Dokumen telah anda setujui.',
+            'success'
+            );
+            tampildata1();
+            //end
+        }
+        })
+    }
+
+    function btnreject(id){
+        Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Ingin menolak dokumen ini.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#00a000',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Reject'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            //Begin
+            $.ajax({
+                url: "<?= base_url('Document_control/sign_reject'); ?>",
+                type: 'POST',
+                cache: false,
+                data: {
+                    id: id,
+                    csrf_test_name: $.cookie('csrf_cookie_name')
+                }
+            });
+            Swal.fire(
+            'Rejected!',
+            'Dokumen telah anda tolak.',
+            'success'
+            );
+            tampildata1();
+            //end
+        }
+        })
+    }
+
 </script>

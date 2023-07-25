@@ -48,83 +48,71 @@ class M_ppic extends CI_Model
     public function tb_spk_head($idspk)
     {
         $addondb = $this->load->database('addon', TRUE);
-        return $addondb->query("SELECT distinct
-        A.id AS id_spk,
-        A.voucher_no AS spk,
-        B.id_spk_detail,
-        B.spk_detail,
-        A.production,
-        A.qty_order,
-        A.qty_buffer,
-        A.qty_prod,
-        A.our_bom_id,
-        D.group_name,
-        D.DESCRIPTION,
-        D.uom,
-        A.STATUS,
-        DATE_FORMAT(A.start_date, '%d %b %Y') AS start_date,
-        DATE_FORMAT(A.end_date, '%d %b %Y') AS end_date
-        from our_productions A
-        LEFT Join(SELECT id AS id_spk_detail,voucher_no AS spk_detail,parent_id from our_productions)B ON B.parent_id = A.id        
-        LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = A.our_item_id
-        WHERE A.production IS NOT NULL and A.id = $idspk ORDER BY A.voucher_no DESC;")->result_array();
+        return $addondb->query("SELECT 
+        tb_spk.id_spk,
+        B.voucher_no AS spk,
+        B.production,
+        B.qty_order,
+        B.qty_buffer,
+        B.qty_prod,
+        B.our_bom_id,
+        C.group_name,
+        C.item_no,
+        C.DESCRIPTION,
+        C.uom,
+        D.name AS mesin,
+        D.speed AS speed_mesin,
+        B.STATUS,
+        DATE_FORMAT(B.start_date, '%d %b %Y') AS start_date,
+        DATE_FORMAT(B.end_date, '%d %b %Y') AS end_date
+        FROM (
+        WITH RECURSIVE spk AS (
+          SELECT id, parent_id
+          FROM our_productions
+          WHERE parent_id = $idspk
+          UNION ALL
+          SELECT a.id, a.parent_id
+          FROM our_productions a
+          INNER JOIN spk ah ON a.parent_id = ah.id
+        )
+        SELECT parent_id AS id_spk,id AS id_anggota
+        FROM spk
+        UNION All
+        SELECT max(id) AS id_spk, 0 as id_anggota FROM spk
+        ) AS tb_spk
+        LEFT JOIN our_productions B ON B.id = tb_spk.id_spk
+        LEFT JOIN our_items C ON C.id = B.our_item_id
+        LEFT JOIN our_lines D ON D.id = B.our_line_id;")->result_array();
     }
 
     public function tb_spk_head_item($idspk)
     {
         $addondb = $this->load->database('addon', TRUE);
         return $addondb->query("SELECT 
-        A.id AS id_spk,
-        A.our_bom_id,
-        E.item_no,E.DESCRIPTION,D.qty,E.uom
-        from our_productions A
-        LEFT JOIN(SELECT id,NAME AS bom,CODE AS kode_bom,our_item_id,uom FROM our_bom)C ON C.id = A.our_bom_id
-        LEFT JOIN(SELECT id,our_bom_id,our_item_id,qty FROM our_bom_raw)D ON D.our_bom_id = A.our_bom_id
-        LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)E ON E.id = D.our_item_id
-        WHERE A.production IS NOT NULL AND A.id = $idspk ORDER BY A.voucher_no DESC;")->result_array();
-    }
-
-    public function tb_spk_detail($idspk)
-    {
-        $addondb = $this->load->database('addon', TRUE);
-        return $addondb->query("SELECT 
-        A.id AS id_spk,
-        B.id as id_spk_detail,
-        B.voucher_no as spk_detail,
-        B.production,
-        B.qty_order,
-        B.qty_buffer,
-        B.qty_prod,
+        tb_spk.id_spk,
         B.our_bom_id,
-        D.group_name,
+        D.item_no,
         D.DESCRIPTION,
-        D.uom,
-        B.STATUS,
-        DATE_FORMAT(B.start_date, '%d %b %Y') AS start_date,
-        DATE_FORMAT(B.end_date, '%d %b %Y') AS end_date
-        from our_productions A
-        LEFT JOIN our_productions B ON B.parent_id = A.id
-        LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = B.our_item_id
-        WHERE A.production IS NOT NULL and A.id = $idspk ORDER BY A.voucher_no DESC;")->result_array();
-    }
-
-    public function tb_spk_detail_item($idspk)
-    {
-        $addondb = $this->load->database('addon', TRUE);
-        return $addondb->query("SELECT 
-        A.id AS id_spk,
-        A.our_bom_id,
-        E.item_no,E.DESCRIPTION,D.qty,E.uom
-        from our_productions A
-        LEFT JOIN(SELECT id,NAME AS bom,CODE AS kode_bom,our_item_id,uom FROM our_bom)C ON C.id = A.our_bom_id
-        LEFT JOIN(SELECT id,our_bom_id,our_item_id,qty FROM our_bom_raw)D ON D.our_bom_id = A.our_bom_id
-        LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)E ON E.id = D.our_item_id
-        WHERE A.production IS NOT NULL AND 
-        A.id IN(SELECT B.id
-                from our_productions A
-                LEFT JOIN our_productions B ON B.parent_id = A.id
-                WHERE A.production IS NOT NULL and A.id = $idspk) 
-        ORDER BY A.voucher_no DESC;")->result_array();
+        C.qty,
+        D.uom
+        FROM (
+        WITH RECURSIVE spk AS (
+          SELECT id, parent_id
+          FROM our_productions
+          WHERE parent_id = $idspk
+          UNION ALL
+          SELECT a.id, a.parent_id
+          FROM our_productions a
+          INNER JOIN spk ah ON a.parent_id = ah.id
+        )
+        SELECT parent_id AS id_spk 
+        FROM spk
+        UNION All
+        SELECT max(id) AS id_spk FROM spk
+        ) AS tb_spk
+        LEFT JOIN our_productions B ON B.id = tb_spk.id_spk
+        LEFT JOIN(SELECT our_bom_id,our_item_id,qty FROM our_bom_raw)C ON C.our_bom_id = B.our_bom_id
+        LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = C.our_item_id;")->result_array();
     }
 
     public function tb_spk_list($s,$e)
@@ -154,5 +142,77 @@ class M_ppic extends CI_Model
         LEFT JOIN(SELECT id,NAME AS mesin,speed FROM our_lines)E ON E.id = A.our_line_id
         WHERE A.our_line_id IS NOT NULL AND date(A.created_at) BETWEEN '$s' AND '$e' 
         order BY A.voucher_no DESC;")->result_array();
+    }
+
+    public function tb_spk_list_2($s,$e)
+    {
+        $addondb = $this->load->database('addon', TRUE);
+        return $addondb->query("SELECT row_number() over (order by A.voucher_no DESC) as rowid,
+        A.id AS id_spk,
+        A.voucher_no AS spk,
+        DATE_FORMAT(A.created_at, '%d %b %Y') AS created_date,
+        A.parent_id,
+        B.id_spk_detail,
+        ifnull(B.spk_detail,'-') AS spk_detail,
+        ifnull(A.production,'-') AS production,
+        E.mesin,        
+        A.our_bom_id,
+        D.item_no,
+        D.DESCRIPTION,
+        A.qty_order,
+        A.qty_buffer,
+        A.qty_prod,
+        D.uom,
+        A.STATUS,
+        DATE_FORMAT(A.start_date, '%d %b %Y') AS start_date,
+        DATE_FORMAT(A.end_date, '%d %b %Y') AS end_date
+        from our_productions A
+        LEFT Join(SELECT id AS id_spk_detail,voucher_no AS spk_detail,parent_id from our_productions)B ON B.parent_id = A.id        
+        LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = A.our_item_id
+        LEFT JOIN(SELECT id,NAME AS mesin,speed FROM our_lines)E ON E.id = A.our_line_id
+        WHERE A.our_line_id IS NOT NULL AND date(A.created_at) BETWEEN '$s' AND '$e' AND D.uom = 'Carton'
+        order BY A.voucher_no DESC;")->result_array();
+    }
+
+    public function tb_spk_head_item_2($idspk)
+    {
+        $addondb = $this->load->database('addon', TRUE);
+        return $addondb->query("SELECT 
+        tb_spk.id_spk,
+        B.voucher_no AS spk,
+        DATE_FORMAT(B.created_at, '%d %b %Y') AS created_date,
+        B.production,
+        B.qty_order,
+        B.qty_buffer,
+        B.qty_prod,
+        B.our_bom_id,
+        C.group_name,
+        C.item_no,
+        C.DESCRIPTION,
+        C.uom,
+        D.name AS mesin,
+        D.speed AS speed_mesin,
+        B.STATUS,
+        DATE_FORMAT(B.start_date, '%d %b %Y') AS start_date,
+        DATE_FORMAT(B.end_date, '%d %b %Y') AS end_date
+        FROM (
+        WITH RECURSIVE spk AS (
+          SELECT id, parent_id
+          FROM our_productions
+          WHERE parent_id = $idspk
+          UNION ALL
+          SELECT a.id, a.parent_id
+          FROM our_productions a
+          INNER JOIN spk ah ON a.parent_id = ah.id
+        )
+        SELECT parent_id AS id_spk,id AS id_anggota
+        FROM spk
+        UNION All
+        SELECT max(id) AS id_spk, 0 as id_anggota FROM spk
+        ) AS tb_spk
+        LEFT JOIN our_productions B ON B.id = tb_spk.id_spk
+        LEFT JOIN our_items C ON C.id = B.our_item_id
+        LEFT JOIN our_lines D ON D.id = B.our_line_id
+		  WHERE C.uom <> 'Carton';")->result_array();
     }
 }
