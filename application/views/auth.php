@@ -10,23 +10,23 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="<?= base_url();?>assets/img/bk.png" rel="icon">
-  <link href="<?= base_url();?>assets/img/bkd.png" rel="apple-touch-icon">
+  <link href="<?= base_url(); ?>assets/img/bk.png" rel="icon">
+  <link href="<?= base_url(); ?>assets/img/bkd.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="<?= base_url();?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?= base_url();?>assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="<?= base_url();?>assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="<?= base_url();?>assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="<?= base_url();?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="<?= base_url();?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?= base_url();?>assets/css/style.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/css/style.css" rel="stylesheet">
 
   <!-- sweetalert2-->
   <script src="<?= base_url(); ?>assets/js/sweetalert2.min.js"></script>
@@ -47,8 +47,8 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <img src="<?= base_url();?>assets/img/bk.png" alt="">
-                  <span class="d-none d-lg-block">&nbsp;Reporting</span>
+                  <img src="<?= base_url(); ?>assets/img/bk.png" alt="">
+                  <span class="d-none d-lg-block">&nbsp;ONE APPS</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -61,8 +61,8 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                <form name="f_auth" id="f_auth" class="row g-3 needs-validation" novalidate>
-                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                  <form name="f_auth" id="f_auth" class="row g-3 needs-validation" novalidate>
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
@@ -86,7 +86,7 @@
                 </div>
               </div>
 
-              
+
 
             </div>
           </div>
@@ -100,19 +100,19 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="<?= base_url();?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?= base_url();?>assets/vendor/quill/quill.min.js"></script>
+  <script src="<?= base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= base_url(); ?>assets/vendor/quill/quill.min.js"></script>
 
 
   <!-- Template Main JS File -->
-  <script src="<?= base_url();?>assets/js/main.js"></script>
+  <script src="<?= base_url(); ?>assets/js/main.js"></script>
 
 </body>
 
 </html>
 
 <script>
-  function pesan(){
+  function pesan() {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -131,52 +131,23 @@
     })
   }
 
-  
+
   $("#f_auth").on("submit", function(e) {
     e.preventDefault();
     $.ajax({
-        url: "<?= base_url();?>Welcome/auth",
-        type: "POST",
-        data: new FormData(this),
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function(data) {
-            if(data == 0){
-              pesan();
-            }else{
-              window.open("<?= base_url('Whse')?>","_self");
-            }
+      url: "<?= base_url(); ?>Welcome/auth",
+      type: "POST",
+      data: new FormData(this),
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data) {
+        if (data == 0) {
+          pesan();
+        } else {
+          window.open("<?= base_url('Whse') ?>", "_self");
         }
+      }
     });
-});
-
-
-/*
-$(document).ready(function(){
-            $("#f_auth").submit(function(e){
-                e.preventDefault();
-                var username = $("#username").val();
-                var sandi = $("#sandi").val();
-
-                $.ajax({
-                    url: "<?php echo base_url('Welcome/auth'); ?>",
-                    type: "post",
-                    data: {
-                        username: username,
-                        sandi: sandi,
-                        <?= $this->security->get_csrf_token_name(); ?>: '<?= $this->security->get_csrf_hash(); ?>'
-                    },
-                    success: function(response){
-                        if(response.status == 'success'){
-                            $("#response").html("<p>"+response.message+"</p>");
-                            window.location.href = "<?php echo base_url('dashboard'); ?>";
-                        }else{
-                            $("#response").html("<p>"+response.message+"</p>");
-                        }
-                    }
-                });
-            });
-        });
-*/
+  });
 </script>

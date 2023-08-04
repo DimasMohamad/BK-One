@@ -6,10 +6,10 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-            if (isset($this->session->id_user) == false) {
+        if (isset($this->session->id_user) == false) {
             redirect(base_url('Welcome'));
         }
-        
+
         $this->load->model('M_user');
         $this->load->helper(array('url'));
         $this->load->library('pagination');
@@ -19,9 +19,9 @@ class User extends CI_Controller
     {
         $akses = $this->M_user->get_akses(5);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('user_list');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('user_list');
+        } else {
             echo "Access Denied";
         }
         $this->load->view('footer');
@@ -30,7 +30,7 @@ class User extends CI_Controller
     public function tb_user_list()
     {
         $query = $this->db->get('tb_user')->result_array();
-        $this->load->view('tb_user_list',array('data' => $query));
+        $this->load->view('tb_user_list', array('data' => $query));
     }
 
     public function aktifkan()
@@ -56,7 +56,7 @@ class User extends CI_Controller
     public function simpan_user()
     {
         $nama = $this->input->post('nama');
-        $sandi = sha1($this->input->post('sandi'));
+        $sandi = password_hash($this->input->post('sandi'), PASSWORD_BCRYPT);
         $data = array(
             'nama' => $nama,
             'sandi' => $sandi,
@@ -77,7 +77,7 @@ class User extends CI_Controller
         $menu = $this->db->get('tb_menu')->result_array();
         $submenu = $this->db->get('tb_sub_menu')->result_array();
         $akses = $this->M_user->tb_akses($iduser);
-        $this->load->view('tb_akses',['menu'=>$menu,'submenu'=>$submenu,'akses'=>$akses]);
+        $this->load->view('tb_akses', ['menu' => $menu, 'submenu' => $submenu, 'akses' => $akses]);
     }
 
     public function buka_akses()
@@ -105,5 +105,4 @@ class User extends CI_Controller
         $akses = $this->M_user->get_akses($idsubmenu);
         echo $akses['akses'];
     }
-    
 }

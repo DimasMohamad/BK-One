@@ -6,10 +6,10 @@ class Whse extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-            if (isset($this->session->id_user) == false) {
+        if (isset($this->session->id_user) == false) {
             redirect(base_url('Welcome'));
         }
-        
+
         $this->load->model('M_sql');
         $this->load->model('M_whse');
         $this->load->model('M_produksi');
@@ -19,18 +19,18 @@ class Whse extends CI_Controller
     }
 
     public function index()
-	{
-		$this->load->model('M_sql');
-		$dataso = $this->M_sql->get_so_month();
-		$row['so'] = [];
-		foreach($dataso as $so){
-			array_push($row['so'],$so);
-		}
-		$data = json_encode($row);
-		$this->load->view('header');
-		$this->load->view('dashboard',['data'=>$data]);
-		$this->load->view('footer');
-	}
+    {
+        $this->load->model('M_sql');
+        $dataso = $this->M_sql->get_so_month();
+        $row['so'] = [];
+        foreach ($dataso as $so) {
+            array_push($row['so'], $so);
+        }
+        $data = json_encode($row);
+        $this->load->view('header');
+        $this->load->view('dashboard', ['data' => $data]);
+        $this->load->view('footer');
+    }
 
     public function lhmb()
     {
@@ -43,9 +43,9 @@ class Whse extends CI_Controller
         }
         $data = json_encode($row);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('lhmb', ['data' => $data]);
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('lhmb', ['data' => $data]);
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -58,13 +58,13 @@ class Whse extends CI_Controller
         $grup = $this->input->get('grup');
         $cari = $this->input->get('cari');
         $sts = $this->input->get('sts');
-        $data = $this->M_sql->laporan_lhmb($mulai,$hingga,$grup,$cari,$sts);
+        $data = $this->M_sql->laporan_lhmb($mulai, $hingga, $grup, $cari, $sts);
         $row['lhmb'] = [];
-        foreach($data as $dt){
-            array_push($row['lhmb'],$dt);
+        foreach ($data as $dt) {
+            array_push($row['lhmb'], $dt);
         }
         $result = json_encode($row);
-        $this->load->view('tb_lhmb',['data'=>$result]);
+        $this->load->view('tb_lhmb', ['data' => $result]);
     }
 
     public function tb_lhmb_xls()
@@ -74,13 +74,13 @@ class Whse extends CI_Controller
         $grup = $this->input->get('grup');
         $cari = $this->input->get('cari');
         $sts = $this->input->get('sts');
-        $data = $this->M_sql->laporan_lhmb($mulai,$hingga,$grup,$cari,$sts);
+        $data = $this->M_sql->laporan_lhmb($mulai, $hingga, $grup, $cari, $sts);
         $row['lhmb'] = [];
-        foreach($data as $dt){
-            array_push($row['lhmb'],$dt);
+        foreach ($data as $dt) {
+            array_push($row['lhmb'], $dt);
         }
         $result = json_encode($row);
-        $this->load->view('tb_lhmb_xls',['data'=>$result]);
+        $this->load->view('tb_lhmb_xls', ['data' => $result]);
     }
 
     public function tb_lhmb_cetak()
@@ -90,13 +90,13 @@ class Whse extends CI_Controller
         $grup = $this->input->get('grup');
         $cari = $this->input->get('cari');
         $sts = $this->input->get('sts');
-        $data = $this->M_sql->laporan_lhmb($mulai,$hingga,$grup,$cari,$sts);
+        $data = $this->M_sql->laporan_lhmb($mulai, $hingga, $grup, $cari, $sts);
         $row['lhmb'] = [];
-        foreach($data as $dt){
-            array_push($row['lhmb'],$dt);
+        foreach ($data as $dt) {
+            array_push($row['lhmb'], $dt);
         }
         $result = json_encode($row);
-        $this->load->view('tb_lhmb_cetak',['data'=>$result]);
+        $this->load->view('tb_lhmb_cetak', ['data' => $result]);
     }
 
     public function lhmbp()
@@ -110,9 +110,9 @@ class Whse extends CI_Controller
         }
         $data = json_encode($row);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('lhmbp', ['data' => $data]);
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('lhmbp', ['data' => $data]);
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -132,13 +132,13 @@ class Whse extends CI_Controller
         $grup = $this->input->get('grup');
         $cari = $this->input->get('cari');
         $sts = $this->input->get('sts');
-        $data = $this->M_sql->laporan_lhmb($mulai,$hingga,$grup,$cari,$sts);
+        $data = $this->M_sql->laporan_lhmb($mulai, $hingga, $grup, $cari, $sts);
         $row['lhmb'] = [];
-        foreach($data as $dt){
-            array_push($row['lhmb'],$dt);
+        foreach ($data as $dt) {
+            array_push($row['lhmb'], $dt);
         }
         $result = json_encode($row);
-        $this->load->view('tb_lhmbp',['data'=>$result]);
+        $this->load->view('tb_lhmbp', ['data' => $result]);
     }
 
     public function tb_lhmbp_xls()
@@ -155,13 +155,13 @@ class Whse extends CI_Controller
         $grup = $this->input->get('grup');
         $cari = $this->input->get('cari');
         $sts = $this->input->get('sts');
-        $data = $this->M_sql->laporan_lhmb($mulai,$hingga,$grup,$cari,$sts);
+        $data = $this->M_sql->laporan_lhmb($mulai, $hingga, $grup, $cari, $sts);
         $row['lhmb'] = [];
-        foreach($data as $dt){
-            array_push($row['lhmb'],$dt);
+        foreach ($data as $dt) {
+            array_push($row['lhmb'], $dt);
         }
         $result = json_encode($row);
-        $this->load->view('tb_lhmbp_xls',['data'=>$result]);
+        $this->load->view('tb_lhmbp_xls', ['data' => $result]);
     }
 
     function data_pagination($url, $rows = 10, $uri = 10)
@@ -172,24 +172,24 @@ class Whse extends CI_Controller
         $config['total_rows']   = $rows;
         $config['use_page_numbers'] = TRUE;
         $config['uri_segment']   = $uri;
-$config['full_tag_open'] = '<ul class="pagination">';        
-$config['full_tag_close'] = '</ul>';        
-$config['first_link'] = 'First';        
-$config['last_link'] = 'Last';        
-$config['first_tag_open'] = '<li class="page-item"><span class="page-link">';        
-$config['first_tag_close'] = '</span></li>';        
-$config['prev_link'] = '&laquo';        
-$config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';        
-$config['prev_tag_close'] = '</span></li>';        
-$config['next_link'] = '&raquo';        
-$config['next_tag_open'] = '<li class="page-item"><span class="page-link">';        
-$config['next_tag_close'] = '</span></li>';        
-$config['last_tag_open'] = '<li class="page-item"><span class="page-link">';        
-$config['last_tag_close'] = '</span></li>';        
-$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';        
-$config['cur_tag_close'] = '</a></li>';        
-$config['num_tag_open'] = '<li class="page-item"><span class="page-link">';        
-$config['num_tag_close'] = '</span></li>';
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close'] = '</span></li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close'] = '</span></li>';
+        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close'] = '</span></li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close'] = '</span></li>';
         /*
         $config['num_links']   = 3;
         $config['next_link']   = '>';
@@ -219,23 +219,23 @@ $config['num_tag_close'] = '</span></li>';
         $mulai = $this->input->get('mulai');
         $hingga = $this->input->get('hingga');
         $cari = $this->input->get('cari');
-        $pr_head = $this->M_sql->open_pr($sts,$mulai,$hingga,$cari);
+        $pr_head = $this->M_sql->open_pr($sts, $mulai, $hingga, $cari);
         $row['pr_head'] = [];
         $row['pr_dtl'] = [];
-        foreach($pr_head as $h){
-            array_push($row['pr_head'],$h);
+        foreach ($pr_head as $h) {
+            array_push($row['pr_head'], $h);
         }
         $result = json_encode($row);
-        $this->load->view('tb_open_pr',["data" => $result]);
+        $this->load->view('tb_open_pr', ["data" => $result]);
     }
 
     public function stok()
     {
         $akses = $this->M_user->get_akses(3);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
+        if (!$akses['akses'] == 0) {
             $this->load->view('stok');
-        }else{
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -245,28 +245,28 @@ $config['num_tag_close'] = '</span></li>';
     {
         $cari = $this->input->get('cari');
         $page = $this->data_pagination("Whse/tb_stok", $this->M_sql->hitung_row_stok($cari), 3);
-        $datastok = $this->M_sql->get_stok($no_page,$cari);
-        $datadtl = $this->M_sql->get_stok_dtl($no_page,$cari);
+        $datastok = $this->M_sql->get_stok($no_page, $cari);
+        $datadtl = $this->M_sql->get_stok_dtl($no_page, $cari);
         $no_halaman = $no_page;
         $row['stok'] = [];
         $row['dtl'] = [];
         foreach ($datastok as $dt) {
-            array_push($row['stok'],$dt);
+            array_push($row['stok'], $dt);
         }
         foreach ($datadtl as $dtl) {
-            array_push($row['dtl'],$dtl);
+            array_push($row['dtl'], $dtl);
         }
         $data = json_encode($row);
-        $this->load->view('tb_stok',["data"=>$data,'page' => $page,]);
+        $this->load->view('tb_stok', ["data" => $data, 'page' => $page,]);
     }
 
     public function item_audit()
     {
         $akses = $this->M_user->get_akses(4);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
+        if (!$akses['akses'] == 0) {
             $this->load->view('item_audit');
-        }else{
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -274,62 +274,61 @@ $config['num_tag_close'] = '</span></li>';
 
     public function tb_item_audit()
     {
-        $bln = substr($this->input->get('periode'),0,2);
-        $tahun = substr($this->input->get('periode'),3);
-        $periode = $tahun."-".$bln."-01";
-        
+        $bln = substr($this->input->get('periode'), 0, 2);
+        $tahun = substr($this->input->get('periode'), 3);
+        $periode = $tahun . "-" . $bln . "-01";
+
         $dataaudithead = $this->M_whse->rekap_item_audit_head($periode);
         $dataaudit = $this->M_whse->rekap_item_audit($periode);
         $row['head'] = [];
         $row['item'] = [];
-        foreach($dataaudithead as $h){
-            array_push($row['head'],$h);
+        foreach ($dataaudithead as $h) {
+            array_push($row['head'], $h);
         }
-        foreach($dataaudit as $dt){
-            array_push($row['item'],$dt);
+        foreach ($dataaudit as $dt) {
+            array_push($row['item'], $dt);
         }
         $data = json_encode($row);
         //echo $data;
-        $this->load->view('tb_item_audit',['data'=>$data]);
-        
+        $this->load->view('tb_item_audit', ['data' => $data]);
     }
 
     public function tb_item_audit_xls()
     {
-        $bln = substr($this->input->get('periode'),0,2);
-        $tahun = substr($this->input->get('periode'),3);
-        $periode = $tahun."-".$bln."-01";
-        
-        $dataaudithead = $this->M_sql->rekap_item_audit_head($periode);
-        $dataaudit = $this->M_sql->rekap_item_audit($periode);
+        $bln = substr($this->input->get('periode'), 0, 2);
+        $tahun = substr($this->input->get('periode'), 3);
+        $periode = $tahun . "-" . $bln . "-01";
+
+        $dataaudithead = $this->M_whse->rekap_item_audit_head($periode);
+        $dataaudit = $this->M_whse->rekap_item_audit($periode);
         $row['head'] = [];
         $row['item'] = [];
-        foreach($dataaudithead as $h){
-            array_push($row['head'],$h);
+        foreach ($dataaudithead as $h) {
+            array_push($row['head'], $h);
         }
-        foreach($dataaudit as $dt){
-            array_push($row['item'],$dt);
+        foreach ($dataaudit as $dt) {
+            array_push($row['item'], $dt);
         }
         $data = json_encode($row);
-        $this->load->view('tb_item_audit_xls',['data'=>$data]);
+        $this->load->view('tb_item_audit_xls', ['data' => $data]);
     }
 
-    
+
     public function trace_item()
     {
-        $itemcode = $this->input->get('item'); 
+        $itemcode = $this->input->get('item');
         $datawhse = $this->M_whse->trace_item_whse($itemcode);
         $datatrace = $this->M_sql->trace_item_audit($itemcode);
-        $this->load->view('tb_trace_item',['datawhse'=>$datawhse,'datatrace'=>$datatrace,'itemcode'=>$itemcode]);
+        $this->load->view('tb_trace_item', ['datawhse' => $datawhse, 'datatrace' => $datatrace, 'itemcode' => $itemcode]);
     }
 
     public function cari_konversi()
     {
         $id = $this->input->get('id');
         $konversi = $this->db->get_where('tb_conv', array('id_item' => $id))->row_array();
-        if(isset($konversi['id_item'])){
+        if (isset($konversi['id_item'])) {
             echo "1";
-        }else{
+        } else {
             echo "0";
         }
     }
@@ -338,39 +337,39 @@ $config['num_tag_close'] = '</span></li>';
     {
         $id = $this->input->get('id');
         $nilai = $this->input->get('qty');
-        $data = $this->M_sql->hitung_konversi_sap($id,$nilai);
-        echo"<table class='table table-sm'>";
-        echo"<thead>";
-        echo"<tr>";
-        echo"<th colspan='2'>".number_format($nilai, 4, '.', ',')."&nbsp;M</th>";
-        echo"</tr>";
-        echo"<tr>";
-        echo"<th>Konversi</th>";
-        echo"<th>Uom</th>";
-        echo"</tr>";
-        echo"</thead>";
-        echo"<tbody>";
-        foreach($data as $dt){
-            echo"<tr>";
-            echo"<td style='text-align:right;'>&nbsp;".number_format($dt['konversi'], 4, '.', ',')."</td>";
-            echo"<td>&nbsp;".$dt['uom']."&nbsp;</td>";
-            echo"</tr>";
+        $data = $this->M_sql->hitung_konversi_sap($id, $nilai);
+        echo "<table class='table table-sm'>";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th colspan='2'>" . number_format($nilai, 4, '.', ',') . "&nbsp;M</th>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<th>Konversi</th>";
+        echo "<th>Uom</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody>";
+        foreach ($data as $dt) {
+            echo "<tr>";
+            echo "<td style='text-align:right;'>&nbsp;" . number_format($dt['konversi'], 4, '.', ',') . "</td>";
+            echo "<td>&nbsp;" . $dt['uom'] . "&nbsp;</td>";
+            echo "</tr>";
         }
-        echo"</tbody>";
-        echo"</table>";
+        echo "</tbody>";
+        echo "</table>";
     }
 
     public function add_konversi()
     {
         $id = $this->input->POST('id');
-        $str = str_replace(",",".",$this->input->POST('konv'));
-        $konv = explode("x",$str);
-        foreach($konv as $dt){
+        $str = str_replace(",", ".", $this->input->POST('konv'));
+        $konv = explode("x", $str);
+        foreach ($konv as $dt) {
             $data = array(
                 'id_item' => $id,
                 'conv' => $str,
                 'qty' => filter_var($dt, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION),
-                'uom' => preg_replace('/[^a-zA-Z]/', '',$dt)
+                'uom' => preg_replace('/[^a-zA-Z]/', '', $dt)
             );
             $this->db->insert('tb_conv', $data);
         }
@@ -385,31 +384,30 @@ $config['num_tag_close'] = '</span></li>';
 
     public function tb_item_audit_ui()
     {
-        $bln = substr($this->input->get('periode'),0,2);
-        $tahun = substr($this->input->get('periode'),3);
-        $periode = $tahun."-".$bln."-01";
-        
+        $bln = substr($this->input->get('periode'), 0, 2);
+        $tahun = substr($this->input->get('periode'), 3);
+        $periode = $tahun . "-" . $bln . "-01";
+
         $dataaudithead = $this->M_sql->rekap_item_audit_head($periode);
         $dataaudit = $this->M_sql->rekap_item_audit($periode);
         $row['head'] = [];
         $row['item'] = [];
-        foreach($dataaudithead as $h){
-            array_push($row['head'],$h);
+        foreach ($dataaudithead as $h) {
+            array_push($row['head'], $h);
         }
-        foreach($dataaudit as $dt){
-            array_push($row['item'],$dt);
+        foreach ($dataaudit as $dt) {
+            array_push($row['item'], $dt);
         }
         $data = json_encode($row);
         //echo $data;
-        $this->load->view('tb_item_audit_ui',['data'=>$data]);
-        
+        $this->load->view('tb_item_audit_ui', ['data' => $data]);
     }
 
     public function tb_item($no_page = 1)
     {
         $cari = $this->input->get('cari');
         $page = $this->data_pagination("Whse/tb_item", $this->M_sql->hitung_item($cari), 3);
-        $data = $this->M_sql->get_item($no_page,$cari);
+        $data = $this->M_sql->get_item($no_page, $cari);
         $no_halaman = $no_page;
     }
 
@@ -418,11 +416,11 @@ $config['num_tag_close'] = '</span></li>';
         $akses = $this->M_user->get_akses(7);
         $data = json_encode($this->M_produksi->get_item_master());
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-                $this->load->view('item_master',["data" => $data]);
-            }else{
-                $this->load->view('denied');
-            }
+        if (!$akses['akses'] == 0) {
+            $this->load->view('item_master', ["data" => $data]);
+        } else {
+            $this->load->view('denied');
+        }
         $this->load->view('footer');
     }
 
@@ -430,9 +428,9 @@ $config['num_tag_close'] = '</span></li>';
     {
         $akses = $this->M_user->get_akses(3);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
+        if (!$akses['akses'] == 0) {
             $this->load->view('lhkb2');
-        }else{
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -443,10 +441,10 @@ $config['num_tag_close'] = '</span></li>';
         $mulai = $this->input->get('mulai');
         $hingga = $this->input->get('hingga');
         $tipe = $this->input->get('item');
-        $row['head'] = $this->M_whse->lhkb_head($mulai,$hingga,$tipe);
-        $row['detail'] = $this->M_whse->lhkb_detail($mulai,$hingga,$tipe);
+        $row['head'] = $this->M_whse->lhkb_head($mulai, $hingga, $tipe);
+        $row['detail'] = $this->M_whse->lhkb_detail($mulai, $hingga, $tipe);
         $data = json_encode($row);
-        $this->load->view('tb_lhkb',['data'=>$data]);
+        $this->load->view('tb_lhkb', ['data' => $data]);
     }
 
     public function trc_whse()
@@ -460,13 +458,13 @@ $config['num_tag_close'] = '</span></li>';
     {
         $itemcode = $this->input->get('item');
         $whse = $this->input->get('whse');
-        $trace = json_encode($this->M_whse->trace_item_audit($itemcode,$whse));
+        $trace = json_encode($this->M_whse->trace_item_audit($itemcode, $whse));
         echo $trace;
     }
 
     public function inv_audit_report()
     {
-        
+
         $this->load->view('inv_audit_report');
     }
 }

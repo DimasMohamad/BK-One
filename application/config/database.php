@@ -29,7 +29,8 @@ $db['default'] = array(
 
 $db['hana'] = array(
 	'dsn'	=> '',
-	'hostname' => 'DRIVER={HDBODBC};SERVERNODE=10.100.4.12:30015;DATABASE=BKI_LIVE;UID=B1ADMIN;PWD=Password#01;',
+	//'hostname' => 'DRIVER={HDBODBC};SERVERNODE=10.100.4.12:30015;DATABASE=BKI_LIVE;UID=B1ADMIN;PWD=Password#01;',
+	'hostname' => 'DRIVER={HDBODBC};SERVERNODE=10.100.4.12:30015;DATABASE=SANDBOX2;UID=B1ADMIN;PWD=Password#01;',
 	'username' => '',
 	'password' => '',
 	'database' => '',
