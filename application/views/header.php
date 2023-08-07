@@ -178,6 +178,12 @@
           echo "<li><a href='" . base_url('Marketing/produk_palsu') . "'><i class='bi bi-circle'></i><span>Form Produk Palsu</span></a></li>";
         };
 
+        if ($current_url == base_url('Marketing/recall')) {
+          echo "<li><a href='" . base_url('Marketing/recall') . "' class='active'><i class='bi bi-circle'></i><span>Form Recall</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Marketing/recall') . "'><i class='bi bi-circle'></i><span>Form Recall</span></a></li>";
+        };
+
         echo "</ul>";
         ?>
       </li>

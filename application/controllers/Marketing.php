@@ -16,10 +16,21 @@ class Marketing extends CI_Controller
     }
 
     public function produk_palsu(){
-        $akses = $this->M_user->get_akses(18);
+        $akses = $this->M_user->get_akses(19);
         $this->load->view('header');
         if(!$akses['akses'] == 0){
         $this->load->view('produk_palsu');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function recall(){
+        $akses = $this->M_user->get_akses(20);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('recall');
         }else{
             $this->load->view('denied');
         }
@@ -63,5 +74,27 @@ class Marketing extends CI_Controller
     public function hapus_formulir(){
         $id = $this->input->post('id');
         $this->db->delete('produk_palsu', array('rowid' => $id));
+    }
+
+    public function tampil_data_recall(){
+        $dt['data'] = $this->M_marketing->data();
+        $data = json_encode($dt);
+        //echo $data;
+        $this->load->view("tb_recall",["data"=>$data]);
+    }
+
+    public function hapus_recall(){
+        $id = $this->input->post('id');
+        $this->db->delete('recall', array('rowid' => $id));
+    }
+
+    public function print_recall(){
+        $id = $this->input->get('id');
+        //echo $id;
+        //$dt['data'] = $this->M_marketing->recall();
+        $data = $this->M_marketing->recall($id);
+        //$data = json_encode($dt);
+        //echo $data;
+        $this->load->view("print_recall", ["data" => $data]);
     }
 }

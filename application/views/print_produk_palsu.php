@@ -110,7 +110,7 @@ $row = json_decode($data, true);
     </table>
 <script>
     window.onload = function() {
-        //window.print();
+        window.print();
     };
 </script>
 </html>
