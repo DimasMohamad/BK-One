@@ -37,6 +37,17 @@ class Marketing extends CI_Controller
         $this->load->view('footer');
     }
 
+    public function pelanggan(){
+        $akses = $this->M_user->get_akses(21);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('daftar_pelanggan');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
     public function tampil_data(){
         $dt['data'] = $this->db->query("SELECT * FROM produk_palsu;")->result_array();
         $data = json_encode($dt);
@@ -96,5 +107,34 @@ class Marketing extends CI_Controller
         //$data = json_encode($dt);
         //echo $data;
         $this->load->view("print_recall", ["data" => $data]);
+    }
+
+    public function daftar_pelanggan(){
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $dt['data'] = $this->M_marketing->pelanggan($mulai, $hingga);
+        $data = json_encode($dt);
+        //echo $data;
+        $this->load->view("tb_daftar_pelanggan",["data" => $data]);
+    }
+
+    public function print_pelanggan()
+    {
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $dt['data'] = $this->M_marketing->print_daftar_pelanggan($mulai, $hingga);
+        $data = json_encode($dt);
+        echo $data;
+        //$this->load->view("print_daftar_rekanan_terpilih", ["data" => $data]);
+    }
+
+    public function print_pelanggan2(){
+        $CardCode = $this->input->get('CardCode');
+        //echo $CardCode;
+        $dt['data'] = $this->M_marketing->print_daftar_pelanggan($CardCode);
+        //$data = $this->M_marketing->print_daftar_pelanggan($CardCode);
+        $data = json_encode($dt);
+        echo $data;
+        //$this->load->view("print_daftar_pelanggan", ["data" => $data]);
     }
 }
