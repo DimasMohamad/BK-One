@@ -122,16 +122,16 @@ class Marketing extends CI_Controller
     {
         $mulai = $this->input->get('mulai');
         $hingga = $this->input->get('hingga');
-        $dt['data'] = $this->M_marketing->print_daftar_pelanggan($mulai, $hingga);
+        $dt['data'] = $this->M_marketing->pelanggan($mulai, $hingga);
         $data = json_encode($dt);
-        echo $data;
-        //$this->load->view("print_daftar_rekanan_terpilih", ["data" => $data]);
+        //echo $data;
+        $this->load->view("print_daftar_pelanggan", ["data" => $data]);
     }
 
     public function print_pelanggan2(){
         $CardCode = $this->input->get('CardCode');
         //echo $CardCode;
-        $dt['data'] = $this->M_marketing->print_daftar_pelanggan($CardCode);
+        $dt['data'] = $this->M_marketing->print_daftar_pelanggan2($CardCode);
         //$data = $this->M_marketing->print_daftar_pelanggan($CardCode);
         $data = json_encode($dt);
         echo $data;
