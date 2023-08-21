@@ -27,7 +27,7 @@
                                     <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Formulir Produk</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Formulir Recall</button>
                                 </div>
                                 <div class="col-xl-12">
                                     <br>
@@ -43,6 +43,73 @@
     </section>
 
 </main><!-- End #main -->
+<div class="modal fade" id="upload_dokumen" tabindex="-1" style="display: none;" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Formulir Recall</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">                
+                <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
+                    <div>
+                        <label for="inputNanme4" class="form-label">Nomor Form</label>
+                        <input type="text" id="nomor_form" name="nomor_form" class="form-control"></input>
+                    </div>
+                    <div class="col-6">
+                        <label for="inputNanme4" class="form-label">Nama Produk</label>
+                        <textarea id="nama_produk" name="nama_produk" class="form-control"></textarea>
+                    </div>
+                    <div class="col-6">
+                        <label for="inputNanme4" class="form-label">Nomor Ijin Edar</label>
+                        <textarea id="nie" name="nie" class="form-control"></textarea>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Nomot Batch/LOT</label>
+                        <textarea id="batch_lot" name="batch_lot" class="form-control"></textarea>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Total Recall</label>
+                        <input type="text" id="total_recall" name="total_recall" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Alasan</label>
+                        <input type="text" id="alasan" name="alasan" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Hasil Inspeksi</label>
+                        <input type="text" id="hasil_inspeksi" name="hasil_inspeksi" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Tindakan</label>
+                        <input type="text" id="tindakan" name="tindakan" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Status</label>
+                        <input type="text" id="status" name="status" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Ketua Tim</label>
+                        <input type="text" id="ketua_tim" name="ketua_tim" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Anggota</label>
+                        <input type="text" id="anggota" name="anggota" class="form-control"></input>
+                    </div>
+                    <div>
+                        <label for="inputNanme4" class="form-label">Otorisasi</label>
+                        <input type="text" id="otorisasi" name="otorisasi" class="form-control"></input>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     function tampildata(){

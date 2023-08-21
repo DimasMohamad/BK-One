@@ -130,4 +130,9 @@ class Busines_partner extends CI_Controller
         $this->db->insert('tb_supp_p', $data);
     }
 
+    public function hapus_tidak_terpilih(){
+        $id = $this->input->post('id');
+        $this->db->delete('tb_supp_p', array('rowid' => $id));
+    }
+
 }

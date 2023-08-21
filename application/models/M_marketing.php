@@ -32,11 +32,10 @@ class M_marketing extends CI_Model
         WHERE A."CardCode" IS NOT NULL AND A."frozenFor" = '."'N'".' and A."CardType" = '."'C'".' ORDER BY A."CardName";')->result_array();
     }
 
-    //Print berdasarkan cardcode
-    public function print_daftar_pelanggan2($CardCode){
+    Public function klaim($mulai, $hingga){
         $hanadb = $this->load->database('hana', TRUE);
-        return $hanadb->query('select distinct A."CardCode", A."U_Joindate", A."CardName", A."Address", A."Phone1", A."CntctPrsn"
-        from "BKI_LIVE"."OCRD" A 
-        WHERE A."CardCode" IS NOT NULL AND A."frozenFor" = '."'N'".' and A."CardType" = '."'C'".' and A."CardCode" = '."'$CardCode'".' ORDER BY A."CardName";')->result_array();
+        return $hanadb->query('Select A."DocNum", A."DocDate" 
+        from "BKI_LIVE"."ORDN" A
+        where A."DocDate" between '."'$mulai'".' and '."'$hingga'".';')->result_array();
     }
 }

@@ -28,7 +28,7 @@ $row = json_decode($data,true);
             <th>Contact Person</th>
             <th>Email</th>
             <th>Produk Yang Dibeli</th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +44,9 @@ $row = json_decode($data,true);
             echo"<td style='vertical-align:top;'>".$h['contact_person']."</td>";
             echo"<td style='vertical-align:top;'>".$h['email']."</td>";
             echo"<td style='vertical-align:top;'>".$h['product']."</td>";
-            echo"<td style='vertical-align:top;'></td>";
+            echo"<td style='vertical-align:top;'>";
+            echo "<button type='button' class='btn btn-danger' onclick='btnhapus(".$h['rowid'].")'><i class='bi bi-trash'></i></button>";
+            echo"</td>";
             echo"</tr>";
             $i++;
         }

@@ -452,4 +452,23 @@ class M_sql extends CI_Model
 			where A."ItemCode" like '."'%$cari%'".' or A."ItemName" like '."'%$cari%'".') as "tb" where "row" between '.$first.' and '.$last.';')->result_array();
 	}
 
+	public function rekap_item_audit_head($periode)
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select distinct A."ItemCode",B."ItemName",B."InvntryUom",
+		case when C."UgpCode" in('."'BOX'".','."'PCS'".','."'PACK'".','."'BUKU'".','."'RIM'".','."'DUS'".','."'BTL'".','."'L'".','."'SET'".','."'Manual'".','."'KG'".','."'M'".') 
+        THEN '."'-'".' else C."UgpCode" end "konversi" 
+		from "BKI_LIVE"."OINM" A 
+		Left Join(select "ItemCode","ItemName","InvntryUom","UgpEntry" from "BKI_LIVE"."OITM")B on B."ItemCode" = A."ItemCode"
+		Left Join(select "UgpEntry","UgpCode" from "BKI_LIVE"."OUGP")C on C."UgpEntry" = B."UgpEntry"
+		where A."DocDate" <= LAST_DAY('."'$periode'".')
+		order by A."ItemCode";')->result_array();
+	}
+
+	public function rekap_item_audit($periode)
+	{
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('CALL "BKI_LIVE"."BKI_REKAP_MUTASI_STOK"('."'$periode'".');')->result_array();
+	}
+
 }

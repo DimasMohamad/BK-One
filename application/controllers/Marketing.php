@@ -48,6 +48,17 @@ class Marketing extends CI_Controller
         $this->load->view('footer');
     }
 
+    public function laporan_klaim(){
+        $akses = $this->M_user->get_akses(22);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('laporan_klaim');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
     public function tampil_data(){
         $dt['data'] = $this->db->query("SELECT * FROM produk_palsu;")->result_array();
         $data = json_encode($dt);
@@ -128,13 +139,8 @@ class Marketing extends CI_Controller
         $this->load->view("print_daftar_pelanggan", ["data" => $data]);
     }
 
-    public function print_pelanggan2(){
-        $CardCode = $this->input->get('CardCode');
-        //echo $CardCode;
-        $dt['data'] = $this->M_marketing->print_daftar_pelanggan2($CardCode);
-        //$data = $this->M_marketing->print_daftar_pelanggan($CardCode);
-        $data = json_encode($dt);
-        echo $data;
-        //$this->load->view("print_daftar_pelanggan", ["data" => $data]);
-    }
+    //public function laporan_klaim(){
+        //$dt['data'] = $this->M_marketing->klaim();
+    //}
+    
 }

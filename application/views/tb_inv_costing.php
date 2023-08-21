@@ -1,4 +1,3 @@
-
 <table id="tabel-data" class='table table-sm table-hover' width="100%" cellspacing="0" style='font-size:12px;'>
     <thead>
         <th>#</th>

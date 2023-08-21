@@ -61,4 +61,36 @@
         let hingga = $("#hingga").val();
         window.open("<?= base_url('Busines_partner/print_rekanan_tidakterpilih?mulai=') ?>");
     }
+
+    function btnhapus(id){
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            //Begin
+            $.ajax({
+                url: "<?= base_url('Busines_partner/hapus_tidak_terpilih'); ?>",
+                type: 'POST',
+                cache: false,
+                data: {
+                    id: id,
+                    csrf_test_name: $.cookie('csrf_cookie_name')
+                }
+            });
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            );
+            tampildata();
+            //end
+        }
+        })
+    }
 </script>

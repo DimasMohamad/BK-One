@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <!----------------------------------------->
-                <table id="myTable" class="easyui-datagrid" title="Laporan Harian Penerimaan Barang" style="width:100%;height:500px"
+                <table id="myTable" class="easyui-datagrid" title="Laporan Harian Pengiriman Barang" style="width:100%;height:500px"
                                             data-options="rownumbers:true,singleSelect:true,url:'',method:'get',toolbar:'#tb',footer:'#ft', fitColumns:true">
                                     <thead>
                                             <tr>
