@@ -142,5 +142,36 @@ class Marketing extends CI_Controller
     //public function laporan_klaim(){
         //$dt['data'] = $this->M_marketing->klaim();
     //}
+    public function do_upload_recall(){
+        $nomor_form = $this->input->post('nomor_form');
+        $nama_produk = $this->input->post('nama_produk');
+        $nie = $this->input->post('nie');
+        $batch_lot = $this->input->post('batch_lot');
+        $total_recall = $this->input->post('total_recall');
+        $alasan = $this->input->post('alasan');
+        $hasil_inspeksi = $this->input->post('hasil_inspeksi');
+        $tindakan = $this->input->post('tindakan');
+        $status = $this->input->post('status');
+        $ketua_tim = $this->input->post('ketua_tim');
+        $anggota = $this->input->post('anggota');
+        $otorisasi = $this->input->post('otorisasi');
+        $data = array(
+            //Nomor dokumen diganti dengan nama file yg diupload
+            'nomor_form' => $nomor_form,
+            'nama_produk' => $nama_produk,
+            'nie' => $nie,
+            'batch_lot' => $batch_lot,
+            'total_recall' => $total_recall,
+            'alasan' => $alasan,
+            'hasil_inspeksi' => $hasil_inspeksi,
+            'tindakan' => $tindakan,
+            'status' => $status,
+            'ketua_tim' => $ketua_tim,
+            'anggota' => $anggota,
+            'otorisasi' => $otorisasi,
+        );
+        //echo $data;
+        $this->db->insert('recall', $data);
+    }
     
 }

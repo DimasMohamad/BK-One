@@ -158,4 +158,79 @@
         }
         })
     }
+
+    function pesan(txt){
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => { 
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+        })
+
+        Toast.fire({
+        icon: 'error',
+        title: txt
+        })
+    }
+
+    function pesan_sukses(txt){
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+        })
+
+        Toast.fire({
+        icon: 'success',
+        title: txt
+        })
+    }
+
+    $("#f_upld").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "<?= base_url('Marketing/do_upload_recall'); ?>",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                if (data == 1) {
+                    alert('Upload gagal');
+                } else {
+                    $("#tombol-tampil").click();
+                    $("#f_upload_bt").modal("hide");
+                    $("#upload_dokumen").modal("hide");
+                    pesan_sukses('Tersimpan');
+                    document.getElementById("nomor_form").value = "";
+                    document.getElementById("nama_produk").value = "";
+                    document.getElementById("nie").value = "";
+                    document.getElementById("batch_lot").value = "";
+                    document.getElementById("total_recall").value = "";
+                    document.getElementById("alasan").value = "";
+                    document.getElementById("hasil_inspeksi").value = "";
+                    document.getElementById("tindakan").value = "";
+                    document.getElementById("status").value = "";
+                    document.getElementById("ketua_tim").value = "";
+                    document.getElementById("anggota").value = "";
+                    document.getElementById("otorisasi").value = "";
+                    setTimeout(function() {
+                        location.reload();
+                    }, 500);
+                }
+            }
+        });
+    });
 </script>
