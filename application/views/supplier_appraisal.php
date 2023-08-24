@@ -246,7 +246,6 @@
     }
 
     function simpannilai(){
-        var id_penilaian = $("#id_penilaian").val();
         var mutu = $("#mutu").val();
         var pelayanan = $("#pelayanan").val();
         var kuantiti = $("#kuantiti").val();

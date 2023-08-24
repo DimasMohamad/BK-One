@@ -56,7 +56,7 @@
         });
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById('btnloading').style.display = '';
-        $.get("<?= base_url('Marketing/laporan_klaim?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+        $.get("<?= base_url('Marketing/tampil_data_klaim?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
             document.getElementById('btntampil').style.display = '';
             document.getElementById('btnloading').style.display = 'none';
             $("#tampildataklaim").html(data);

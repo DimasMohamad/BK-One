@@ -59,6 +59,17 @@ class Marketing extends CI_Controller
         $this->load->view('footer');
     }
 
+    public function kepuasan_pelanggan(){
+        $akses = $this->M_user->get_akses(23);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('kepuasan_pelanggan');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
     public function tampil_data(){
         $dt['data'] = $this->db->query("SELECT * FROM produk_palsu;")->result_array();
         $data = json_encode($dt);
@@ -174,4 +185,94 @@ class Marketing extends CI_Controller
         $this->db->insert('recall', $data);
     }
     
+    public function tampil_data_klaim(){
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $dt['data'] = $this->M_marketing->klaim($mulai, $hingga);
+        $data = json_encode($dt);
+        //echo $data;
+        $this->load->view("tb_laporan_klaim",["data"=>$data]);
+    }
+
+    //Batas data klaim
+    public function tampil_data_survey(){
+        $t = $this->input->get('t');
+        $s = $this->input->get('s');
+        //$pl['datapl'] = $this->M_marketing->pelanggan2();
+        $dt['data'] = $this->M_marketing->survey($t,$s);
+        //$data1 = json_encode($pl);
+        $data = json_encode($dt);
+        //echo $data1;
+        $this->load->view("tb_survey",["data"=>$data]);
+    }
+
+    public function get_nama_pel(){
+        $namapel = $this->M_marketing->pelanggan2();
+        echo"<option value='0'>--Pilih--</option>";
+        foreach ($namapel as $np) {
+            echo"<option value='".$np['CardName']."'>".$np['CardName']."</option>";
+        }
+    }
+
+    public function get_filter_tahun()
+    {
+        $filtertahun = $this->M_marketing->get_filter_tahun();
+        echo"<option value='0'>--Tahun--</option>";
+        foreach($filtertahun as $ft){
+            echo"<option value='".$ft['tahun']."'>".$ft['tahun']."</option>";
+        }
+    }
+
+    public function simpan_nilai()
+    {
+        $nama = $this->input->post('nama');
+        $semester = $this->input->post('semester');
+        $tahun = $this->input->post('tahun');
+        $p1 = $this->input->post('p1');
+        $p2 = $this->input->post('p2');
+        $p3 = $this->input->post('p3');
+        $p4 = $this->input->post('p4');
+        $p5 = $this->input->post('p5');
+        $k1 = $this->input->post('k1');
+        $k2 = $this->input->post('k2');
+        $k3 = $this->input->post('k3');
+        $k4 = $this->input->post('k4');
+        $k5 = $this->input->post('k5');
+        $r1 = $this->input->post('r1');
+        $r2 = $this->input->post('r2');
+        $r3 = $this->input->post('r3');
+        $r4 = $this->input->post('r4');
+        $r5 = $this->input->post('r5');
+        $masukan = $this->input->post('masukan');
+        $dt['data'] = $this->M_marketing->get_alamat_from_nama($nama);
+        //print_r($dt['data']);
+        $address = isset($dt['data'][0]['Address']) ? $dt['data'][0]['Address'] : '';
+        //echo "Alamat: " . $address;
+
+        $data = array(
+            'nama' => $nama,
+            'alamat' => $address,
+            'semester' => $semester,
+            'tahun' => $tahun,
+            'p1' => $p1,
+            'p2' => $p2,
+            'p3' => $p3,
+            'p4' => $p4,
+            'p5' => $p5,
+            'k1' => $k1,
+            'k2' => $k2,
+            'k3' => $k3,
+            'k4' => $k4,
+            'k5' => $k5,
+            'r1' => $r1,
+            'r2' => $r2,
+            'r3' => $r3,
+            'r4' => $r4,
+            'r5' => $r5,
+            'masukan' => $masukan
+        );
+        //echo $data;
+        $this->db->insert('survey', $data);
+    }
+
 }
