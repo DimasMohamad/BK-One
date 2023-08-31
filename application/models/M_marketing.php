@@ -63,4 +63,53 @@ class M_marketing extends CI_Model
 	{
 		return $this->db->query('SELECT distinct tahun from survey;')->result_array();
 	}
+
+    public function print_survey($s, $t){
+        return $this->db->query('Select
+        nama,
+        alamat,
+        semester,
+        tahun,
+        asal,
+        p1,
+        p2,
+        p3,
+        p4,
+        p5,
+        k1,
+        k2,
+        k3,
+        k4,
+        k5,
+        r1,
+        r2,
+        r3,
+        r4,
+        r5,
+        masukan
+        from survey where semester = '."'$s'".' and tahun = '."'$t'".';')->result_array();
+    }
+
+    public function print_perhitungan($s, $t){
+        return $this->db->query('Select
+        AVG(p1) AS rata_p1,
+        AVG(p2) AS rata_p2,
+        AVG(p3) AS rata_p3,
+        AVG(p4) AS rata_p4,
+        AVG(p5) AS rata_p5,
+        AVG(k1) AS rata_k1,
+        AVG(k2) AS rata_k2,
+        AVG(k3) AS rata_k3,
+        AVG(k4) AS rata_k4,
+        AVG(k5) AS rata_k5,
+        AVG(r1) AS rata_r1,
+        AVG(r2) AS rata_r2,
+        AVG(r3) AS rata_r3,
+        AVG(r4) AS rata_r4,
+        AVG(r5) AS rata_r5,
+        (AVG(p1)+AVG(p2)+AVG(p3)+AVG(p4)+AVG(p5))/5 as rata_dimensiP,
+        (AVG(k1)+AVG(k2)+AVG(k3)+AVG(k4)+AVG(k5))/5 as rata_dimensiK,
+        (AVG(r1)+AVG(r2)+AVG(r3)+AVG(r4)+AVG(r5))/5 as rata_dimensiR
+        from survey where semester = '."'$s'".' and tahun = '."'$t'".';')->result_array();
+    }    
 }

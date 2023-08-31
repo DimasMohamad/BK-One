@@ -275,4 +275,19 @@ class Marketing extends CI_Controller
         $this->db->insert('survey', $data);
     }
 
+    public function print_kepuasan_pelanggan()
+    {
+        $s = $this->input->get('s');
+        $t = $this->input->get('t');
+        $dt['data'] = $this->M_marketing->print_survey($s,$t);
+        $pr['perhitungan'] = $this->M_marketing->print_perhitungan($s,$t);
+        $data = json_encode($dt);
+        $datapr = json_encode($pr);
+        $this->load->view("print_kepuasan_pelanggan", ["data" => $data, "datapr" => $datapr]);
+        //echo "Semester: " . $s . "<br>";
+        //echo "Tahun: " . $t . "<br>";
+        //echo $datapr;
+        //echo $data;
+    }
+
 }

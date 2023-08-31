@@ -8,7 +8,7 @@
 $row = json_decode($data,true);
 ?>
 <table id='tabel-data' class='table table-sm' style='font-size:14px;'>
-        <?php
+    <?php
         $i = 1;
         $sesi = $this->session->id_user;
         if ($sesi=='18'||$sesi=='19'||$sesi=='9') {
@@ -128,7 +128,7 @@ $row = json_decode($data,true);
             }
             echo"</tbody>";
     }
-        ?>
+    ?>
 </table>
 
 <script>

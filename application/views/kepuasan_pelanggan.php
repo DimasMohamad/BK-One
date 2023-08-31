@@ -326,8 +326,30 @@
                                                                                             success: function() {
                                                                                                 // begin
                                                                                                 pesan_sukses('Tersimpan');
-                                                                                                tampildata();
+                                                                                                setTimeout(function() {
+                                                                                                    location.reload();
+                                                                                                }, 1000);
+                                                                                                //tampildata();
                                                                                                 $("#add_penilaian").modal("hide");
+                                                                                                document.getElementById("nama").value = "0";
+                                                                                                document.getElementById("semester").value = "0";
+                                                                                                document.getElementById("tahun").value = "0";
+                                                                                                document.getElementById("p1").value = "";
+                                                                                                document.getElementById("p2").value = "";
+                                                                                                document.getElementById("p3").value = "";
+                                                                                                document.getElementById("p4").value = "";
+                                                                                                document.getElementById("p5").value = "";
+                                                                                                document.getElementById("k1").value = "";
+                                                                                                document.getElementById("k2").value = "";
+                                                                                                document.getElementById("k3").value = "";
+                                                                                                document.getElementById("k4").value = "";
+                                                                                                document.getElementById("k5").value = "";
+                                                                                                document.getElementById("r1").value = "";
+                                                                                                document.getElementById("r2").value = "";
+                                                                                                document.getElementById("r3").value = "";
+                                                                                                document.getElementById("r4").value = "";
+                                                                                                document.getElementById("r5").value = "";
+                                                                                                document.getElementById("masukan").value = "";
                                                                                                 //end
                                                                                             }
                                                                                         });
@@ -352,6 +374,25 @@
             }
     }
 
+    function printData() {
+        var s = $("#filter_smstr").val();
+        var t = $("#filter_tahun").val();
+        if(s == '0'){
+            pesan('Semester belum diisi');
+        }else{
+            if(t == '0'){
+                pesan('Tahun belum diisi');
+            }else{
+                // Menggabungkan parameter s dan t ke dalam URL
+                var printURL = "<?= base_url('Marketing/print_kepuasan_pelanggan') ?>?t=" + t + "&s=" + s;
+
+                // Membuka halaman cetak dengan parameter yang sudah digabungkan
+                window.open(printURL);
+            }
+        }
+
+    }
+
     function get_nama(){
         $.get("<?= base_url('Marketing/get_nama_pel') ?>", function(data, status) {
             $("#get_nama").html(data);
@@ -361,13 +402,22 @@
     function tampildata(){
         var s = $("#filter_smstr").val();
         var t = $("#filter_tahun").val();
-        document.getElementById('btntampil').style.display = 'none';
-        document.getElementById('btnloading').style.display = '';
-        $.get("<?= base_url('Marketing/tampil_data_survey?t=') ?>"+t+"&s="+s, function(data, status) {
-            document.getElementById('btntampil').style.display = '';
-            document.getElementById('btnloading').style.display = 'none';
-            $("#tampildatasurvey").html(data);
-        });
+
+        if(s == '0'){
+            pesan('Semester belum diisi');
+        }else{
+            if(t == '0'){
+                pesan('Tahun belum diisi');
+            }else{
+                document.getElementById('btntampil').style.display = 'none';
+                document.getElementById('btnloading').style.display = '';
+                $.get("<?= base_url('Marketing/tampil_data_survey?t=') ?>"+t+"&s="+s, function(data, status) {
+                    document.getElementById('btntampil').style.display = '';
+                    document.getElementById('btnloading').style.display = 'none';
+                    $("#tampildatasurvey").html(data);
+                });
+            }
+        }
     }
 
     function get_filter_tahun(){
