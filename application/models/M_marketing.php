@@ -111,5 +111,9 @@ class M_marketing extends CI_Model
         (AVG(k1)+AVG(k2)+AVG(k3)+AVG(k4)+AVG(k5))/5 as rata_dimensiK,
         (AVG(r1)+AVG(r2)+AVG(r3)+AVG(r4)+AVG(r5))/5 as rata_dimensiR
         from survey where semester = '."'$s'".' and tahun = '."'$t'".';')->result_array();
-    }    
+    }
+
+    public function tampil_nota(){
+        return $this->db->query('SELECT * FROM nota_manual;')->result_array();
+    }
 }
