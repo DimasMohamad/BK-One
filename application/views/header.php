@@ -142,7 +142,7 @@
           <i class="bi bi-cash-coin"></i><span>Sales - A/R</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-        if ($current_url == base_url('So/so') || $current_url == base_url('So/outstanding_so') || $current_url == base_url('So/lhkb') || $current_url == base_url('So/lhmb') || $current_url == base_url('Marketing/produk_palsu') || $current_url == base_url('Marketing/recall') || $current_url == base_url('Marketing/pelanggan') || $current_url == base_url('Marketing/laporan_klaim') || $current_url == base_url('Marketing/kepuasan_pelanggan') || $current_url == base_url('Marketing/nota_manual')) {
+        if ($current_url == base_url('So/so') || $current_url == base_url('So/outstanding_so') || $current_url == base_url('So/lhkb') || $current_url == base_url('So/lhmb') || $current_url == base_url('Marketing/produk_palsu') || $current_url == base_url('Marketing/recall') || $current_url == base_url('Marketing/pelanggan') || $current_url == base_url('Marketing/laporan_klaim') || $current_url == base_url('Marketing/kepuasan_pelanggan')) {
           echo "<ul id='forms-sales' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
         } else {
           echo "<ul id='forms-sales' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -201,14 +201,6 @@
         } else {
           echo "<li><a href='" . base_url('Marketing/kepuasan_pelanggan') . "'><i class='bi bi-circle'></i><span>Kepuasan Pelanggan</span></a></li>";
         };
-
-        if ($current_url == base_url('Marketing/nota_manual')) {
-          echo "<li><a href='" . base_url('Marketing/nota_manual') . "' class='active'><i class='bi bi-circle'></i><span>Nota Manual</span></a></li>";
-        } else {
-          echo "<li><a href='" . base_url('Marketing/nota_manual') . "'><i class='bi bi-circle'></i><span>Nota Manual</span></a></li>";
-        };
-
-
         echo "</ul>";
         ?>
       </li>
@@ -218,7 +210,7 @@
           <i class="bi bi-cart2"></i><span>Purchasing - A/P</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-        if ($current_url == base_url('Purchasing/spp') || $current_url == base_url('Purchasing/outstanding_po') || $current_url == base_url('Purchasing/outstanding_purchase') || $current_url == base_url('Purchasing/supplier_appraisal') || $current_url == base_url('Purchasing/pemilihan_supplier')) {
+        if ($current_url == base_url('Purchasing/spp') || $current_url == base_url('Purchasing/outstanding_po') || $current_url == base_url('Purchasing/outstanding_purchase') || $current_url == base_url('Purchasing/supplier_appraisal') || $current_url == base_url('Purchasing/pemilihan_supplier') || $current_url == base_url('Purchasing/nota_manual')) {
           echo "<ul id='forms-purchasing' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
         } else {
           echo "<ul id='forms-purchasing' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -253,6 +245,13 @@
         } else {
           echo "<li><a href='" . base_url('Purchasing/pemilihan_supplier') . "'><i class='bi bi-circle'></i><span>Pemilihan Supplier</span></a></li>";
         };
+
+        if ($current_url == base_url('Purchasing/nota_manual')) {
+          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "' class='active'><i class='bi bi-circle'></i><span>Nota Manual</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "'><i class='bi bi-circle'></i><span>Nota Manual</span></a></li>";
+        };
+
         echo "</ul>";
         ?>
       </li>

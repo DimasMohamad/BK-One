@@ -113,7 +113,4 @@ class M_marketing extends CI_Model
         from survey where semester = '."'$s'".' and tahun = '."'$t'".';')->result_array();
     }
 
-    public function tampil_nota(){
-        return $this->db->query('SELECT * FROM nota_manual;')->result_array();
-    }
 }

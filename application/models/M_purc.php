@@ -375,4 +375,16 @@ class M_purc extends CI_Model
 	{
 		return $this->db->query("SELECT rowid,penilaian,nilai,fatherid,sts FROM tb_kriteria_penilaian WHERE fatherid = 0;")->result_array();
 	}
+
+	public function tampil_nota(){
+        return $this->db->query('SELECT * FROM nota_manual;')->result_array();
+    }
+
+    public function get_namacus(){
+        $hanadb = $this->load->database('hana', TRUE);
+        return $hanadb->query('select distinct A."CardCode", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
+        from "BKI_LIVE"."ORDR" A
+       	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
+        WHERE B."CardCode" IS NOT NULL AND B."frozenFor" = '."'N'".' and B."CardType" = '."'C'".' ORDER BY B."CardName";')->result_array();
+    }
 }

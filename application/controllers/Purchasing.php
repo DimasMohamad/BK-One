@@ -434,4 +434,68 @@ class Purchasing extends CI_Controller
         $data = $this->M_purc->get_supp_nilai($s,$e,$id);
         print_r($data);
     }
+
+    public function nota_manual()
+    {
+        $akses = $this->M_user->get_akses(24);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('nota_manual');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function tampil_nota_manual(){
+        $dt['data'] = $this->M_purc->tampil_nota();
+        $data = json_encode($dt);
+        //echo $data;
+        $this->load->view("tb_nota_manual",["data" => $data]);
+    }
+
+    public function simpan_nota(){
+        $no_po = $this->input->post('no_po');
+        $tanggal = $this->input->post('tanggal');
+        $nama = $this->input->post('get_nama');
+        $kota = $this->input->post('kota');
+        $alamat = $this->input->post('alamat');
+        $attn = $this->input->post('attn');
+        $top = $this->input->post('top');
+        $telepon = $this->input->post('telepon');
+        $kode_barang = $this->input->post('kode_barang');
+        $jenis_barang = $this->input->post('jenis_barang');
+        $jumlah = $this->input->post('jumlah');
+        $satuan = $this->input->post('satuan');
+        $keterangan = $this->input->post('keterangan');
+
+        $total = count($kode_barang);
+
+        for ($i = 0; $i < count($kode_barang); $i++) {
+            $data = array(
+                'no_po' => $no_po,
+                'tanggal' => $tanggal,
+                'nama' => $nama,
+                'kota' => $kota,
+                'alamat' => $alamat,
+                'attn' => $attn,
+                'top' => $top,
+                'telepon' => $telepon,
+                'kode_barang' => $kode_barang[$i],
+                'jenis_barang' => $jenis_barang[$i],
+                'jumlah' => $jumlah[$i],
+                'satuan' => $satuan[$i],
+                'keterangan' => $keterangan[$i],
+            );
+            $this->db->insert('nota_manual', $data);
+        }
+    }
+
+    public function get_nama_cus(){
+        $namapel = $this->M_purc->get_namacus();
+        echo"<option value='0'>--Pilih--</option>";
+        foreach ($namapel as $np) {
+            echo"<option value='".$np['CardName']."'>".$np['CardName']."</option>";
+        }
+    }
 }

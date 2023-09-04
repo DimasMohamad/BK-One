@@ -10,7 +10,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Sales - A/R</li>
+                <li class="breadcrumb-item">Purchasing - A/R</li>
                 <li class="breadcrumb-item active">Nota Manual</li>
             </ol>
         </nav>
@@ -52,7 +52,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">                
-                <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="<?= base_url('Marketing/simpan_nota'); ?>" method="post">
+                <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="<?= base_url('Purchasing/simpan_nota'); ?>" method="post">
                     <div class="control-group after-add-more row g-3">
                     <div class="col-8"></div>
                     <div class="col-4">
@@ -161,7 +161,7 @@
         document.getElementById('btnloading').style.display = '';
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById("tampildatanm").innerHTML = '';
-        $.get("<?= base_url('Marketing/tampil_nota_manual') ?>", function(data, status) {
+        $.get("<?= base_url('Purchasing/tampil_nota_manual') ?>", function(data, status) {
             document.getElementById('btnloading').style.display = 'none';
             document.getElementById('btntampil').style.display = '';
             $("#tampildatanm").html(data);
@@ -171,7 +171,7 @@
     function printData() {
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
-        window.open("<?= base_url('Marketing/print_nota_manual?mulai=') ?>");
+        window.open("<?= base_url('Purchasing/print_nota_manual?mulai=') ?>");
     }
 
     function btnhapus(id){
@@ -187,7 +187,7 @@
         if (result.isConfirmed) {
             //Begin
             $.ajax({
-                url: "<?= base_url('Marketing/hapus_tidak_terpilih'); ?>",
+                url: "<?= base_url('Purchasing/hapus_tidak_terpilih'); ?>",
                 type: 'POST',
                 cache: false,
                 data: {
@@ -267,4 +267,10 @@
             }
         });
     });
+
+    function get_nama(){
+        $.get("<?= base_url('Purchasing/get_nama_pel') ?>", function(data, status) {
+            $("#get_nama").html(data);
+        });
+    }
 </script>
