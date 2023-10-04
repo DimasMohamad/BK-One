@@ -493,9 +493,41 @@ class Purchasing extends CI_Controller
 
     public function get_nama_cus(){
         $namapel = $this->M_purc->get_namacus();
-        echo"<option value='0'>--Pilih--</option>";
         foreach ($namapel as $np) {
             echo"<option value='".$np['CardName']."'>".$np['CardName']."</option>";
         }
+    }
+
+    public function get_top(){
+        $top = $this->M_purc->get_top();
+        echo"<option value='0'>--Payment Terms--</option>";
+        foreach ($top as $tp) {
+            echo"<option value='".$tp['PymntGroup']."'>".$tp['PymntGroup']."</option>";
+        }
+    }
+
+    public function get_list_item(){
+        $code1 = $this->input->get('kode_barang');
+        //$code = $this->input->get('kode_barang');
+        $dt = $this->M_purc->get_listitem($code1);
+        echo json_encode($dt);
+    } 
+
+    public function hapus_tidak_terpilih(){
+        $no_po = $this->input->post('no_po');
+        echo $no_po;
+        $this->db->delete('nota_manual', array('no_po' => $no_po));
+    }
+
+    public function print_nota_manual()
+    {
+        $no_po = $this->input->get('no_po');
+        $dt['data'] = $this->M_purc->nota_manual($no_po);
+        $dt2['detail'] = $this->M_purc->detail_nota_manual($no_po);
+        $data = json_encode($dt);
+        $data2 = json_encode($dt2);
+        $this->load->view("print_nota_manual", ["data" => $data, "data2" => $data2]);
+        //echo $data;
+        //echo $data2;
     }
 }

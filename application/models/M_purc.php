@@ -377,14 +377,35 @@ class M_purc extends CI_Model
 	}
 
 	public function tampil_nota(){
-        return $this->db->query('SELECT * FROM nota_manual;')->result_array();
+        return $this->db->query('SELECT distinct nama, no_po, tanggal FROM nota_manual;')->result_array();
     }
 
     public function get_namacus(){
         $hanadb = $this->load->database('hana', TRUE);
-        return $hanadb->query('select distinct A."CardCode", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
-        from "BKI_LIVE"."ORDR" A
-       	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
-        WHERE B."CardCode" IS NOT NULL AND B."frozenFor" = '."'N'".' and B."CardType" = '."'C'".' ORDER BY B."CardName";')->result_array();
+        return $hanadb->query('select distinct A."CardCode", A."CardName"
+        from "BKI_LIVE"."OCRD" A
+       	left join "BKI_LIVE"."OPOR" B ON A."CardCode" = B."CardCode"
+        WHERE A."CardCode" IS NOT NULL AND A."frozenFor" = '."'N'".' and A."CardType" = '."'C'".' ORDER BY A."CardName";')->result_array();
     }
+
+	public function get_top(){
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select distinct A."GroupNum", A."PymntGroup" from "BKI_LIVE"."OCTG" A;')->result_array();
+	}
+
+	public function get_listitem($code){
+		$hanadb = $this->load->database('hana', TRUE);
+		return $hanadb->query('select distinct A."ItemCode", A."ItemName", B."UgpCode"
+		from "BKI_LIVE"."OITM" A
+		left join (select "UgpEntry","UgpCode","Locked" from "BKI_LIVE"."OUGP")B ON A."UgpEntry" = B."UgpEntry"
+		where A."ItemCode" = '."'$code'".' and B."Locked" = '."'N'".';')->row_array();
+	}
+
+	public function nota_manual($no_po){
+		return $this->db->query("SELECT distinct nama, no_po, tanggal, kota, alamat, telepon, top, attn FROM nota_manual WHERE no_po = '$no_po';")->result_array();
+	}
+
+	public function detail_nota_manual($no_po){
+		return $this->db->query("SELECT distinct kode_barang, jenis_barang, jumlah, satuan, keterangan FROM nota_manual WHERE no_po = '$no_po';")->result_array();
+	}
 }

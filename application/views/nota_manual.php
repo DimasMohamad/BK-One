@@ -1,5 +1,6 @@
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
@@ -27,8 +28,7 @@
                                     <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_nota">Upload File</button>
-                                    <button class="btn btn-warning" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_nota" onclick="get_filter()">Upload File</button>
                                 </div>
                                 <div class="col-xl-12">
                                     <br>
@@ -38,7 +38,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
@@ -48,7 +47,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Upload Dokumen</h5>
+                <h5 class="modal-title">PO MANUAL</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">                
@@ -64,7 +63,10 @@
                     </div>
                     <div class="col-7">
                         <label class="form-label">Nama Pelanggan</label>
-                        <input type="text" class="form-control" id="get_nama" name="get_nama">
+                        <input type="text" class="form-control" id="get_nama" name="get_nama" list="list_nama">
+                        <datalist id="list_nama">
+                            <select class="form-control" id="nama_cus"></select>
+                        </datalist>
                     </div>
                     <div class="col-5">
                         <label class="form-label">Kota</label>
@@ -80,33 +82,33 @@
                     </div>
                     <div class="col-7">
                         <label class="form-label">TOP</label>
-                        <input type="text" class="form-control" id="top" name="top">
+                        <select class="form-control" id="top" name="top"></select>
                     </div>
                     <div class="col-5">
                         <label class="form-label">No. Telp</label>
                         <input type="text" class="form-control" id="telepon" name="telepon">
                     </div>
                     <hr>
-                        <div class="col-1">
-                            <input type="text" name="kode_barang[]" id="kode_barang" class="form-control" placeholder="Kode">
-                        </div>
-                        <div class="col-5">
-                            <input type="text" name="jenis_barang[]" id="jenis_barang" class="form-control" placeholder="Jenis Barang">
-                        </div>
-                        <div class="col-1">
-                        <input type="text" name="jumlah[]" id="jumlah" class="form-control" placeholder="Jumlah">
-                        </div>
-                        <div class="col-1">
-                            <input type="text" name="satuan[]" id="satuan" class="form-control" placeholder="Satuan">    
-                        </div>
-                        <div class="col-3">
-                            <input type="text" name="keterangan[]" id="keterangan" class="form-control" placeholder="Keterangan">
-                        </div>
-                        <div class="col-1">
-                            <button class="btn btn-success add-more" type="button">
+                    <div class="col-1">
+                        <input type="text" onkeyup="isi_otomatis(this)" name="kode_barang[]" class="form-control kode_barang" placeholder="Kode" required>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" name="jenis_barang[]" class="form-control jenis_barang" placeholder="Nama Barang" required>
+                    </div>
+                    <div class="col-1">
+                        <input type="text" name="jumlah[]" class="form-control jumlah" placeholder="Jumlah" required>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" name="satuan[]" class="form-control satuan" placeholder="Satuan" required>    
+                    </div>
+                    <div class="col-3">
+                        <input type="text" name="keterangan[]" class="form-control keterangan" placeholder="Keterangan" required>
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-success add-more" type="button">
                             <i class="glyphicon glyphicon-plus"></i> Add
-                            </button>
-                        </div>
+                        </button>
+                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -117,19 +119,19 @@
                 <div class="copy hide">
                     <div class="control-group row g-3">
                         <div class="col-1">
-                            <input type="text" name="kode_barang[]" id="kode_barang" class="form-control" placeholder="Kode">
-                        </div>
-                        <div class="col-5">
-                            <input type="text" name="jenis_barang[]" id="jenis_barang" class="form-control" placeholder="Jenis Barang">
-                        </div>
-                        <div class="col-1">
-                            <input type="text" name="jumlah[]" id="jumlah" class="form-control" placeholder="Jumlah">
-                        </div>
-                        <div class="col-1">
-                            <input type="text" name="satuan[]" id="satuan" class="form-control" placeholder="Satuan">    
+                            <input type="text" onkeyup="isi_otomatis(this)" name="kode_barang[]" class="form-control kode_barang" placeholder="Kode">
                         </div>
                         <div class="col-3">
-                        <input type="text" name="keterangan[]" id="keterangan" class="form-control" placeholder="Keterangan">
+                            <input type="text" name="jenis_barang[]" class="form-control jenis_barang" placeholder="Nama Barang">
+                        </div>
+                        <div class="col-1">
+                            <input type="text" name="jumlah[]" class="form-control jumlah" placeholder="Jumlah">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" name="satuan[]" class="form-control satuan" placeholder="Satuan">    
+                        </div>
+                        <div class="col-3">
+                            <input type="text" name="keterangan[]" class="form-control keterangan" placeholder="Keterangan">
                         </div>
                         <div class="col-1">
                             <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
@@ -142,6 +144,20 @@
 </div>
 
 <script>
+    function isi_otomatis(inputElement) {
+        var kode = $(inputElement).val();
+        var parentControlGroup = $(inputElement).closest(".control-group");
+        
+        $.ajax({
+            url: "<?= base_url('Purchasing/get_list_item'); ?>",
+            data: "kode_barang=" + kode,
+        }).success(function (data) {
+            var obj = JSON.parse(data);
+            parentControlGroup.find('.jenis_barang').val(obj.ItemName);
+            parentControlGroup.find('.satuan').val(obj.UgpCode);
+        });
+    }
+
     $(document).ready(function() {
         $(".add-more").click(function() { 
             var html = $(".copy").html();
@@ -168,15 +184,14 @@
         });
     }
 
-    function printData() {
-        let mulai = $("#mulai").val();
-        let hingga = $("#hingga").val();
-        window.open("<?= base_url('Purchasing/print_nota_manual?mulai=') ?>");
+    function btnprint(no_po) {
+        var printURL = "<?= base_url('Purchasing/print_nota_manual') ?>?no_po=" + no_po;
+        window.open(printURL);
     }
 
-    function btnhapus(id){
+    function btnhapus(no_po){
         Swal.fire({
-        title: 'Are you sure?',
+        title: 'Are you sure? ',
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
@@ -191,7 +206,7 @@
                 type: 'POST',
                 cache: false,
                 data: {
-                    id: id,
+                    no_po: no_po,
                     csrf_test_name: $.cookie('csrf_cookie_name')
                 }
             });
@@ -244,8 +259,42 @@
         })
     }
 
-    $("#f_upld").on("submit", function(e) {
+    $("#f_upld").on("submit", function (e) {
         e.preventDefault();
+
+        var no_po = $("#no_po").val();
+        var tanggal = $("#tanggal").val();
+        var get_nama = $("#get_nama").val();
+        var kota = $("#kota").val();
+        var alamat = $("#alamat").val();
+        var attn = $("#attn").val();
+        var top = $("#top").val();
+        var telepon = $("#telepon").val();
+
+        if (no_po === "") {
+            pesan('Harap isi Nomor PO sebelum mengupload.');
+            return;
+        } else if (tanggal === "") {
+            pesan('Harap isi Tanggal sebelum mengupload.');
+            return;
+        } else if (get_nama === "") {
+            pesan('Harap isi Nama Pelanggan sebelum mengupload.');
+            return;
+        } else if (kota === "") {
+            pesan('Harap isi Kota sebelum mengupload.');
+            return;
+        } else if (alamat === "") {
+            pesan('Harap isi Alamat sebelum mengupload.');
+            return;
+        } else if (attn === "") {
+            pesan('Harap isi Attn sebelum mengupload.');
+            return;
+        } else if (top === "0") {
+            pesan('Harap pilih Payment Terms sebelum mengupload.');
+            return;
+        }
+
+        // Jika semua input sudah diisi, kirim formulir
         $.ajax({
             url: $(this).attr("action"),
             type: "POST",
@@ -253,12 +302,12 @@
             contentType: false,
             cache: false,
             processData: false,
-            success: function(data) {
+            success: function (data) {
                 if (data == 1) {
                     pesan('Upload gagal');
                 } else {
                     pesan_sukses('Tersimpan');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         location.reload();
                     }, 500);
                     // Refresh tampilan data setelah upload berhasil
@@ -268,9 +317,13 @@
         });
     });
 
-    function get_nama(){
-        $.get("<?= base_url('Purchasing/get_nama_pel') ?>", function(data, status) {
-            $("#get_nama").html(data);
+
+    function get_filter(){
+        $.get("<?= base_url('Purchasing/get_nama_cus') ?>", function(data, status) {
+            $("#nama_cus").html(data);
+        });
+        $.get("<?= base_url('Purchasing/get_top') ?>", function(data, status) {
+            $("#top").html(data);
         });
     }
 </script>
