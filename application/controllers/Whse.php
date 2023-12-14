@@ -161,6 +161,7 @@ class Whse extends CI_Controller
             array_push($row['lhmb'], $dt);
         }
         $result = json_encode($row);
+        //echo $result;
         $this->load->view('tb_lhmbp_xls', ['data' => $result]);
     }
 
@@ -246,6 +247,7 @@ class Whse extends CI_Controller
         $cari = $this->input->get('cari');
         $page = $this->data_pagination("Whse/tb_stok", $this->M_sql->hitung_row_stok($cari), 3);
         $datastok = $this->M_sql->get_stok($no_page, $cari);
+        //print_r($datastok);
         $datadtl = $this->M_sql->get_stok_dtl($no_page, $cari);
         $no_halaman = $no_page;
         $row['stok'] = [];

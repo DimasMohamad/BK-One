@@ -47,45 +47,45 @@ $row = json_decode($data, true);
                 </th>
             </tr>
     </table>
-    <table border="1" height="400px" width="100%">
+    <table border="0" height="400px" width="100%">
         <thead>
             <tr>
                 <th colspan="8">FORM PRODUK PALSU / DIDUGA PALSU</th>
             </tr>
             <tr>
-                <th colspan="2"></th>
-                <th colspan="1">Nama Produk</th>
-                <th>:</th>
+                <th colspan="2" width=10px></th>
+                <th colspan="1" width=140px style='text-align:left;vertical-align:center;'>&nbsp&nbsp&nbspNama Produk</th>
+                <th width=50px>:</th>
                 <td colspan="4" style='vertical-align:center;'><?php echo $row['data']['nama_produk']; ?></td>
             </tr>
 
             <tr>
                 <th colspan="2"></th>
-                <th colspan="1">Tanggal Upload</th>
+                <th colspan="1" style='text-align:left;vertical-align:center;'>&nbsp&nbsp&nbspTanggal Upload</th>
                 <th>:</th>
                 <td colspan="4" style='vertical-align:center;'><?php echo $row['data']['tanggal_upload']; ?></td>
             </tr>
             <tr>
                 <th colspan="2"></th>
-                <th colspan="1">Masalah</th>
+                <th colspan="1"style='text-align:left;vertical-align:center;'>&nbsp&nbsp&nbspMasalah</th>
                 <th>:</th>
                 <td colspan="4" style='vertical-align:center;'><?php echo $row['data']['masalah']; ?></td>
             </tr>
             <tr>
                 <th colspan="2"></th>
-                <th colspan="1">Hasil Inspeksi</th>
+                <th colspan="1" style='text-align:left;vertical-align:center;'>&nbsp&nbsp&nbspHasil Inspeksi</th>
                 <th>:</th>
                 <td colspan="4" style='vertical-align:center;'><?php echo $row['data']['hasil_inspeksi']; ?></td>
             </tr>
             <tr>
                 <th colspan="2"></th>
-                <th colspan="1">Tindakan</th>
+                <th colspan="1" style='text-align:left;vertical-align:center;'>&nbsp&nbsp&nbspTindakan</th>
                 <th>:</th>
                 <td colspan="4" style='vertical-align:center;'><?php echo $row['data']['tindakan']; ?></td>
             </tr>
             <tr>
                 <th colspan="2"></th>
-                <th colspan="1">Status</th>
+                <th colspan="1" style='text-align:left;vertical-align:center;'>&nbsp&nbsp&nbspStatus</th>
                 <th>:</th>
                 <td colspan="4" style='vertical-align:center;'><?php echo $row['data']['status']; ?></td>
             </tr>

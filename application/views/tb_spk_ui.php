@@ -18,7 +18,8 @@
         <tr>
             <th data-options="field:'rowid'">#</th>
             <th data-options="filterable:true,field:'spk'">No SPK</th>
-            <th data-options="field:'created_date'">Created Date</th>
+            <th data-options="field:'start_date'">Start date</th>
+            <th data-options="field:'end_date'">End date</th>
             <th data-options="field:'production'">Production</th>
             <th data-options="field:'item_no'">Item Code</th>
             <th data-options="field:'DESCRIPTION'">Item Name</th>
@@ -28,8 +29,7 @@
             <th data-options="field:'qty_prod', align:'right', formatter: formatNumber">Qty Prod</th>
             <th data-options="field:'uom'">Uom</th>
             <th data-options="field:'mesin'">Mesin</th>
-            <th data-options="field:'start_date'">Start date</th>
-            <th data-options="field:'end_date'">End date</th>
+            <th data-options="field:'created_date'">Created Date</th>
             <th field="id_spk" width="120" formatter="formatDetail">Actions</th>
         </tr>
     </thead>
@@ -60,7 +60,7 @@
 
     function formatNumber(value, row, index) {
         if (value !== null && value !== undefined) {
-            return parseFloat(value).toFixed(4);
+            return parseFloat(value).toFixed(2);
         } else {
             return value;
         }

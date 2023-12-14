@@ -11,7 +11,7 @@ $row = json_decode($data,true);
     <?php
         $i = 1;
         $sesi = $this->session->id_user;
-        if ($sesi=='18'||$sesi=='19'||$sesi=='9') {
+        if ($sesi=='41'||$sesi=='42'||$sesi=='43') {
         echo"<thead>
         <th>No</th>
         <th>Nomor Dokumen</th>
@@ -19,7 +19,7 @@ $row = json_decode($data,true);
         <th>Tanggal Upload</th>
         <th>Tanggal Acc (DC)</th>
         <th>Tanggal Acc (MR)</th>
-        <th>Tanggal Acc (GM)</th>
+        <th>Tanggal Acc (MO)</th>
         <th>Status</th>
         <th width='120px'>Action</th>
         </thead>
@@ -39,7 +39,7 @@ $row = json_decode($data,true);
             }elseif($h['status'] == "1") {
                 echo "<span class='badge bg-warning'>Proses MR</span>";
             }elseif($h['status'] == "2") {
-                echo "<span class='badge bg-warning'>Proses GM</span>";
+                echo "<span class='badge bg-warning'>Proses MO</span>";
             }elseif($h['status'] == "3") {
                 echo "<span class='badge bg-success'>Disetujui</span>";
             }elseif($h['status'] == "4") {
@@ -47,7 +47,7 @@ $row = json_decode($data,true);
             }
             echo"</td>";
             echo"<td style='vertical-align:top;'>";
-            if ($sesi == '18') {
+            if ($sesi == '41') {
                 if ($h['status'] == '0') {
                     echo"<button type='button' class='btn btn-success' onclick='btnapprove(".$h['rowid'].")'><i class='bi bi-check-circle'></i></i></button>";
                     echo "&nbsp;";
@@ -56,7 +56,7 @@ $row = json_decode($data,true);
                 }else{
                     echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
                 }
-            }elseif ($sesi == '19') {
+            }elseif ($sesi == '42') {
                 if ($h['status'] == '1') {
                     echo"<button type='button' class='btn btn-success' onclick='btnapprove(".$h['rowid'].")'><i class='bi bi-check-circle'></i></i></button>";
                     echo "&nbsp;";
@@ -65,7 +65,7 @@ $row = json_decode($data,true);
                 }else{
                     echo"<button type='button' class='btn btn-primary' onclick='btndownload(\"".$h['file']."\")'><i class='bi bi-download'></i></button>";
                 }
-            }elseif ($sesi == '9') {
+            }elseif ($sesi == '43') {
                 if ($h['status'] == '2') {
                     echo"<button type='button' class='btn btn-success' onclick='btnapprove(".$h['rowid'].")'><i class='bi bi-check-circle'></i></i></button>";
                     echo "&nbsp;";

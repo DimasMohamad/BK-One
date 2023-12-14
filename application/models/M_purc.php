@@ -23,13 +23,17 @@ class M_purc extends CI_Model
 			TO_VARCHAR (year(TO_DATE(A."DocDate"))) as "tgl",
 			B."ItemCode" as "Kode",
 			B."Dscription" as "Nama_Barang",
+			E."ItmsGrpNam",
 			B."Quantity" as "Quantity_PR",
 			B."unitMsr" AS "Satuan",
 			B."TrgetEntry",
-			B."FreeTxt" AS "Keterangan"
+			B."FreeTxt" AS "Keterangan",
+			A."Comments" AS "Remarks"
 			FROM "BKI_LIVE"."OPRQ" A
 			Left join(select "DocEntry","LineNum" as "Linenum","ItemCode","Dscription","Quantity","OpenQty","unitMsr","FreeTxt","TrgetEntry","LineNum","ObjType","OcrCode2" from "BKI_LIVE"."PRQ1")B on B."DocEntry" = A."DocEntry"
 			Left join(select "Code","Name" as "Dept" from "BKI_LIVE"."OUDP")C on C."Code" = A."Department"
+			left join(select "ItmsGrpCod", "ItemCode" from "BKI_LIVE"."OITM")D on D."ItemCode" = B."ItemCode"
+			left join(select "ItmsGrpNam", "ItmsGrpCod" from "BKI_LIVE"."OITB")E on E."ItmsGrpCod" = D."ItmsGrpCod"
 			WHERE A."DocDate" between '."'$mulai'".' and '."'$hingga'".' AND A."CANCELED" = '."'N'".' order by A."DocDate";')->result_array();
 		}else{
 			return $hanadb->query('select 
@@ -43,13 +47,17 @@ class M_purc extends CI_Model
 			TO_VARCHAR (year(TO_DATE(A."DocDate"))) as "tgl",
 			B."ItemCode" as "Kode",
 			B."Dscription" as "Nama_Barang",
+			E."ItmsGrpNam",
 			B."Quantity" as "Quantity_PR",
 			B."unitMsr" AS "Satuan",
 			B."TrgetEntry",
-			B."FreeTxt" AS "Keterangan"
+			B."FreeTxt" AS "Keterangan",
+			A."Comments" AS "Remarks"
 			FROM "BKI_LIVE"."OPRQ" A
 			Left join(select "DocEntry","LineNum" as "Linenum","ItemCode","Dscription","Quantity","OpenQty","unitMsr","FreeTxt","TrgetEntry","LineNum","ObjType","OcrCode2" from "BKI_LIVE"."PRQ1")B on B."DocEntry" = A."DocEntry"
 			Left join(select "Code","Name" as "Dept" from "BKI_LIVE"."OUDP")C on C."Code" = A."Department"
+			left join(select "ItmsGrpCod", "ItemCode" from "BKI_LIVE"."OITM")D on D."ItemCode" = B."ItemCode"
+			left join(select "ItmsGrpNam", "ItmsGrpCod" from "BKI_LIVE"."OITB")E on E."ItmsGrpCod" = D."ItmsGrpCod"
 			WHERE A."DocDate" between '."'$mulai'".' and '."'$hingga'".' AND A."Department" = '."'$dept'".' AND A."CANCELED" = '."'N'".' order by A."DocDate";')->result_array();
 		}
 	}
@@ -75,7 +83,8 @@ class M_purc extends CI_Model
 			TO_VARCHAR (year(TO_DATE(D."DocDate"))) as "tgl_po",
 			D."CardName" as "Supplier",
 			C."unitMsr" as "Satuan_PO",
-			B."FreeTxt" AS "Keterangan"
+			B."FreeTxt" AS "Keterangan",
+			A."Comments" AS "Remarks"
 			FROM "BKI_LIVE"."OPRQ" A
 			Left join(select "DocEntry","LineNum" as "Linenum","ItemCode","Dscription","Quantity","OpenQty","unitMsr","FreeTxt","TrgetEntry","LineNum","ObjType","OcrCode2" from "BKI_LIVE"."PRQ1")B on B."DocEntry" = A."DocEntry"
 			Left join(select "BaseRef","BaseLine","LineNum","DocEntry","ItemCode","Dscription","Quantity","unitMsr" from "BKI_LIVE"."POR1" where "BaseType" = 1470000113)C on C."BaseRef" = TO_VARCHAR(A."DocNum") and C."ItemCode" = B."ItemCode" and C."BaseLine" = B."Linenum"
@@ -100,7 +109,8 @@ class M_purc extends CI_Model
 			TO_VARCHAR (year(TO_DATE(D."DocDate"))) as "tgl_po",
 			D."CardName" as "Supplier",
 			C."unitMsr" as "Satuan_PO",
-			B."FreeTxt" AS "Keterangan"
+			B."FreeTxt" AS "Keterangan",
+			A."Comments" AS "Remarks"
 			FROM "BKI_LIVE"."OPRQ" A
 			Left join(select "DocEntry","LineNum" as "Linenum","ItemCode","Dscription","Quantity","OpenQty","unitMsr","FreeTxt","TrgetEntry","LineNum","ObjType","OcrCode2" from "BKI_LIVE"."PRQ1")B on B."DocEntry" = A."DocEntry"
 			Left join(select "BaseRef","BaseLine","LineNum","DocEntry","ItemCode","Dscription","Quantity","unitMsr" from "BKI_LIVE"."POR1" where "BaseType" = 1470000113)C on C."BaseRef" = TO_VARCHAR(A."DocNum") and C."ItemCode" = B."ItemCode" and C."BaseLine" = B."Linenum"
@@ -408,4 +418,21 @@ class M_purc extends CI_Model
 	public function detail_nota_manual($no_po){
 		return $this->db->query("SELECT distinct kode_barang, jenis_barang, jumlah, satuan, keterangan FROM nota_manual WHERE no_po = '$no_po';")->result_array();
 	}
+
+	public function tampil_rekap_po($mulai,$hingga){
+		$hanadb = $this->load->database('hana', TRUE);
+        return $hanadb->query('SELECT DISTINCT TO_VARCHAR (TO_DATE(A."DocDate"), '."'DD'".') || '."'.'".' ||
+        TO_VARCHAR (left(monthname(TO_DATE(A."DocDate")),3)) || '."'.'".' ||
+        TO_VARCHAR (year(TO_DATE(A."DocDate"))) as "DocDate", A."DocNum", A."CardCode", A."CardName", B."Address", A."Address2", TO_VARCHAR (TO_DATE(A."DocDueDate"), '."'DD'".') || '."'.'".' ||
+        TO_VARCHAR (left(monthname(TO_DATE(A."DocDueDate")),3)) || '."'.'".' ||
+        TO_VARCHAR (year(TO_DATE(A."DocDueDate"))) as "DocDueDate", C."PymntGroup", D."ItemCode", D."Dscription", CAST(D."Quantity" AS INT) AS "Quantity", D."UomCode", CAST(D."Price" AS INT) AS "Price", CAST(D."LineTotal" AS INT) AS "LineTotal", D."VatGroup", CAST(D."VatSum" AS INT) AS "VatSum", 
+		CAST(A."TotalExpns" AS INT) AS "TotalExpns", CAST(A."DocTotalSy" AS INT) AS "DocTotalSy", D."ItmsGrpNam", A."Comments"
+		FROM "BKI_LIVE"."OPOR" A
+		LEFT JOIN (select "Address","CardCode" from "BKI_LIVE"."OCPR")B on B."CardCode" = A."CardCode"
+		LEFT JOIN (select "PymntGroup", "GroupNum" from "BKI_LIVE"."OCTG")C on C."GroupNum" = A."GroupNum"
+		LEFT JOIN (select D."ItemCode", "Dscription", "Quantity", "UomCode", "Price", "LineTotal", "VatGroup", "VatSum", E."ItmsGrpNam", "DocEntry" from "BKI_LIVE"."POR1" D
+			LEFT JOIN (select "ItemCode", F."ItmsGrpNam", F."ItmsGrpCod" from "BKI_LIVE"."OITM" E
+				LEFT JOIN (select "ItmsGrpCod", "ItmsGrpNam" from "BKI_LIVE"."OITB")F on F."ItmsGrpCod" = E."ItmsGrpCod")E on E."ItemCode" = D."ItemCode") D on D."DocEntry" = A."DocEntry"
+		WHERE A."DocDate" between '."'$mulai'".' and '."'$hingga'".';')->result_array();
+    }
 }

@@ -44,8 +44,8 @@ class Purchasing extends CI_Controller
     {
         $mulai = $this->input->get('mulai');
         $hingga = $this->input->get('hingga');
-        $data['head'] = $this->M_purc->laporan_spp($mulai,$hingga);
-        $data['detail'] = $this->M_purc->laporan_spp_detail($mulai,$hingga);
+        $data['head'] = $this->M_purc->laporan_spp($mulai,$hingga, $dept);
+        $data['detail'] = $this->M_purc->laporan_spp_detail($mulai,$hingga, $dept);
         $row = json_encode($data);
         $this->load->view("tb_spp_xls",["data"=>$row]);
     }
@@ -529,5 +529,41 @@ class Purchasing extends CI_Controller
         $this->load->view("print_nota_manual", ["data" => $data, "data2" => $data2]);
         //echo $data;
         //echo $data2;
+    }
+
+    public function rekap_po()
+    {
+        $akses = $this->M_user->get_akses(25);
+        $this->load->view('header');
+        if(!$akses['akses'] == 0){
+        $this->load->view('rekap_po');
+        }else{
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function tampil_rekap_po()
+    {
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $dt['data'] = $this->M_purc->tampil_rekap_po($mulai,$hingga);
+        $data = json_encode($dt);
+        //echo $data;
+        $this->load->view("tb_rekap_po",["data" => $data]);
+    }
+
+    public function tb_rekappo_xls()
+    {
+        $mulai = $this->input->get('mulai');
+        $hingga = $this->input->get('hingga');
+        $data = $this->M_purc->tampil_rekap_po($mulai,$hingga);
+        $row['rekappo'] = [];
+        foreach ($data as $dt) {
+            array_push($row['rekappo'], $dt);
+        }
+        $result = json_encode($row);
+        //echo $result;
+        $this->load->view('tb_rekappo_xls', ['data' => $result]);
     }
 }

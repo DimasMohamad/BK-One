@@ -10,11 +10,13 @@ $row = json_decode($data,true);
             <th rowspan="2">Req Dept</th>
             <th rowspan="2">Kode Barang</th>
             <th rowspan="2" width="350px">Nama&nbsp;Barang</th>
+            <th rowspan="2">Tipe Group</th>
             <th rowspan="2">Qty SPP</th>
             <th rowspan="2">Satuan</th>
             <th colspan="4" style='text-align:center;'>Detail PO</th>
             <th rowspan="2">Sisa</th>
-            <th rowspan="2">Ket</th>
+            <th rowspan="2">Free Text</th>
+            <th rowspan="2">Remarks</th>
         </tr>
         <tr>
             <th>No PO</th>
@@ -33,6 +35,7 @@ $row = json_decode($data,true);
             echo"<td style='vertical-align:top;'>".$h['OcrCode2']."</td>";
             echo"<td style='vertical-align:top;'>".$h['Kode']."</td>";
             echo"<td style='vertical-align:top;'>".$h['Nama_Barang']."</td>";
+            echo"<td style='vertical-align:top;'>".$h['ItmsGrpNam']."</td>";
             echo"<td style='text-align:right;vertical-align:top;'>".number_format($h['Quantity_PR'], 4, '.', ',')."</td>";
             echo"<td style='vertical-align:top;'>".$h['Satuan']."</td>";
             echo"<td style='vertical-align:top;'>";
@@ -74,6 +77,13 @@ $row = json_decode($data,true);
             foreach ($row['detail'] as $d) {
                 if($h['No_SPP'] == $d['No_SPP'] && $h['Kode'] == $d['Kode'] && $h['Linenum'] == $d['BaseLine']){
                 echo $d['Keterangan']."<br>";
+                }
+            }
+            echo"</td>";
+            echo"<td style='vertical-align:top;'>";
+            foreach ($row['detail'] as $d) {
+                if($h['No_SPP'] == $d['No_SPP'] && $h['Kode'] == $d['Kode'] && $h['Linenum'] == $d['BaseLine']){
+                echo $d['Remarks']."<br>";
                 }
             }
             echo"</td>";

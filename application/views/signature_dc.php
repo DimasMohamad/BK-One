@@ -6,12 +6,12 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Document Control</h1>
+        <h1>Registrasi Dokumen</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item">Document Control</li>
-                <li class="breadcrumb-item active">Registration Dokumen</li>
+                <li class="breadcrumb-item active">Registrasi Dokumen</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -23,10 +23,10 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Daftar Dokumen Baru</button>
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Pengajuan Dokumen Baru</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">List Dokumen</button>
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Dokumen</button>
                             </li>
                         </ul>
                         <!--Konten daftar dokumen baru-->
@@ -91,7 +91,7 @@
                         <label for="inputNanme4" class="form-label">Tujuan Dokumen</label>
                         <select id="user_dc" name="user_dc" class="form-control">
                             <option value="0">-- Pilih --</option>
-                            <option value="18">Iftitah Dewanty</option>
+                            <option value="41">Iftitah Dewanty</option>
                         </select>
                     </div>
                     <hr>
@@ -99,14 +99,14 @@
                         <label for="inputNanme4" class="form-label" >Disetujui</label>
                         <select id="user_mr" name="user_mr" class="form-control">
                             <option value="0">-- Pilih --</option>
-                            <option value="19">Wawan Yuswandi</option>
+                            <option value="42">Wawan Yuswandi</option>
                         </select>
                     </div>
                     <div class="col-4">
                         <label for="inputNanme4" class="form-label">Mengetahui</label>
                         <select id="user_gm" name="user_gm" class="form-control">
                             <option value="0">-- Pilih --</option>    
-                            <option value="9">Ikhwanul Arifin</option>
+                            <option value="43">Ikhwanul Arifin</option>
                         </select>
                     </div>
                     <hr>

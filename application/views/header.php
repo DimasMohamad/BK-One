@@ -142,7 +142,7 @@
           <i class="bi bi-cash-coin"></i><span>Sales - A/R</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-        if ($current_url == base_url('So/so') || $current_url == base_url('So/outstanding_so') || $current_url == base_url('So/lhkb') || $current_url == base_url('So/lhmb') || $current_url == base_url('Marketing/produk_palsu') || $current_url == base_url('Marketing/recall') || $current_url == base_url('Marketing/pelanggan') || $current_url == base_url('Marketing/laporan_klaim') || $current_url == base_url('Marketing/kepuasan_pelanggan')) {
+        if ($current_url == base_url('So/so') || $current_url == base_url('So/outstanding_so') || $current_url == base_url('So/lhkb') || $current_url == base_url('So/lhmb') || $current_url == base_url('Purchasing/nota_manual') || $current_url == base_url('Marketing/produk_palsu') || $current_url == base_url('Marketing/recall') || $current_url == base_url('Marketing/pelanggan') || $current_url == base_url('Marketing/laporan_klaim') || $current_url == base_url('Marketing/kepuasan_pelanggan')) {
           echo "<ul id='forms-sales' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
         } else {
           echo "<ul id='forms-sales' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -170,6 +170,12 @@
           echo "<li><a href='" . base_url('So/lhmb') . "' class='active'><i class='bi bi-circle'></i><span>Penerimaan Barang</span></a></li>";
         } else {
           echo "<li><a href='" . base_url('So/lhmb') . "'><i class='bi bi-circle'></i><span>Penerimaan Barang</span></a></li>";
+        };
+
+        if ($current_url == base_url('Purchasing/nota_manual')) {
+          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "' class='active'><i class='bi bi-circle'></i><span>PO Manual</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "'><i class='bi bi-circle'></i><span>PO Manual</span></a></li>";
         };
 
         if ($current_url == base_url('Marketing/produk_palsu')) {
@@ -210,7 +216,7 @@
           <i class="bi bi-cart2"></i><span>Purchasing - A/P</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-        if ($current_url == base_url('Purchasing/spp') || $current_url == base_url('Purchasing/outstanding_po') || $current_url == base_url('Purchasing/outstanding_purchase') || $current_url == base_url('Purchasing/supplier_appraisal') || $current_url == base_url('Purchasing/pemilihan_supplier') || $current_url == base_url('Purchasing/nota_manual')) {
+        if ($current_url == base_url('Purchasing/spp') || $current_url == base_url('Purchasing/outstanding_po') || $current_url == base_url('Purchasing/outstanding_purchase') || $current_url == base_url('Purchasing/supplier_appraisal') || $current_url == base_url('Purchasing/pemilihan_supplier') || $current_url == base_url('Purchasing/rekap_po')) {
           echo "<ul id='forms-purchasing' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
         } else {
           echo "<ul id='forms-purchasing' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
@@ -246,10 +252,10 @@
           echo "<li><a href='" . base_url('Purchasing/pemilihan_supplier') . "'><i class='bi bi-circle'></i><span>Pemilihan Supplier</span></a></li>";
         };
 
-        if ($current_url == base_url('Purchasing/nota_manual')) {
-          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "' class='active'><i class='bi bi-circle'></i><span>Nota Manual</span></a></li>";
+        if ($current_url == base_url('Purchasing/rekap_po')) {
+          echo "<li><a href='" . base_url('Purchasing/rekap_po') . "' class='active'><i class='bi bi-circle'></i><span>Rekap PO</span></a></li>";
         } else {
-          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "'><i class='bi bi-circle'></i><span>Nota Manual</span></a></li>";
+          echo "<li><a href='" . base_url('Purchasing/rekap_po') . "'><i class='bi bi-circle'></i><span>Rekap PO</span></a></li>";
         };
 
         echo "</ul>";
@@ -363,19 +369,25 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-signature" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-pen"></i><span>Signature</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-pen"></i><span>Document Control</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-        if ($current_url == base_url('Document_control/signature_dc')) {
+        if ($current_url == base_url('Document_control/signature_dc') || $current_url == base_url('Document_control/sasaran_mutu')) {
           echo "<ul id='forms-signature' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
         } else {
           echo "<ul id='forms-signature' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
         };
 
         if ($current_url == base_url('Document_control/signature_dc')) {
-          echo "<li><a href='" . base_url('Document_control/signature_dc') . "' class='active'><i class='bi bi-circle' ></i><span>Registration Dokumen</span></a></li>";
+          echo "<li><a href='" . base_url('Document_control/signature_dc') . "' class='active'><i class='bi bi-circle' ></i><span>Registrasi Dokumen</span></a></li>";
         } else {
-          echo "<li><a href='" . base_url('Document_control/signature_dc') . "'><i class='bi bi-circle'></i><span>Registration Dokumen</span></a></li>";
+          echo "<li><a href='" . base_url('Document_control/signature_dc') . "'><i class='bi bi-circle'></i><span>Registrasi Dokumen</span></a></li>";
+        };
+
+        if ($current_url == base_url('Document_control/sasaran_mutu')) {
+          echo "<li><a href='" . base_url('Document_control/sasaran_mutu') . "' class='active'><i class='bi bi-circle' ></i><span>Sasaran Mutu</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Document_control/sasaran_mutu') . "'><i class='bi bi-circle'></i><span>Sasaran Mutu</span></a></li>";
         };
         echo "</ul>";
         ?>

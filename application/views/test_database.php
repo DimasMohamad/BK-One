@@ -7,14 +7,7 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>PO Manual</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Sales - A/R</li>
-                <li class="breadcrumb-item active">PO Manual</li>
-            </ol>
-        </nav>
+        <h1>Test Koneksi</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -24,11 +17,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-xl-5">
-                                <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
+                                <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i></i>&nbsp;Test</button>
                                 <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_nota" onclick="get_filter()">Upload File</button>
                             </div>
                             <div class="col-xl-12">
                                 <br>
@@ -177,7 +169,7 @@
         document.getElementById('btnloading').style.display = '';
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById("tampildatanm").innerHTML = '';
-        $.get("<?= base_url('Purchasing/tampil_nota_manual') ?>", function(data, status) {
+        $.get("<?= base_url('ppic/test') ?>", function(data, status) {
             document.getElementById('btnloading').style.display = 'none';
             document.getElementById('btntampil').style.display = '';
             $("#tampildatanm").html(data);

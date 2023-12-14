@@ -28,6 +28,7 @@ include('export_lhmb.php');
         <th>PPN</th>
         <th>Total</th>
         <th>Keterangan</th>
+        <th>G/L Account</th>
     </thead>
     <tbody>
     <?php
@@ -56,6 +57,7 @@ include('export_lhmb.php');
             echo"<td>".number_format($r['VatPrcnt'], 0, '.', ',')."%</td>";
             echo"<td style='text-align:right;'>".$r['Currency']."&nbsp;".number_format(($r['Quantity']*$r['Price']), 2, '.', ',')."</td>";
             echo"<td>".$r['FreeTxt']."</td>";
+            echo"<td>".$r['AcctCode']."</td>";
             echo"</tr>";
             $i++;
             if($r['Currency'] == 'USD'){
@@ -73,17 +75,17 @@ include('export_lhmb.php');
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="12" style="text-align:right;"><b>TOTAL USD</b></td>
+        <td colspan="13" style="text-align:right;"><b>TOTAL USD</b></td>
         <td style="text-align:right;"><b><?= number_format($t_usd, 2, '.', ',');?></b></td>
         <td style="text-align:right;"><b>=>&nbsp;IDR&nbsp;<?= number_format($t_usd_idr, 2, '.', ',');?></b></td>
     </tr>
     <tr>
-        <td colspan="12" style="text-align:right;"><b>TOTAL IDR</b></td>
+        <td colspan="13" style="text-align:right;"><b>TOTAL IDR</b></td>
         <td style="text-align:right;"><b><?= number_format($t_idr, 2, '.', ',');?></b></td>
         <td></td>
     </tr>
     <tr>
-        <td colspan="12" style="text-align:right;"><b>GRAND TOTAL IDR</b></td>
+        <td colspan="13" style="text-align:right;"><b>GRAND TOTAL IDR</b></td>
         <td style="text-align:right;"><b><?= number_format($total, 2, '.', ',');?><b></td>
         <td></td>
     </tr>

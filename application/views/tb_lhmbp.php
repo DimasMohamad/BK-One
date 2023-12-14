@@ -18,6 +18,7 @@ $row = json_decode($data,true);
         <th>PPN</th>
         <th>Total</th>
         <th>Keterangan</th>
+        <th>G/L Account</th>
     </thead>
     <tbody>
         <?php
@@ -46,6 +47,7 @@ $row = json_decode($data,true);
             echo"<td>".number_format($r['VatPrcnt'], 0, '.', ',')."%</td>";
             echo"<td style='text-align:right;'>".$r['Currency']."&nbsp;".number_format(($r['Quantity']*$r['Price']), 2, '.', ',')."</td>";
             echo"<td>".$r['FreeTxt']."</td>";
+            echo"<td>".$r['AcctCode']."</td>";
             echo"</tr>";
             $i++;
             if($r['Currency'] == 'USD'){

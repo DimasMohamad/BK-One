@@ -8,7 +8,7 @@ class M_ppic extends CI_Model
         parent::__construct();
     }
 
-    public function tb_list_module($s,$e)
+    public function tb_list_module($s, $e)
     {
         $addondb = $this->load->database('addon', TRUE);
         return $addondb->query("select 
@@ -115,7 +115,7 @@ class M_ppic extends CI_Model
         LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = C.our_item_id;")->result_array();
     }
 
-    public function tb_spk_list($s,$e)
+    public function tb_spk_list($s, $e)
     {
         $addondb = $this->load->database('addon', TRUE);
         return $addondb->query("SELECT distinct
@@ -140,11 +140,11 @@ class M_ppic extends CI_Model
         LEFT Join(SELECT id AS id_spk_detail,voucher_no AS spk_detail,parent_id from our_productions)B ON B.parent_id = A.id        
         LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = A.our_item_id
         LEFT JOIN(SELECT id,NAME AS mesin,speed FROM our_lines)E ON E.id = A.our_line_id
-        WHERE A.our_line_id IS NOT NULL AND date(A.created_at) BETWEEN '$s' AND '$e' 
+        WHERE A.our_line_id IS NOT NULL AND date(A.start_date) BETWEEN '$s' AND '$e' 
         order BY A.voucher_no DESC;")->result_array();
     }
 
-    public function tb_spk_list_2($s,$e)
+    public function tb_spk_list_2($s, $e)
     {
         $addondb = $this->load->database('addon', TRUE);
         return $addondb->query("SELECT row_number() over (order by A.voucher_no DESC) as rowid,
@@ -170,7 +170,7 @@ class M_ppic extends CI_Model
         LEFT Join(SELECT id AS id_spk_detail,voucher_no AS spk_detail,parent_id from our_productions)B ON B.parent_id = A.id        
         LEFT JOIN(SELECT id,item_no,group_name,DESCRIPTION,uom FROM our_items)D ON D.id = A.our_item_id
         LEFT JOIN(SELECT id,NAME AS mesin,speed FROM our_lines)E ON E.id = A.our_line_id
-        WHERE A.our_line_id IS NOT NULL AND date(A.created_at) BETWEEN '$s' AND '$e' AND D.uom = 'Carton'
+        WHERE A.our_line_id IS NOT NULL AND date(A.start_date) BETWEEN '$s' AND '$e' AND D.uom = 'Carton'
         order BY A.voucher_no DESC;")->result_array();
     }
 

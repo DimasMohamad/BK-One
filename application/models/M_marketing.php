@@ -8,63 +8,71 @@ class M_marketing extends CI_Model
         parent::__construct();
     }
 
-    public function data(){
+    public function data()
+    {
         return $this->db->query("Select * FROM recall;")->result_array();
     }
 
     public function Recall($id)
-	{
-		return $this->db->query("SELECT * FROM recall WHERE rowid = $id;")->row_array();
+    {
+        return $this->db->query("SELECT * FROM recall WHERE rowid = $id;")->row_array();
     }
 
-    public function pelanggan($mulai, $hingga){
+    public function pelanggan($mulai, $hingga)
+    {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", A."DocDate", B."U_Joindate", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
         from "BKI_LIVE"."ORDR" A
        	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
-        WHERE A."DocDate" between '."'$mulai'".' and '."'$hingga'".' AND B."CardCode" IS NOT NULL AND B."frozenFor" = '."'N'".' and B."CardType" = '."'C'".' ORDER BY B."CardName";')->result_array();
+        WHERE A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . ' AND B."CardCode" IS NOT NULL AND B."frozenFor" = ' . "'N'" . ' and B."CardType" = ' . "'C'" . ' ORDER BY B."CardName";')->result_array();
     }
 
-    public function pelanggan2(){
+    public function pelanggan2()
+    {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
         from "BKI_LIVE"."ORDR" A
        	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
-        WHERE B."CardCode" IS NOT NULL AND B."frozenFor" = '."'N'".' and B."CardType" = '."'C'".' ORDER BY B."CardName";')->result_array();
+        WHERE B."CardCode" IS NOT NULL AND B."frozenFor" = ' . "'N'" . ' and B."CardType" = ' . "'C'" . ' ORDER BY B."CardName";')->result_array();
     }
-    
-    public function get_alamat_from_nama($nama){
+
+    public function get_alamat_from_nama($nama)
+    {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
         from "BKI_LIVE"."ORDR" A
        	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
-        WHERE B."CardName" ='."'$nama'".' and B."CardCode" IS NOT NULL AND B."frozenFor" = '."'N'".' and B."CardType" = '."'C'".' ORDER BY B."CardName";')->result_array();
+        WHERE B."CardName" =' . "'$nama'" . ' and B."CardCode" IS NOT NULL AND B."frozenFor" = ' . "'N'" . ' and B."CardType" = ' . "'C'" . ' ORDER BY B."CardName";')->result_array();
     }
 
-    Public function print_daftar_pelanggan(){
+    public function print_daftar_pelanggan()
+    {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", A."U_Joindate", A."CardName", A."Address", A."Phone1", A."CntctPrsn"
         from "BKI_LIVE"."OCRD" A 
-        WHERE A."CardCode" IS NOT NULL AND A."frozenFor" = '."'N'".' and A."CardType" = '."'C'".' ORDER BY A."CardName";')->result_array();
+        WHERE A."CardCode" IS NOT NULL AND A."frozenFor" = ' . "'N'" . ' and A."CardType" = ' . "'C'" . ' ORDER BY A."CardName";')->result_array();
     }
 
-    Public function klaim($mulai, $hingga){
+    public function klaim($mulai, $hingga)
+    {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('Select A."DocNum", A."DocDate" 
         from "BKI_LIVE"."ORDN" A
-        where A."DocDate" between '."'$mulai'".' and '."'$hingga'".';')->result_array();
+        where A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . ';')->result_array();
     }
 
-    Public function survey($t, $s){
+    public function survey($t, $s)
+    {
         return $this->db->query("Select * From survey where tahun = $t and semester = $s;")->result_array();
     }
 
     public function get_filter_tahun()
-	{
-		return $this->db->query('SELECT distinct tahun from survey;')->result_array();
-	}
+    {
+        return $this->db->query('SELECT distinct tahun from survey;')->result_array();
+    }
 
-    public function print_survey($s, $t){
+    public function print_survey($s, $t)
+    {
         return $this->db->query('Select
         nama,
         alamat,
@@ -87,10 +95,11 @@ class M_marketing extends CI_Model
         r4,
         r5,
         masukan
-        from survey where semester = '."'$s'".' and tahun = '."'$t'".';')->result_array();
+        from survey where semester = ' . "'$s'" . ' and tahun = ' . "'$t'" . ';')->result_array();
     }
 
-    public function print_perhitungan($s, $t){
+    public function print_perhitungan($s, $t)
+    {
         return $this->db->query('Select
         AVG(p1) AS rata_p1,
         AVG(p2) AS rata_p2,
@@ -110,7 +119,6 @@ class M_marketing extends CI_Model
         (AVG(p1)+AVG(p2)+AVG(p3)+AVG(p4)+AVG(p5))/5 as rata_dimensiP,
         (AVG(k1)+AVG(k2)+AVG(k3)+AVG(k4)+AVG(k5))/5 as rata_dimensiK,
         (AVG(r1)+AVG(r2)+AVG(r3)+AVG(r4)+AVG(r5))/5 as rata_dimensiR
-        from survey where semester = '."'$s'".' and tahun = '."'$t'".';')->result_array();
+        from survey where semester = ' . "'$s'" . ' and tahun = ' . "'$t'" . ';')->result_array();
     }
-
 }

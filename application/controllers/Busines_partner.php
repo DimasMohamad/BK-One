@@ -6,7 +6,7 @@ class Busines_partner extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-            if (isset($this->session->id_user) == false) {
+        if (isset($this->session->id_user) == false) {
             redirect(base_url('Welcome'));
         }
         $this->load->model('M_bp');
@@ -19,9 +19,9 @@ class Busines_partner extends CI_Controller
     {
         $akses = $this->M_user->get_akses(11);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('daftar_rekanan');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('daftar_rekanan');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -31,9 +31,9 @@ class Busines_partner extends CI_Controller
     {
         $akses = $this->M_user->get_akses(11);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('daftar_rekanan_terpilih');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('daftar_rekanan_terpilih');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -43,9 +43,9 @@ class Busines_partner extends CI_Controller
     {
         $akses = $this->M_user->get_akses(11);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('daftar_rekanan_tidakterpilih');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('daftar_rekanan_tidakterpilih');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
@@ -56,7 +56,7 @@ class Busines_partner extends CI_Controller
         $dt['head'] = $this->M_bp->bp_head();
         $dt['detail'] = $this->M_bp->bp_detail();
         $data = json_encode($dt);
-        $this->load->view("tb_daftar_rekanan",["data"=>$data]);
+        $this->load->view("tb_daftar_rekanan", ["data" => $data]);
         //echo $data;
     }
 
@@ -67,10 +67,10 @@ class Busines_partner extends CI_Controller
         $dt['head'] = $this->M_bp->bp_terpilih($mulai, $hingga);
         $dt['detail'] = $this->M_bp->bp_detail_terpilih($mulai, $hingga);
         $data = json_encode($dt);
-        //echo $data;
+        echo $mulai;
         $this->load->view("tb_daftar_rekanan_terpilih", ["data" => $data]);
     }
-    
+
     public function tb_daftar_rekanan_terpilih_ui()
     {
         $mulai = $this->input->get('mulai');
@@ -79,14 +79,14 @@ class Busines_partner extends CI_Controller
         $row = json_encode($data);
         echo $row;
     }
-    
+
 
     public function tb_daftar_rekanan_tidakterpilih()
     {
         $dt['head'] = $this->db->query("SELECT * FROM tb_supp_p")->result_array();
         //$dt['detail'] = $this->M_bp->bp_detail();
         $data = json_encode($dt);
-        $this->load->view("tb_daftar_rekanan_tidakterpilih",["data"=>$data]);
+        $this->load->view("tb_daftar_rekanan_tidakterpilih", ["data" => $data]);
         //echo $data;
     }
 
@@ -108,7 +108,7 @@ class Busines_partner extends CI_Controller
         //echo $data;
     }
 
-    
+
     public function simpan_daftar()
     {
         $name = $this->input->post('name');
@@ -117,7 +117,7 @@ class Busines_partner extends CI_Controller
         $phone = $this->input->post('phone');
         $contact_person = $this->input->post('contact_person');
         $email = $this->input->post('email');
-        $product = $this->input->post('product');        
+        $product = $this->input->post('product');
         $data = array(
             'name' => $name,
             'survey_date' => $survey_date,
@@ -130,9 +130,9 @@ class Busines_partner extends CI_Controller
         $this->db->insert('tb_supp_p', $data);
     }
 
-    public function hapus_tidak_terpilih(){
+    public function hapus_tidak_terpilih()
+    {
         $id = $this->input->post('id');
         $this->db->delete('tb_supp_p', array('rowid' => $id));
     }
-
 }

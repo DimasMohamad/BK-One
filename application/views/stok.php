@@ -17,13 +17,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            
-                        <div class="col-xl-4">
-                            <div class="search-form d-flex align-items-center">
-                                <input type="text" name="cari" id="cari" class="form-control" placeholder="Cari barang" title="Enter search keyword">
-                                <button type="button" id="tombol-tampil" title="Search" class="btn btn-primary"><i class="bi bi-search"></i></button>
+
+                            <div class="col-xl-4">
+                                <div class="search-form d-flex align-items-center">
+                                    <input type="text" name="cari" id="cari" class="form-control" placeholder="Cari barang" title="Enter search keyword">
+                                    <button type="button" id="tombol-tampil" title="Search" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                                </div>
                             </div>
-                        </div>
                             <input type="hidden" name="hlmn" id="hlmn">
                         </div>
                     </div>
@@ -36,33 +36,33 @@
 
 <script>
     loadPagination(1);
-        document.getElementById('hlmn').value = 1;
+    document.getElementById('hlmn').value = 1;
 
-        function loadPagination(pagno) {
-            var cari = $('#cari').val();
-            $.get("<?= base_url() ?>index.php/Whse/tb_stok/" + pagno + "?cari=" + cari, function(data, status) {
-                $("#tampildata").html(data);
-            });
+    function loadPagination(pagno) {
+        var cari = $('#cari').val();
+        $.get("<?= base_url() ?>index.php/Whse/tb_stok/" + pagno + "?cari=" + cari, function(data, status) {
+            $("#tampildata").html(data);
+        });
+    }
+
+    $("#tombol-tampil").click(function(pagno) {
+        var cari = $('#cari').val();
+        $.get("<?= base_url() ?>index.php/Whse/tb_stok?cari=" + cari, function(data, status) {
+            $("#tampildata").html(data);
+        });
+    });
+
+    $('#tampildata').on('click', 'a', function(e) {
+        e.preventDefault();
+        var pageno = $(this).attr('data-ci-pagination-page');
+        loadPagination(pageno);
+        $('#hlmn').val(pageno);
+    });
+
+    var cari = document.getElementById("cari");
+    cari.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            $("#tombol-tampil").click();
         }
-
-        $("#tombol-tampil").click(function(pagno) {
-            var cari = $('#cari').val();
-            $.get("<?= base_url() ?>index.php/Whse/tb_stok?cari=" + cari, function(data, status) {
-                $("#tampildata").html(data);
-            });
-        });
-
-        $('#tampildata').on('click', 'a', function(e) {
-            e.preventDefault();
-            var pageno = $(this).attr('data-ci-pagination-page');
-            loadPagination(pageno);
-            $('#hlmn').val(pageno);
-        });
-
-        var cari = document.getElementById("cari");
-        cari.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                $("#tombol-tampil").click();
-            }
-        });
+    });
 </script>
