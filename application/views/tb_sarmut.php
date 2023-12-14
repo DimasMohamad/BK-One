@@ -128,7 +128,6 @@ $bulanMap = [
         </thead>
         <tbody>
             <?php
-            // Mendapatkan bulan yang dipilih
             $selectedBulan = $this->input->get('bulan');
 
             // Menampilkan Analisa, Tindakan, dan Rencana untuk bulan yang dipilih pada Tabel Kedua
