@@ -9,18 +9,18 @@ class M_bp extends CI_Model
     }
 
     public function bp_head()
-	{
-		$hanadb = $this->load->database('hana', TRUE);
+    {
+        $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct C."CardCode",A."CardName",A."Address",B."Name" as "Country",A."Phone1",A."CntctPrsn",A."Notes",A."E_Mail"
         from "BKI_LIVE"."OCRD" A
         left join "BKI_LIVE"."OCRY" B on B."Code" = A."Country"
         Left join(select "DocEntry","CardCode" from "BKI_LIVE"."OPOR")C on C."CardCode" = A."CardCode"
-        where C."CardCode" is not null and A."CardType" = '."'S'".' order by A."CardName";')->result_array();
+        where C."CardCode" is not null and A."CardType" = ' . "'S'" . ' order by A."CardName";')->result_array();
     }
 
     public function bp_detail()
-	{
-		$hanadb = $this->load->database('hana', TRUE);
+    {
+        $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct C."CardCode",D."ItmsGrpNam"
         from "BKI_LIVE"."OCRD" A
         left join "BKI_LIVE"."OCRY" B on B."Code" = A."Country"
@@ -37,8 +37,8 @@ class M_bp extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct C."CardCode", 
-        TO_VARCHAR (TO_DATE(C."DocDate"), '."'DD'".') || '."'.'".' ||
-        TO_VARCHAR (left(monthname(TO_DATE(C."DocDate")),3)) || '."'.'".' ||
+        TO_VARCHAR (TO_DATE(C."DocDate"), ' . "'DD'" . ') || ' . "'.'" . ' ||
+        TO_VARCHAR (left(monthname(TO_DATE(C."DocDate")),3)) || ' . "'.'" . ' ||
         TO_VARCHAR (year(TO_DATE(C."DocDate"))) as "DocDate", A."CardName", D."Address", B."Name" as "Country", A."Phone1", A."CntctPrsn", A."Notes", A."E_Mail"
         from "BKI_LIVE"."OCRD" A
         left join "BKI_LIVE"."OCRY" B on B."Code" = A."Country"
@@ -48,7 +48,7 @@ class M_bp extends CI_Model
         left join (
 	        select "Address", "CardCode" 
 	        from "BKI_LIVE"."OCPR") D ON D."CardCode" = A."CardCode" 
-        WHERE "DocDate" between '."'$mulai'".' and '."'$hingga'".' AND C."CardCode" IS NOT NULL AND "frozenFor" = '."'N'".' and A."CardType" = '."'S'".'
+        WHERE "DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . ' AND C."CardCode" IS NOT NULL AND "frozenFor" = ' . "'N'" . ' and A."CardType" = ' . "'S'" . '
         ORDER BY A."CardName";')->result_array();
     }
 
@@ -56,8 +56,8 @@ class M_bp extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode",
-        TO_VARCHAR (TO_DATE(A."DocDate"), '."'DD'".') || '."'.'".' ||
-        TO_VARCHAR (left(monthname(TO_DATE(A."DocDate")),3)) || '."'.'".' ||
+        TO_VARCHAR (TO_DATE(A."DocDate"), ' . "'DD'" . ') || ' . "'.'" . ' ||
+        TO_VARCHAR (left(monthname(TO_DATE(A."DocDate")),3)) || ' . "'.'" . ' ||
         TO_VARCHAR (year(TO_DATE(A."DocDate"))) as "DocDate", D."ItmsGrpNam", A."CardName"
         from "BKI_LIVE"."OPOR" A
         left join (select "DocEntry", "ItemCode" from "BKI_LIVE"."POR1") B on B."DocEntry" = A."DocEntry"

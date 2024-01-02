@@ -37,4 +37,18 @@ class M_dc extends CI_Model
         LEFT JOIN "BKI_LIVE"."OPOR" B ON A."DocEntry" = B."DocEntry"
         WHERE B."CANCELED" = ' . "'N'" . ' AND A."TargetType" = ' . "'22'" . ' AND A."DocDate" between ' . "'$start'" . ' and ' . "'$end'" . ';')->result_array();
     }
+
+    public function PUR2($start, $end)
+    {
+        $hanadb = $this->load->database('hana', TRUE);
+        return $hanadb->query('')->result_array();
+    }
+
+    public function PUR3($start, $end)
+    {
+    }
+
+    public function PUR4($start, $end)
+    {
+    }
 }

@@ -259,6 +259,15 @@ class Whse extends CI_Controller
             array_push($row['dtl'], $dtl);
         }
         $data = json_encode($row);
+        //echo "<br>-------------------------DATA ROW Sebelum di Encode-------------------------<br>";
+        //echo '<pre>';
+        //print_r($row);
+        //echo '</pre>';
+        //echo "<br><br>-------------------------DATA ROW Setelah di Encode-------------------------<br><br>";
+        //echo '<pre>';
+        //print_r($data);
+        //echo '</pre>';
+        //echo "<br>--------------------------------------------------------------------<br>";
         $this->load->view('tb_stok', ["data" => $data, 'page' => $page,]);
     }
 

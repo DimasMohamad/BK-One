@@ -21,37 +21,37 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"> 
-                                <div class="col-xl-3">
-                                    <input type="date" id="mulai" class="form-control">
-                                </div>
-                                <div class="col-xl-3">
-                                    <input type="date" id="hingga" class="form-control">
-                                </div>
-                                <div class="col-xl-5">
-                                    <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
-                                    <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                <input type="date" id="mulai" class="form-control">
+                            </div>
+                            <div class="col-xl-3">
+                                <input type="date" id="hingga" class="form-control">
+                            </div>
+                            <div class="col-xl-5">
+                                <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
+                                <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
-                                    <button class="btn btn-warning" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
-                                </div>
-                                <div class="col-xl-12">
-                                    <br>
-                                    <div id="tampildatabp"></div>
-                                </div>
+                                <button class="btn btn-warning" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
+                            </div>
+                            <div class="col-xl-12">
+                                <br>
+                                <div id="tampildatabp"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
+
+        </div>
         </div>
     </section>
 
 </main><!-- End #main -->
 
 <script>
-    function tampildata(){
+    function tampildata() {
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
         const formatter = new Intl.NumberFormat('en-US', {
@@ -60,11 +60,11 @@
         });
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById('btnloading').style.display = '';
-        
-        $.get("<?= base_url('Busines_partner/tb_daftar_rekanan_terpilih?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+
+        $.get("<?= base_url('Busines_partner/tb_daftar_rekanan_terpilih?mulai=') ?>" + mulai + "&hingga=" + hingga, function(data, status) {
             document.getElementById('btntampil').style.display = '';
             document.getElementById('btnloading').style.display = 'none';
-            
+
             $("#tampildatabp").html(data);
         });
     }
@@ -72,6 +72,6 @@
     function printData() {
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
-        window.open("<?= base_url('Busines_partner/print_rekanan_terpilih?mulai=') ?>"+mulai+"&hingga="+hingga,"_blank");
+        window.open("<?= base_url('Busines_partner/print_rekanan_terpilih?mulai=') ?>" + mulai + "&hingga=" + hingga, "_blank");
     }
 </script>

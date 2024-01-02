@@ -290,9 +290,9 @@ class M_sql extends CI_Model
 			$first = ($no_page - 1) * $perpage + 1;
 			$last  = $first + ($perpage - 1);
 		}
-		return $hanadb->query('select "row","ItemCode","ItemName","FrgnName","ItmsGrpNam","OnHand","InvntryUom","UgpCode","validFor","InvntItem","SellItem","PrchseItem"
+		return $hanadb->query('select "row","ItemCode","ItemName","FrgnName","ItmsGrpNam","OnHand","InvntryUom","UgpCode","validFor","InvntItem","SellItem","PrchseItem","U_StatusKode"
 		from(
-			select row_number() over (order by A."ItemCode") as "row",A."ItemCode",A."ItemName",A."FrgnName",C."ItmsGrpNam",A."InvntryUom",B."UgpCode",A."validFor",A."InvntItem",A."SellItem",A."PrchseItem",D."OnHand"
+			select row_number() over (order by A."ItemCode") as "row",A."ItemCode",A."ItemName",A."FrgnName",C."ItmsGrpNam",A."InvntryUom",B."UgpCode",A."validFor",A."InvntItem",A."SellItem",A."PrchseItem",D."OnHand", A."U_StatusKode"
 			from "BKI_LIVE"."OITM" A
 			Left join "BKI_LIVE"."OUGP" B on B."UgpEntry" = A."UgpEntry"
 			Left join "BKI_LIVE"."OITB" C on C."ItmsGrpCod" = A."ItmsGrpCod"

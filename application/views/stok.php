@@ -17,7 +17,6 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-
                             <div class="col-xl-4">
                                 <div class="search-form d-flex align-items-center">
                                     <input type="text" name="cari" id="cari" class="form-control" placeholder="Cari barang" title="Enter search keyword">
