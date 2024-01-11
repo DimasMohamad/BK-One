@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+require_once APPPATH . 'third_party/tcpdf/tcpdf.php';
 class Document_control extends CI_Controller
 {
     public function __construct()
@@ -90,22 +90,19 @@ class Document_control extends CI_Controller
     {
         $sesi = $this->session->id_user;
         $nama_user = $this->session->nama_user;
-        //$sesi = $this->input->get('s');
         $posisi = $this->db->query("SELECT ifnull(position1,'user') as position1 FROM tb_user WHERE id_user = $sesi;")->row_array();
-        //echo $sesi;
         //echo $nama_user;
-        //$data_posisi = json_encode($posisi);
         //echo $posisi['position1'];
         if ($posisi['position1'] == 'DC' || $posisi['position1'] == 'MR' || $posisi['position1'] == 'MO') {
-            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status
+            $dt['user'] = $this->db->query("SELECT DISTINCT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status
             FROM signature s 
-            LEFT JOIN tb_user udc ON s.user_dc = udc.id_user
-            LEFT JOIN tb_user umr ON s.user_mr = umr.id_user 
-            LEFT JOIN tb_user ugm ON s.user_gm = ugm.id_user
+            LEFT JOIN tb_user udc ON s.user_dc = udc.position1
+            LEFT JOIN tb_user umr ON s.user_mr = umr.position1
+            LEFT JOIN tb_user ugm ON s.user_gm = ugm.position1
             LEFT JOIN tb_user username ON s.user_upload = username.id_user
             WHERE udc.position1 = '" . $posisi['position1'] . "' or umr.position1 = '" . $posisi['position1'] . "' or ugm.position1 = '" . $posisi['position1'] . "';")->result_array();
+            $dt['position1'] = $posisi['position1'];
             $data = json_encode($dt);
-            //echo "DC, MR, GM";
             //echo $data;
             $this->load->view("tb_signature_dc", ["data" => $data]);
         } else {
@@ -116,6 +113,7 @@ class Document_control extends CI_Controller
             LEFT JOIN tb_user ugm ON s.user_gm = ugm.id_user
             LEFT JOIN tb_user username ON s.user_upload = username.id_user
             WHERE username.nama = '" . $nama_user . "';")->result_array();
+            $dt['position1'] = $posisi['position1'];
             $data = json_encode($dt);
             //echo "User";
             //echo $data;
@@ -140,11 +138,12 @@ class Document_control extends CI_Controller
         $user_upload = $this->session->id_user;
         $config['upload_path'] = './uploads/';
         $config['allowed_types'] = 'pdf';
+        $config['overwrite'] = TRUE;
 
         $docnum = $this->input->post('nomor_dokumen');
         $user_dc = $this->input->post('user_dc');
         $user_mr = $this->input->post('user_mr');
-        $user_gm = $this->input->post('user_gm');
+        $user_gm = $this->input->post('user_mo');
         $statusawal = "0";
 
         $this->load->library('upload', $config);
@@ -188,8 +187,9 @@ class Document_control extends CI_Controller
                 'status' => $status,
                 'date_signdc' => $tanggal_sign,
             );
-            $this->db->where('rowid', $iddoc);
-            $this->db->update('signature', $data);
+            //$this->db->where('rowid', $iddoc);
+            //$this->db->update('signature', $data);
+            $this->generatePdfWithSignature($iddoc);
         } elseif ($posisi['position1'] == 'MR') {
             $status = "2";
             $data = array(
@@ -207,6 +207,37 @@ class Document_control extends CI_Controller
             $this->db->where('rowid', $iddoc);
             $this->db->update('signature', $data);
         }
+    }
+
+    private function generatePdfWithSignature($iddoc)
+    {
+        // Ambil data dokumen dari database berdasarkan $iddoc
+        $documentData = $this->M_dc->getDocumentData($iddoc); // Sesuaikan dengan metode yang sesuai
+
+        // Inisialisasi objek TCPDF
+        $pdf = new TCPDF();
+
+        // Set dokumen
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Your Name');
+        $pdf->SetTitle('PDF with Signature');
+        $pdf->SetHeaderData('', '', 'PDF with Signature', '');
+
+        // Tambahkan halaman
+        $pdf->AddPage();
+
+        // Tambahkan gambar tanda tangan ke halaman
+        $signatureImagePath = FCPATH . './ttd/ttd.png';
+        $pdf->Image($signatureImagePath, 10, 10, 50, 0, 'JPEG');
+
+        // ... (Tambahkan konten dokumen lainnya sesuai kebutuhan)
+
+        // Simpan atau tampilkan PDF (dalam contoh ini, disimpan)
+        $outputFilePath = FCPATH . './uploads/signed_document_' . $iddoc . '.pdf';
+        $pdf->Output($outputFilePath, 'F');
+
+        // Update database jika perlu (misalnya, kolom file yang menyimpan nama file baru)
+        //$this->M_dc->updateDocumentFile($iddoc, 'signed_document_' . $iddoc . '.pdf');
     }
 
     public function sign_reject()
@@ -359,6 +390,33 @@ class Document_control extends CI_Controller
             );
             print_r($data);
             $this->db->insert('sarmut', $data);
+        }
+    }
+
+    public function get_filter_dc()
+    {
+        $filterposisi = $this->M_dc->get_filter_dc();
+        echo "<option value='0'>-- Pilih --</option>";
+        foreach ($filterposisi as $ft) {
+            echo "<option value='" . $ft['position1'] . "'>" . $ft['nama'] . "</option>";
+        }
+    }
+
+    public function get_filter_mr()
+    {
+        $filterposisi = $this->M_dc->get_filter_mr();
+        echo "<option value='0'>-- Pilih --</option>";
+        foreach ($filterposisi as $ft) {
+            echo "<option value='" . $ft['position1'] . "'>" . $ft['nama'] . "</option>";
+        }
+    }
+
+    public function get_filter_mo()
+    {
+        $filterposisi = $this->M_dc->get_filter_mo();
+        echo "<option value='0'>-- Pilih --</option>";
+        foreach ($filterposisi as $ft) {
+            echo "<option value='" . $ft['position1'] . "'>" . $ft['nama'] . "</option>";
         }
     }
 }

@@ -3,81 +3,89 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Marketing extends CI_Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
-            if (isset($this->session->id_user) == false) {
+        if (isset($this->session->id_user) == false) {
             redirect(base_url('Welcome'));
         }
         $this->load->model('M_marketing');
         $this->load->model('M_user');
         $this->load->helper(array('url'));
         $this->load->library('pagination');
-        $this->load->helper(array('form','url'));
+        $this->load->helper(array('form', 'url'));
     }
 
-    public function produk_palsu(){
+    public function produk_palsu()
+    {
         $akses = $this->M_user->get_akses(19);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('produk_palsu');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('produk_palsu');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
     }
 
-    public function recall(){
+    public function recall()
+    {
         $akses = $this->M_user->get_akses(20);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('recall');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('recall');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
     }
 
-    public function pelanggan(){
+    public function pelanggan()
+    {
         $akses = $this->M_user->get_akses(21);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('daftar_pelanggan');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('daftar_pelanggan');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
     }
 
-    public function laporan_klaim(){
+    public function laporan_klaim()
+    {
         $akses = $this->M_user->get_akses(22);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('laporan_klaim');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('laporan_klaim');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
     }
 
-    public function kepuasan_pelanggan(){
+    public function kepuasan_pelanggan()
+    {
         $akses = $this->M_user->get_akses(23);
         $this->load->view('header');
-        if(!$akses['akses'] == 0){
-        $this->load->view('kepuasan_pelanggan');
-        }else{
+        if (!$akses['akses'] == 0) {
+            $this->load->view('kepuasan_pelanggan');
+        } else {
             $this->load->view('denied');
         }
         $this->load->view('footer');
     }
 
-    public function tampil_data(){
+    public function tampil_data()
+    {
         $dt['data'] = $this->db->query("SELECT * FROM produk_palsu;")->result_array();
         $data = json_encode($dt);
         //echo $data;
-        $this->load->view("tb_produk_palsu",["data"=>$data]);
+        $this->load->view("tb_produk_palsu", ["data" => $data]);
     }
 
-    public function do_upload(){
+    public function do_upload()
+    {
         $namaproduk = $this->input->post('nama_produk');
         $penjelasan = $this->input->post('penjelasan_masalah');
         $inspeksi = $this->input->post('hasil_inspeksi');
@@ -89,13 +97,14 @@ class Marketing extends CI_Controller
             'masalah' => $penjelasan,
             'hasil_inspeksi' => $inspeksi,
             'tindakan' => $tindakan,
-            'status' => $status,                    
+            'status' => $status,
         );
         //echo $data;
         $this->db->insert('produk_palsu', $data);
     }
 
-    public function print_produk_palsu(){
+    public function print_produk_palsu()
+    {
         $id = $this->input->get('id');
         //echo $id;
         $dt['data'] = $this->db->query("SELECT * FROM produk_palsu WHERE rowid = $id;")->row_array();
@@ -103,25 +112,29 @@ class Marketing extends CI_Controller
         //echo $data;
         $this->load->view("print_produk_palsu", ["data" => $data]);
     }
-    
-    public function hapus_formulir(){
+
+    public function hapus_formulir()
+    {
         $id = $this->input->post('id');
         $this->db->delete('produk_palsu', array('rowid' => $id));
     }
 
-    public function tampil_data_recall(){
+    public function tampil_data_recall()
+    {
         $dt['data'] = $this->M_marketing->data();
         $data = json_encode($dt);
         //echo $data;
-        $this->load->view("tb_recall",["data"=>$data]);
+        $this->load->view("tb_recall", ["data" => $data]);
     }
 
-    public function hapus_recall(){
+    public function hapus_recall()
+    {
         $id = $this->input->post('id');
         $this->db->delete('recall', array('rowid' => $id));
     }
 
-    public function print_recall(){
+    public function print_recall()
+    {
         $id = $this->input->get('id');
         //echo $id;
         //$dt['data'] = $this->M_marketing->recall();
@@ -131,13 +144,13 @@ class Marketing extends CI_Controller
         $this->load->view("print_recall", ["data" => $data]);
     }
 
-    public function daftar_pelanggan(){
-        $mulai = $this->input->get('mulai');
+    public function daftar_pelanggan()
+    {
         $hingga = $this->input->get('hingga');
         $dt['data'] = $this->M_marketing->pelanggan($mulai, $hingga);
         $data = json_encode($dt);
         //echo $data;
-        $this->load->view("tb_daftar_pelanggan",["data" => $data]);
+        $this->load->view("tb_daftar_pelanggan", ["data" => $data]);
     }
 
     public function print_pelanggan()
@@ -151,9 +164,10 @@ class Marketing extends CI_Controller
     }
 
     //public function laporan_klaim(){
-        //$dt['data'] = $this->M_marketing->klaim();
+    //$dt['data'] = $this->M_marketing->klaim();
     //}
-    public function do_upload_recall(){
+    public function do_upload_recall()
+    {
         $nomor_form = $this->input->post('nomor_form');
         $nama_produk = $this->input->post('nama_produk');
         $nie = $this->input->post('nie');
@@ -184,42 +198,45 @@ class Marketing extends CI_Controller
         //echo $data;
         $this->db->insert('recall', $data);
     }
-    
-    public function tampil_data_klaim(){
+
+    public function tampil_data_klaim()
+    {
         $mulai = $this->input->get('mulai');
         $hingga = $this->input->get('hingga');
         $dt['data'] = $this->M_marketing->klaim($mulai, $hingga);
         $data = json_encode($dt);
         //echo $data;
-        $this->load->view("tb_laporan_klaim",["data"=>$data]);
+        $this->load->view("tb_laporan_klaim", ["data" => $data]);
     }
 
     //Batas data klaim
-    public function tampil_data_survey(){
+    public function tampil_data_survey()
+    {
         $t = $this->input->get('t');
         $s = $this->input->get('s');
         //$pl['datapl'] = $this->M_marketing->pelanggan2();
-        $dt['data'] = $this->M_marketing->survey($t,$s);
+        $dt['data'] = $this->M_marketing->survey($t, $s);
         //$data1 = json_encode($pl);
         $data = json_encode($dt);
         //echo $data1;
-        $this->load->view("tb_survey",["data"=>$data]);
+        $this->load->view("tb_survey", ["data" => $data]);
     }
 
-    public function get_nama_pel(){
+    public function get_nama_pel()
+    {
         $namapel = $this->M_marketing->pelanggan2();
-        echo"<option value='0'>--Pilih--</option>";
+        echo "<option value='0'>--Pilih--</option>";
         foreach ($namapel as $np) {
-            echo"<option value='".$np['CardName']."'>".$np['CardName']."</option>";
+            echo "<option value='" . $np['CardName'] . "'>" . $np['CardName'] . "</option>";
         }
     }
 
     public function get_filter_tahun()
     {
         $filtertahun = $this->M_marketing->get_filter_tahun();
-        echo"<option value='0'>--Tahun--</option>";
-        foreach($filtertahun as $ft){
-            echo"<option value='".$ft['tahun']."'>".$ft['tahun']."</option>";
+        echo "<option value='0'>--Tahun--</option>";
+        foreach ($filtertahun as $ft) {
+            echo "<option value='" . $ft['tahun'] . "'>" . $ft['tahun'] . "</option>";
         }
     }
 
@@ -279,8 +296,8 @@ class Marketing extends CI_Controller
     {
         $s = $this->input->get('s');
         $t = $this->input->get('t');
-        $dt['data'] = $this->M_marketing->print_survey($s,$t);
-        $pr['perhitungan'] = $this->M_marketing->print_perhitungan($s,$t);
+        $dt['data'] = $this->M_marketing->print_survey($s, $t);
+        $pr['perhitungan'] = $this->M_marketing->print_perhitungan($s, $t);
         $data = json_encode($dt);
         $datapr = json_encode($pr);
         $this->load->view("print_kepuasan_pelanggan", ["data" => $data, "datapr" => $datapr]);

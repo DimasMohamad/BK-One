@@ -32,6 +32,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- sweetalert2-->
   <script src="<?= base_url(); ?>assets/js/sweetalert2.min.js"></script>
@@ -70,7 +71,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="<?= base_url(); ?>assets/img/1589277879773.jpg" alt="Profile" class="rounded-circle">
+            <img src="<?= base_url(); ?>assets/img/profile.jpg" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?= $this->session->nama_user ?></span>
           </a><!-- End Profile Iamge Icon -->
           <?php
@@ -388,6 +389,32 @@
           echo "<li><a href='" . base_url('Document_control/sasaran_mutu') . "' class='active'><i class='bi bi-circle' ></i><span>Sasaran Mutu</span></a></li>";
         } else {
           echo "<li><a href='" . base_url('Document_control/sasaran_mutu') . "'><i class='bi bi-circle'></i><span>Sasaran Mutu</span></a></li>";
+        };
+        echo "</ul>";
+        ?>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-lgl" data-bs-toggle="collapse" href="#">
+          <i class="fa fa-balance-scale"></i><span>Legal</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <?php
+        if ($current_url == base_url('Legal/legalitas_bki') || $current_url == base_url('Legal/administrasi_legal')) {
+          echo "<ul id='forms-lgl' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
+        } else {
+          echo "<ul id='forms-lgl' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
+        };
+
+        if ($current_url == base_url('Legal/legalitas_bki')) {
+          echo "<li><a href='" . base_url('Legal/legalitas_bki') . "' class='active'><i class='bi bi-circle' ></i><span>Legalitas BKI</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Legal/legalitas_bki') . "'><i class='bi bi-circle'></i><span>Legalitas BKI</span></a></li>";
+        };
+
+        if ($current_url == base_url('Legal/administrasi_legal')) {
+          echo "<li><a href='" . base_url('Legal/administrasi_legal') . "' class='active'><i class='bi bi-circle' ></i><span>Administrasi Legal</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Legal/administrasi_legal') . "'><i class='bi bi-circle'></i><span>Administrasi Legal</span></a></li>";
         };
         echo "</ul>";
         ?>

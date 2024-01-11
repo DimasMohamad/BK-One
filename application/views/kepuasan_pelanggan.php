@@ -34,8 +34,8 @@
                             <div class="col-xl-5">
                                 <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
                                 <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...</button>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Loading...</button>
                                 <button type="button" class="btn btn-success" class="bi bi-upload" data-bs-toggle="modal" data-bs-target="#add_penilaian" onclick="get_nama()">Upload File</button>
                                 <button class="btn btn-warning" onclick="printData()"><i class="bi bi-printer"></i>&nbsp;Print</button>
                             </div>
@@ -182,45 +182,45 @@
 </div>
 
 <script>
-    function pesan(txt){
+    function pesan(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'error',
-        title: txt
+            icon: 'error',
+            title: txt
         })
     }
 
-    function pesan_sukses(txt){
+    function pesan_sukses(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'success',
-        title: txt
+            icon: 'success',
+            title: txt
         })
     }
 
-    function simpannilai(){
+    function simpannilai() {
         var nama = $("#get_nama").val();
         var semester = $("#semester").val();
         var tahun = $("#tahun").val();
@@ -240,120 +240,119 @@
         var r4 = $("#r4").val();
         var r5 = $("#r5").val();
         var masukan = $("#masukan").val();
-        if(nama == "0"){
-                pesan('Nama pelanggan belum diisi');
-            }else{
-                if(semester == "0"){
-                    pesan('Semester belum diisi');
-                }else{
-                    if(tahun == "0"){
-                        pesan('Tahun belum diisi');
-                    }else{
-                        if(masukan == ''){
-                            pesan('keterangan belum diisi');
-                        }else{
-                            if(p1 == ''){
+        if (nama == "0") {
+            pesan('Nama pelanggan belum diisi');
+        } else {
+            if (semester == "0") {
+                pesan('Semester belum diisi');
+            } else {
+                if (tahun == "0") {
+                    pesan('Tahun belum diisi');
+                } else {
+                    if (masukan == '') {
+                        pesan('keterangan belum diisi');
+                    } else {
+                        if (p1 == '') {
+                            pesan('Nilai belum diisi');
+                        } else {
+                            if (p2 == '') {
                                 pesan('Nilai belum diisi');
-                            }else{
-                                if(p2 == ''){
+                            } else {
+                                if (p3 == '') {
                                     pesan('Nilai belum diisi');
-                                }else{
-                                    if(p3 == ''){
+                                } else {
+                                    if (p4 == '') {
                                         pesan('Nilai belum diisi');
-                                    }else{
-                                        if(p4 == ''){
+                                    } else {
+                                        if (p5 == '') {
                                             pesan('Nilai belum diisi');
-                                        }else{
-                                            if(p5 == ''){
+                                        } else {
+                                            if (k1 == '') {
                                                 pesan('Nilai belum diisi');
-                                            }else{
-                                                if(k1 == ''){
+                                            } else {
+                                                if (k2 == '') {
                                                     pesan('Nilai belum diisi');
-                                                }else{
-                                                    if(k2 == ''){
+                                                } else {
+                                                    if (k3 == '') {
                                                         pesan('Nilai belum diisi');
-                                                    }else{
-                                                        if(k3 == ''){
+                                                    } else {
+                                                        if (k4 == '') {
                                                             pesan('Nilai belum diisi');
-                                                        }else{
-                                                            if(k4 == ''){
+                                                        } else {
+                                                            if (k5 == '') {
                                                                 pesan('Nilai belum diisi');
-                                                            }else{
-                                                                if(k5 == ''){
+                                                            } else {
+                                                                if (r1 == '') {
                                                                     pesan('Nilai belum diisi');
-                                                                }else{
-                                                                    if(r1 == ''){
+                                                                } else {
+                                                                    if (r2 == '') {
                                                                         pesan('Nilai belum diisi');
-                                                                    }else{
-                                                                        if(r2 == ''){
+                                                                    } else {
+                                                                        if (r3 == '') {
                                                                             pesan('Nilai belum diisi');
-                                                                        }else{
-                                                                            if(r3 == ''){
+                                                                        } else {
+                                                                            if (r4 == '') {
                                                                                 pesan('Nilai belum diisi');
-                                                                            }else{
-                                                                                if(r4 == ''){
+                                                                            } else {
+                                                                                if (r5 == '') {
                                                                                     pesan('Nilai belum diisi');
-                                                                                }else{
-                                                                                    if(r5 == ''){
-                                                                                        pesan('Nilai belum diisi');
-                                                                                    }else{
-                                                                                        $.ajax({
-                                                                                            url: "<?= base_url('Marketing/simpan_nilai'); ?>",
-                                                                                            type: 'POST',
-                                                                                            cache: false,
-                                                                                            data: {
-                                                                                                nama: nama,
-                                                                                                semester: semester,
-                                                                                                tahun: tahun,
-                                                                                                p1: p1,
-                                                                                                p2: p2,
-                                                                                                p3: p3,
-                                                                                                p4: p4,
-                                                                                                p5: p5,
-                                                                                                k1: k1,
-                                                                                                k2: k2,
-                                                                                                k3: k3,
-                                                                                                k4: k4,
-                                                                                                k5: k5,
-                                                                                                r1: r1,
-                                                                                                r2: r2,
-                                                                                                r3: r3,
-                                                                                                r4: r4,
-                                                                                                r5: r5,
-                                                                                                masukan: masukan,
-                                                                                                csrf_test_name: $.cookie('csrf_cookie_name')
-                                                                                            },
-                                                                                            success: function() {
-                                                                                                // begin
-                                                                                                pesan_sukses('Tersimpan');
-                                                                                                setTimeout(function() {
-                                                                                                    location.reload();
-                                                                                                }, 1000);
-                                                                                                //tampildata();
-                                                                                                $("#add_penilaian").modal("hide");
-                                                                                                document.getElementById("nama").value = "0";
-                                                                                                document.getElementById("semester").value = "0";
-                                                                                                document.getElementById("tahun").value = "0";
-                                                                                                document.getElementById("p1").value = "";
-                                                                                                document.getElementById("p2").value = "";
-                                                                                                document.getElementById("p3").value = "";
-                                                                                                document.getElementById("p4").value = "";
-                                                                                                document.getElementById("p5").value = "";
-                                                                                                document.getElementById("k1").value = "";
-                                                                                                document.getElementById("k2").value = "";
-                                                                                                document.getElementById("k3").value = "";
-                                                                                                document.getElementById("k4").value = "";
-                                                                                                document.getElementById("k5").value = "";
-                                                                                                document.getElementById("r1").value = "";
-                                                                                                document.getElementById("r2").value = "";
-                                                                                                document.getElementById("r3").value = "";
-                                                                                                document.getElementById("r4").value = "";
-                                                                                                document.getElementById("r5").value = "";
-                                                                                                document.getElementById("masukan").value = "";
-                                                                                                //end
-                                                                                            }
-                                                                                        });
-                                                                                    }
+                                                                                } else {
+                                                                                    $.ajax({
+                                                                                        url: "<?= base_url('Marketing/simpan_nilai'); ?>",
+                                                                                        type: 'POST',
+                                                                                        cache: false,
+                                                                                        data: {
+                                                                                            nama: nama,
+                                                                                            semester: semester,
+                                                                                            tahun: tahun,
+                                                                                            p1: p1,
+                                                                                            p2: p2,
+                                                                                            p3: p3,
+                                                                                            p4: p4,
+                                                                                            p5: p5,
+                                                                                            k1: k1,
+                                                                                            k2: k2,
+                                                                                            k3: k3,
+                                                                                            k4: k4,
+                                                                                            k5: k5,
+                                                                                            r1: r1,
+                                                                                            r2: r2,
+                                                                                            r3: r3,
+                                                                                            r4: r4,
+                                                                                            r5: r5,
+                                                                                            masukan: masukan,
+                                                                                            csrf_test_name: $.cookie('csrf_cookie_name')
+                                                                                        },
+                                                                                        success: function() {
+                                                                                            // begin
+                                                                                            pesan_sukses('Tersimpan');
+                                                                                            setTimeout(function() {
+                                                                                                location.reload();
+                                                                                            }, 1000);
+                                                                                            //tampildata();
+                                                                                            $("#add_penilaian").modal("hide");
+                                                                                            document.getElementById("nama").value = "0";
+                                                                                            document.getElementById("semester").value = "0";
+                                                                                            document.getElementById("tahun").value = "0";
+                                                                                            document.getElementById("p1").value = "";
+                                                                                            document.getElementById("p2").value = "";
+                                                                                            document.getElementById("p3").value = "";
+                                                                                            document.getElementById("p4").value = "";
+                                                                                            document.getElementById("p5").value = "";
+                                                                                            document.getElementById("k1").value = "";
+                                                                                            document.getElementById("k2").value = "";
+                                                                                            document.getElementById("k3").value = "";
+                                                                                            document.getElementById("k4").value = "";
+                                                                                            document.getElementById("k5").value = "";
+                                                                                            document.getElementById("r1").value = "";
+                                                                                            document.getElementById("r2").value = "";
+                                                                                            document.getElementById("r3").value = "";
+                                                                                            document.getElementById("r4").value = "";
+                                                                                            document.getElementById("r5").value = "";
+                                                                                            document.getElementById("masukan").value = "";
+                                                                                            //end
+                                                                                        }
+                                                                                    });
                                                                                 }
                                                                             }
                                                                         }
@@ -372,17 +371,18 @@
                     }
                 }
             }
+        }
     }
 
     function printData() {
         var s = $("#filter_smstr").val();
         var t = $("#filter_tahun").val();
-        if(s == '0'){
+        if (s == '0') {
             pesan('Semester belum diisi');
-        }else{
-            if(t == '0'){
+        } else {
+            if (t == '0') {
                 pesan('Tahun belum diisi');
-            }else{
+            } else {
                 // Menggabungkan parameter s dan t ke dalam URL
                 var printURL = "<?= base_url('Marketing/print_kepuasan_pelanggan') ?>?t=" + t + "&s=" + s;
 
@@ -393,25 +393,25 @@
 
     }
 
-    function get_nama(){
+    function get_nama() {
         $.get("<?= base_url('Marketing/get_nama_pel') ?>", function(data, status) {
             $("#get_nama").html(data);
         });
     }
 
-    function tampildata(){
+    function tampildata() {
         var s = $("#filter_smstr").val();
         var t = $("#filter_tahun").val();
 
-        if(s == '0'){
+        if (s == '0') {
             pesan('Semester belum diisi');
-        }else{
-            if(t == '0'){
+        } else {
+            if (t == '0') {
                 pesan('Tahun belum diisi');
-            }else{
+            } else {
                 document.getElementById('btntampil').style.display = 'none';
                 document.getElementById('btnloading').style.display = '';
-                $.get("<?= base_url('Marketing/tampil_data_survey?t=') ?>"+t+"&s="+s, function(data, status) {
+                $.get("<?= base_url('Marketing/tampil_data_survey?t=') ?>" + t + "&s=" + s, function(data, status) {
                     document.getElementById('btntampil').style.display = '';
                     document.getElementById('btnloading').style.display = 'none';
                     $("#tampildatasurvey").html(data);
@@ -420,7 +420,7 @@
         }
     }
 
-    function get_filter_tahun(){
+    function get_filter_tahun() {
         $.get("<?= base_url('Marketing/get_filter_tahun') ?>", function(data, status) {
             $("#filter_tahun").html(data);
         });

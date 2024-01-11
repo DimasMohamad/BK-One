@@ -22,4 +22,9 @@ class M_user extends CI_Model
         $id = $this->session->id_user;
         return $this->db->query("SELECT count(id_akses) AS akses FROM tb_akses WHERE id_user = $id and id_sub_menu = $idsubmenu;")->row_array();
     }
+
+    public function get_filter_posisi()
+    {
+        return $this->db->query('SELECT posisi from posisi;')->result_array();
+    }
 }

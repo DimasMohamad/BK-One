@@ -8,6 +8,27 @@ class M_dc extends CI_Model
         parent::__construct();
     }
 
+    public function getDocumentData($iddoc)
+    {
+        $query = $this->db->query('SELECT * FROM signature WHERE rowid = ?', array($iddoc));
+        return $query->result_array();
+    }
+
+    public function get_filter_dc()
+    {
+        return $this->db->query('SELECT nama, position1 from tb_user where position1 = "DC";')->result_array();
+    }
+
+    public function get_filter_mr()
+    {
+        return $this->db->query('SELECT nama, position1 from tb_user where position1 = "MR";')->result_array();
+    }
+
+    public function get_filter_mo()
+    {
+        return $this->db->query('SELECT nama, position1 from tb_user where position1 = "MO";')->result_array();
+    }
+
     public function master_sarmut($divisi, $bulan, $tahun)
     {
         //echo $bulan;

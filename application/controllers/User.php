@@ -57,9 +57,11 @@ class User extends CI_Controller
     {
         $nama = $this->input->post('nama');
         $sandi = password_hash($this->input->post('sandi'), PASSWORD_BCRYPT);
+        $posisi = $this->input->post('posisi');
         $data = array(
             'nama' => $nama,
             'sandi' => $sandi,
+            'position1' => $posisi,
             'sts' => '1'
         );
         $this->db->insert('tb_user', $data);
@@ -104,5 +106,14 @@ class User extends CI_Controller
         $idsubmenu = $this->input->post('id');
         $akses = $this->M_user->get_akses($idsubmenu);
         echo $akses['akses'];
+    }
+
+    public function get_filter_posisi()
+    {
+        $filterposisi = $this->M_user->get_filter_posisi();
+        echo "<option value='0'>-Posisi-</option>";
+        foreach ($filterposisi as $ft) {
+            echo "<option value='" . $ft['posisi'] . "'>" . $ft['posisi'] . "</option>";
+        }
     }
 }

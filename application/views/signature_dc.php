@@ -23,10 +23,10 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Pengajuan Dokumen Baru</button>
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Pengajuan Dokumen Baru</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Dokumen</button>
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Dokumen</button>
                             </li>
                         </ul>
                         <!--Konten daftar dokumen baru-->
@@ -37,8 +37,8 @@
                                     <div class="col-xl-3">
                                         <button class="btn btn-primary" onclick="tampildata1()" id="btntampil1"><i class="bi bi-search"></i>&nbsp;View</button>
                                         <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        Loading...</button>                                        
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...</button>
                                         <label class="form-label"></label>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Upload File</button>
                                     </div>
@@ -48,15 +48,15 @@
                                     </div>
                                 </div>
                             </div>
-                        <!--Konten list dokumen-->
+                            <!--Konten list dokumen-->
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <!-- -->
                                 <div class="row">
                                     <div class='col-xl-3'>
                                         <button class="btn btn-primary" onclick="tampildata2()" id="btntampil2"><i class="bi bi-search"></i>&nbsp;View</button>
                                         <button class="btn btn-primary" type="button" disabled="" id="btnloading2" style="display:none;">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        Loading...</button>                                        
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...</button>
                                         <label class="form-label"></label>
                                     </div>
                                     <div class="col-xl-12">
@@ -67,52 +67,57 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </section>
 
 </main><!-- End #main -->
-<div class="modal fade" id="upload_dokumen" tabindex="-1" style="display: none;" aria-hidden="true" >
+<div class="modal fade" id="upload_dokumen" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Upload Dokumen</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">                
+            <div class="modal-body">
+                <script>
+                    function get_filter_posisi() {
+                        $.get("<?= base_url('Document_control/get_filter_dc') ?>", function(data, status) {
+                            $("#user_dc").html(data);
+                        });
+                        $.get("<?= base_url('Document_control/get_filter_mr') ?>", function(data, status) {
+                            $("#user_mr").html(data);
+                        });
+                        $.get("<?= base_url('Document_control/get_filter_mo') ?>", function(data, status) {
+                            $("#user_mo").html(data);
+                        });
+                    }
+                    window.onload = get_filter_posisi;
+                </script>
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
                     <div>
                         <label for="inputNanme4" class="form-label">Nomor Dokumen</label>
-                        <textarea id="nomor_dokumen" name="nomor_dokumen" class="form-control"></textarea>
+                        <textarea id="nomor_dokumen" name="nomor_dokumen" class="form-control" placeholder="Contoh : BKI.FM.MR-01"></textarea>
                     </div>
                     <hr>
                     <div>
                         <label for="inputNanme4" class="form-label">Tujuan Dokumen</label>
-                        <select id="user_dc" name="user_dc" class="form-control">
-                            <option value="0">-- Pilih --</option>
-                            <option value="41">Iftitah Dewanty</option>
-                        </select>
+                        <select id="user_dc" name="user_dc" class="form-control"></select>
                     </div>
                     <hr>
-                    <div class="col-4">
-                        <label for="inputNanme4" class="form-label" >Disetujui</label>
-                        <select id="user_mr" name="user_mr" class="form-control">
-                            <option value="0">-- Pilih --</option>
-                            <option value="42">Wawan Yuswandi</option>
-                        </select>
+                    <div class="col-6">
+                        <label for="inputNanme4" class="form-label">Disetujui</label>
+                        <select id="user_mr" name="user_mr" class="form-control"></select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <label for="inputNanme4" class="form-label">Mengetahui</label>
-                        <select id="user_gm" name="user_gm" class="form-control">
-                            <option value="0">-- Pilih --</option>    
-                            <option value="43">Ikhwanul Arifin</option>
-                        </select>
+                        <select id="user_mo" name="user_mo" class="form-control"></select>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label class="form-label">Upload File</label>
-                        <input type="file" name="userfile" size="20" class="form-control" accept="application/pdf"/>
+                        <input type="file" name="userfile" size="20" class="form-control" accept=".pdf, .doc, .docx" />
                     </div>
             </div>
             <div class="modal-footer">
@@ -126,7 +131,7 @@
 </div>
 
 <script>
-    function tampildata1(){
+    function tampildata1() {
         document.getElementById('btnloading').style.display = '';
         document.getElementById('btntampil1').style.display = 'none';
         document.getElementById("tampildatasign").innerHTML = '';
@@ -137,7 +142,7 @@
         });
     }
 
-    function tampildata2(){
+    function tampildata2() {
         document.getElementById('btnloading2').style.display = '';
         document.getElementById('btntampil2').style.display = 'none';
         document.getElementById("tampildatasign").innerHTML = '';
@@ -148,41 +153,41 @@
         });
     }
 
-    function pesan(txt){
+    function pesan(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'error',
-        title: txt
+            icon: 'error',
+            title: txt
         })
     }
 
-    function pesan_sukses(txt){
+    function pesan_sukses(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'success',
-        title: txt
+            icon: 'success',
+            title: txt
         })
     }
 
@@ -204,116 +209,112 @@
                     $("#upload_dokumen").modal("hide");
                     pesan_sukses('Tersimpan');
                     document.getElementById("nomor_dokumen").value = "";
-                    document.getElementById("user_dc").value = "0";
-                    document.getElementById("user_mr").value = "0";
-                    document.getElementById("user_gm").value = "0";
-                    setTimeout(function() {
+                    /*setTimeout(function() {
                         location.reload();
-                    }, 500);
+                    }, 500);*/
                 }
             }
         });
     });
 
-    function btnhapus(id,namafile){
+    function btnhapus(id, namafile) {
         Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-        if (result.isConfirmed) {
-            //Begin
-            $.ajax({
-                url: "<?= base_url('Document_control/hapus_dokumen'); ?>",
-                type: 'POST',
-                cache: false,
-                data: {
-                    id: id,
-                    namafile: namafile,
-                    csrf_test_name: $.cookie('csrf_cookie_name')
-                }
-            });
-            Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-            );
-            tampildata1();
-            //end
-        }
+            if (result.isConfirmed) {
+                //Begin
+                $.ajax({
+                    url: "<?= base_url('Document_control/hapus_dokumen'); ?>",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id,
+                        namafile: namafile,
+                        csrf_test_name: $.cookie('csrf_cookie_name')
+                    }
+                });
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                );
+                tampildata1();
+                //end
+            }
         })
     }
 
-    function btndownload(namafile){
-        window.open("<?= base_url('uploads/')?>"+namafile, '_blank');
+    function btndownload(namafile) {
+        window.open("<?= base_url('uploads/') ?>" + namafile, '_blank');
     }
 
-    function btnapprove(id){
+    function btnapprove(id) {
         Swal.fire({
-        title: 'Apakah anda yakin?',
-        text: "Ingin menyetujui dokumen ini.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#00a000',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Approve'
+            title: 'Apakah anda yakin?',
+            text: "Ingin menyetujui dokumen ini.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#00a000',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Approve'
         }).then((result) => {
-        if (result.isConfirmed) {
-            //Begin
-            $.ajax({
-                url: "<?= base_url('Document_control/sign_approve'); ?>",
-                type: 'POST',
-                cache: false,
-                data: {
-                    id: id,
-                    csrf_test_name: $.cookie('csrf_cookie_name')
-                }
-            });
-            Swal.fire(
-            'Approved!',
-            'Dokumen telah anda setujui.',
-            'success'
-            );
-            tampildata1();
-            //end
-        }
+            if (result.isConfirmed) {
+                //Begin
+                $.ajax({
+                    url: "<?= base_url('Document_control/sign_approve'); ?>",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id,
+                        csrf_test_name: $.cookie('csrf_cookie_name')
+                    }
+                });
+                Swal.fire(
+                    'Approved!',
+                    'Dokumen telah anda setujui.',
+                    'success'
+                );
+                tampildata1();
+                //end
+            }
         })
     }
 
-    function btnreject(id){
+    function btnreject(id) {
         Swal.fire({
-        title: 'Apakah anda yakin?',
-        text: "Ingin menolak dokumen ini.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#00a000',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Reject'
+            title: 'Apakah anda yakin?',
+            text: "Ingin menolak dokumen ini.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#00a000',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Reject'
         }).then((result) => {
-        if (result.isConfirmed) {
-            //Begin
-            $.ajax({
-                url: "<?= base_url('Document_control/sign_reject'); ?>",
-                type: 'POST',
-                cache: false,
-                data: {
-                    id: id,
-                    csrf_test_name: $.cookie('csrf_cookie_name')
-                }
-            });
-            Swal.fire(
-            'Rejected!',
-            'Dokumen telah anda tolak.',
-            'success'
-            );
-            tampildata1();
-            //end
-        }
+            if (result.isConfirmed) {
+                //Begin
+                $.ajax({
+                    url: "<?= base_url('Document_control/sign_reject'); ?>",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id,
+                        csrf_test_name: $.cookie('csrf_cookie_name')
+                    }
+                });
+                Swal.fire(
+                    'Rejected!',
+                    'Dokumen telah anda tolak.',
+                    'success'
+                );
+                tampildata1();
+                //end
+            }
         })
     }
-
 </script>
