@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once APPPATH . 'third_party/tcpdf/tcpdf.php';
+
 class Document_control extends CI_Controller
 {
     public function __construct()
@@ -209,36 +210,40 @@ class Document_control extends CI_Controller
         }
     }
 
-    private function generatePdfWithSignature($iddoc)
+    public function generatePdfWithSignature($iddoc)
     {
-        // Ambil data dokumen dari database berdasarkan $iddoc
-        $documentData = $this->M_dc->getDocumentData($iddoc); // Sesuaikan dengan metode yang sesuai
+        // Ambil data yang diperlukan untuk PDF dari database atau sumber lainnya
+        $documentData = $this->db->get_where('signature', array('rowid' => $iddoc))->row_array();
 
-        // Inisialisasi objek TCPDF
-        $pdf = new TCPDF();
+        $pdfFilePath = FCPATH . 'Uploads/' . $documentData['file']; // Sesuaikan dengan struktur nama file PDF yang sesuai dengan database Anda
 
-        // Set dokumen
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Your Name');
-        $pdf->SetTitle('PDF with Signature');
-        $pdf->SetHeaderData('', '', 'PDF with Signature', '');
+        // Path untuk menyimpan file PDF baru dengan tanda tangan
+        $outputPdfFilePath = FCPATH . 'Uploads/document_with_signature.pdf';
 
-        // Tambahkan halaman
+        // Buat objek PDF (gunakan FPDF atau TCPDF)
+        $this->load->library('fpdf');
+        $this->load->library('fpdi');
+
+        // Buat objek FPDI
+        $pdf = new FPDI();
+
+        // Tambahkan halaman dari PDF yang sudah ada
+        $pdf->setSourceFile($pdfFilePath);
+        $templateId = $pdf->importPage(1); // Impor halaman pertama
         $pdf->AddPage();
+        $pdf->useTemplate($templateId);
 
-        // Tambahkan gambar tanda tangan ke halaman
-        $signatureImagePath = FCPATH . './ttd/ttd.png';
-        $pdf->Image($signatureImagePath, 10, 10, 50, 0, 'JPEG');
+        // Tanda tangan di PDF
+        $imagePath = FCPATH . './ttd/ttd.png'; // Ganti dengan path gambar Anda
+        $pdf->Image($imagePath, $x = 10, $y = 50, $w = 50, $h = 50);
 
-        // ... (Tambahkan konten dokumen lainnya sesuai kebutuhan)
+        // Simpan PDF ke server atau kirim ke browser
+        $pdf->Output($outputPdfFilePath, 'F');
 
-        // Simpan atau tampilkan PDF (dalam contoh ini, disimpan)
-        $outputFilePath = FCPATH . './uploads/signed_document_' . $iddoc . '.pdf';
-        $pdf->Output($outputFilePath, 'F');
-
-        // Update database jika perlu (misalnya, kolom file yang menyimpan nama file baru)
-        //$this->M_dc->updateDocumentFile($iddoc, 'signed_document_' . $iddoc . '.pdf');
+        // Redirect atau lakukan operasi lain yang Anda butuhkan
+        redirect(base_url('Uploads/document_with_signature.pdf'));
     }
+
 
     public function sign_reject()
     {
