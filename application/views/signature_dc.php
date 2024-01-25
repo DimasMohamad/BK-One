@@ -98,12 +98,12 @@
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
                     <div>
                         <label for="inputNanme4" class="form-label">Nomor Dokumen</label>
-                        <textarea id="nomor_dokumen" name="nomor_dokumen" class="form-control" placeholder="Contoh : BKI.FM.MR-01"></textarea>
+                        <textarea id="nomor_dokumen" name="nomor_dokumen" class="form-control" placeholder="Contoh : BKI.FM.MR-01" required></textarea>
                     </div>
                     <hr>
                     <div>
                         <label for="inputNanme4" class="form-label">Tujuan Dokumen</label>
-                        <select id="user_dc" name="user_dc" class="form-control"></select>
+                        <select id="user_dc" name="user_dc" class="form-control" required></select>
                     </div>
                     <hr>
                     <div class="col-6">
@@ -117,7 +117,7 @@
                     <hr>
                     <div class="form-group">
                         <label class="form-label">Upload File</label>
-                        <input type="file" name="userfile" size="20" class="form-control" accept=".pdf, .doc, .docx" />
+                        <input type="file" name="userfile" size="20" class="form-control" accept=".pdf, .doc, .docx" required />
                     </div>
             </div>
             <div class="modal-footer">
@@ -209,9 +209,9 @@
                     $("#upload_dokumen").modal("hide");
                     pesan_sukses('Tersimpan');
                     document.getElementById("nomor_dokumen").value = "";
-                    /*setTimeout(function() {
+                    setTimeout(function() {
                         location.reload();
-                    }, 500);*/
+                    }, 500);
                 }
             }
         });
@@ -250,8 +250,12 @@
         })
     }
 
-    function btndownload(namafile) {
-        window.open("<?= base_url('uploads/') ?>" + namafile, '_blank');
+    function btndownload(filename) {
+        // Membuat URL dengan nama file yang diberikan
+        var url = "<?= base_url('Document_control/downloadWithWatermark?file=') ?>" + filename;
+
+        // Membuka URL dalam jendela baru
+        window.open(url, '_blank');
     }
 
     function btnapprove(id) {

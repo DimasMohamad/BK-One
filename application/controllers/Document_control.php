@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require_once APPPATH . 'third_party/tcpdf/tcpdf.php';
+
+use setasign\Fpdi\Fpdi;
+
+require_once('vendor/autoload.php');
 
 class Document_control extends CI_Controller
 {
@@ -167,6 +170,56 @@ class Document_control extends CI_Controller
         }
     }
 
+    public function downloadWithWatermark()
+    {
+        $namafile = $this->input->get('file');
+
+        // Source file and watermark config 
+        if (empty($namafile)) {
+            die('Nama file tidak valid!');
+        }
+        $file = 'uploads/' . $namafile;
+        $text_image = 'ttd/ttd.png';
+
+        // Check if the text image exists
+        if (!file_exists($text_image)) {
+            die('Text image not found!');
+        }
+
+        // Set source PDF file 
+        $pdf = new Fpdi();
+        if (file_exists("./" . $file)) {
+            $pagecount = $pdf->setSourceFile($file);
+        } else {
+            print_r($file);
+            die('Source PDF not found!');
+        }
+
+        // Add watermark image to PDF pages 
+        for ($i = 1; $i <= $pagecount; $i++) {
+            $tpl = $pdf->importPage($i);
+            $size = $pdf->getTemplateSize($tpl);
+            $pdf->addPage();
+            $pdf->useTemplate($tpl, 1, 1, $size['width'], $size['height'], TRUE);
+
+            // Add signature watermark only on the first page
+            if ($i === 1) {
+                // Calculate position for centering the watermark
+                $textImageSize = getimagesize($text_image);
+                $textImageWidth = $textImageSize[0] * 0.04;
+                $textImageHeight = $textImageSize[1] * 0.04;
+                $xCenter = ($size['width'] - $textImageWidth) / 5.5;
+                $yCenter = ($size['height'] - $textImageHeight) / 1.23;
+
+                // Put the watermark on the first page
+                $pdf->Image($text_image, $xCenter, $yCenter, $textImageWidth, $textImageHeight, 'png');
+            }
+        }
+
+        // Output PDF with watermark 
+        $pdf->Output();
+    }
+
     public function list_dokumen()
     {
         $dt['user'] = $this->db->query("SELECT * from signature;")->result_array();
@@ -188,9 +241,8 @@ class Document_control extends CI_Controller
                 'status' => $status,
                 'date_signdc' => $tanggal_sign,
             );
-            //$this->db->where('rowid', $iddoc);
-            //$this->db->update('signature', $data);
-            $this->generatePdfWithSignature($iddoc);
+            $this->db->where('rowid', $iddoc);
+            $this->db->update('signature', $data);
         } elseif ($posisi['position1'] == 'MR') {
             $status = "2";
             $data = array(
@@ -209,41 +261,6 @@ class Document_control extends CI_Controller
             $this->db->update('signature', $data);
         }
     }
-
-    public function generatePdfWithSignature($iddoc)
-    {
-        // Ambil data yang diperlukan untuk PDF dari database atau sumber lainnya
-        $documentData = $this->db->get_where('signature', array('rowid' => $iddoc))->row_array();
-
-        $pdfFilePath = FCPATH . 'Uploads/' . $documentData['file']; // Sesuaikan dengan struktur nama file PDF yang sesuai dengan database Anda
-
-        // Path untuk menyimpan file PDF baru dengan tanda tangan
-        $outputPdfFilePath = FCPATH . 'Uploads/document_with_signature.pdf';
-
-        // Buat objek PDF (gunakan FPDF atau TCPDF)
-        $this->load->library('fpdf');
-        $this->load->library('fpdi');
-
-        // Buat objek FPDI
-        $pdf = new FPDI();
-
-        // Tambahkan halaman dari PDF yang sudah ada
-        $pdf->setSourceFile($pdfFilePath);
-        $templateId = $pdf->importPage(1); // Impor halaman pertama
-        $pdf->AddPage();
-        $pdf->useTemplate($templateId);
-
-        // Tanda tangan di PDF
-        $imagePath = FCPATH . './ttd/ttd.png'; // Ganti dengan path gambar Anda
-        $pdf->Image($imagePath, $x = 10, $y = 50, $w = 50, $h = 50);
-
-        // Simpan PDF ke server atau kirim ke browser
-        $pdf->Output($outputPdfFilePath, 'F');
-
-        // Redirect atau lakukan operasi lain yang Anda butuhkan
-        redirect(base_url('Uploads/document_with_signature.pdf'));
-    }
-
 
     public function sign_reject()
     {

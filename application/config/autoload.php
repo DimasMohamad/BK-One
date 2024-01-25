@@ -133,3 +133,10 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array();
+/*
+| -------------------------------------------------------------------
+|  Auto-load Models fpdi
+| -------------------------------------------------------------------
+*/
+//$autoload['libraries'] = array('fpdi');
+$autoload['helper'] = array('download', 'url', 'file');
