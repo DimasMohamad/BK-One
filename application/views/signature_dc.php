@@ -250,9 +250,9 @@
         })
     }
 
-    function btndownload(filename) {
-        // Membuat URL dengan nama file yang diberikan
-        var url = "<?= base_url('Document_control/downloadWithWatermark?file=') ?>" + filename;
+    function btndownload(filename, status) {
+        // Membuat URL dengan nama file dan status yang diberikan
+        var url = "<?= base_url('Document_control/downloadWithWatermark?file=') ?>" + filename + "&status=" + status;
 
         // Membuka URL dalam jendela baru
         window.open(url, '_blank');
@@ -301,24 +301,39 @@
             confirmButtonText: 'Reject'
         }).then((result) => {
             if (result.isConfirmed) {
-                //Begin
-                $.ajax({
-                    url: "<?= base_url('Document_control/sign_reject'); ?>",
-                    type: 'POST',
-                    cache: false,
-                    data: {
-                        id: id,
-                        csrf_test_name: $.cookie('csrf_cookie_name')
+                Swal.fire({
+                    title: 'Masukkan alasan penolakan:',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Reject',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (text) => {
+                        return $.ajax({
+                            url: "<?= base_url('Document_control/sign_reject'); ?>",
+                            type: 'POST',
+                            cache: false,
+                            data: {
+                                id: id,
+                                reason: text,
+                                csrf_test_name: $.cookie('csrf_cookie_name')
+                            }
+                        });
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            'Rejected!',
+                            'Dokumen telah anda tolak.',
+                            'success'
+                        );
+                        tampildata1();
                     }
                 });
-                Swal.fire(
-                    'Rejected!',
-                    'Dokumen telah anda tolak.',
-                    'success'
-                );
-                tampildata1();
-                //end
             }
-        })
+        });
     }
 </script>

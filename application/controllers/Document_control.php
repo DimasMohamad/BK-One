@@ -98,7 +98,7 @@ class Document_control extends CI_Controller
         //echo $nama_user;
         //echo $posisi['position1'];
         if ($posisi['position1'] == 'DC' || $posisi['position1'] == 'MR' || $posisi['position1'] == 'MO') {
-            $dt['user'] = $this->db->query("SELECT DISTINCT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status
+            $dt['user'] = $this->db->query("SELECT DISTINCT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status, s.alasan_reject
             FROM signature s 
             LEFT JOIN tb_user udc ON s.user_dc = udc.position1
             LEFT JOIN tb_user umr ON s.user_mr = umr.position1
@@ -110,7 +110,7 @@ class Document_control extends CI_Controller
             //echo $data;
             $this->load->view("tb_signature_dc", ["data" => $data]);
         } else {
-            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.nama AS user_dc, s.date_signdc, umr.nama AS user_mr, s.date_signmr, ugm.nama AS user_gm, s.date_signgm, s.file, s.status
+            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.nama AS user_dc, s.date_signdc, umr.nama AS user_mr, s.date_signmr, ugm.nama AS user_gm, s.date_signgm, s.file, s.status, s.alasan_reject
             FROM signature s 
             LEFT JOIN tb_user udc ON s.user_dc = udc.id_user
             LEFT JOIN tb_user umr ON s.user_mr = umr.id_user 
@@ -173,13 +173,30 @@ class Document_control extends CI_Controller
     public function downloadWithWatermark()
     {
         $namafile = $this->input->get('file');
+        $status = $this->input->get('status');
 
-        // Source file and watermark config 
+        // Validasi parameter status
+        if ($status !== '0' && $status !== '1' && $status !== '2' && $status !== '3') {
+            die('status tidak sah!');
+        }
+
+        // Source file and watermark config
         if (empty($namafile)) {
             die('Nama file tidak valid!');
         }
+
+        // Tetapkan nilai file dan text_image berdasarkan status
+        if ($status === '0') {
+            $text_image = 'ttd/ttd0.png';
+        } elseif ($status === '1') {
+            $text_image = 'ttd/ttd1.png';
+        } elseif ($status === '2') {
+            $text_image = 'ttd/ttd2.png';
+        } elseif ($status === '3') {
+            $text_image = 'ttd/ttd3.png';
+        }
+
         $file = 'uploads/' . $namafile;
-        $text_image = 'ttd/ttd.png';
 
         // Check if the text image exists
         if (!file_exists($text_image)) {
@@ -206,9 +223,9 @@ class Document_control extends CI_Controller
             if ($i === 1) {
                 // Calculate position for centering the watermark
                 $textImageSize = getimagesize($text_image);
-                $textImageWidth = $textImageSize[0] * 0.04;
-                $textImageHeight = $textImageSize[1] * 0.04;
-                $xCenter = ($size['width'] - $textImageWidth) / 5.5;
+                $textImageWidth = $textImageSize[0] * 0.1;
+                $textImageHeight = $textImageSize[1] * 0.1;
+                $xCenter = ($size['width'] - $textImageWidth) / 1.9;
                 $yCenter = ($size['height'] - $textImageHeight) / 1.23;
 
                 // Put the watermark on the first page
@@ -222,7 +239,9 @@ class Document_control extends CI_Controller
 
     public function list_dokumen()
     {
-        $dt['user'] = $this->db->query("SELECT * from signature;")->result_array();
+        $dt['user'] = $this->db->query("SELECT DISTINCT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, s.date_signdc, s.date_signmr, s.date_signgm, s.file, s.status  
+        from signature s
+        LEFT JOIN tb_user username ON s.user_upload = username.id_user;")->result_array();
         $data = json_encode($dt);
         //echo $data;
         $this->load->view("tb_listdokumen", ["data" => $data]);
@@ -265,9 +284,11 @@ class Document_control extends CI_Controller
     public function sign_reject()
     {
         $iddoc = $this->input->post('id');
+        $alasan = $this->input->post('reason');
         $status = "4";
         $data = array(
             'status' => $status,
+            'alasan_reject' => $alasan,
         );
         $this->db->where('rowid', $iddoc);
         $this->db->update('signature', $data);

@@ -43,7 +43,7 @@ $row = json_decode($data, true);
             } elseif ($h['status'] == "3") {
                 echo "<span class='badge bg-success'>Disetujui</span>";
             } elseif ($h['status'] == "4") {
-                echo "<span class='badge bg-danger'>Ditolak</span>";
+                echo "<span class='badge bg-danger' onclick='showRejectReason(\"" . $h['alasan_reject'] . "\")'>Ditolak</span>";
             }
             echo "</td>";
             echo "<td style='vertical-align:top;'>";
@@ -53,9 +53,9 @@ $row = json_decode($data, true);
                     echo "&nbsp;";
                     echo "<button type='button' class='btn btn-danger' onclick='btnreject(" . $h['rowid'] . ")'><i class='bi bi-file-earmark-excel'></i></button>";
                     echo "&nbsp;";
-                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
                 } else {
-                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
                 }
             } elseif ($row['position1'] == 'MR') {
                 if ($h['status'] == '1') {
@@ -63,9 +63,9 @@ $row = json_decode($data, true);
                     echo "&nbsp;";
                     echo "<button type='button' class='btn btn-danger' onclick='btnreject(" . $h['rowid'] . ")'><i class='bi bi-file-earmark-excel'></i></button>";
                     echo "&nbsp;";
-                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
                 } else {
-                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
                 }
             } elseif ($row['position1'] == 'MO') {
                 if ($h['status'] == '2') {
@@ -73,9 +73,9 @@ $row = json_decode($data, true);
                     echo "&nbsp;";
                     echo "<button type='button' class='btn btn-danger' onclick='btnreject(" . $h['rowid'] . ")'><i class='bi bi-file-earmark-excel'></i></button>";
                     echo "&nbsp;";
-                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
                 } else {
-                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+                    echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
                 }
             }
             echo "</td>";
@@ -115,11 +115,11 @@ $row = json_decode($data, true);
             } elseif ($h['status'] == "3") {
                 echo "<span class='badge bg-success'>Disetujui</span>";
             } elseif ($h['status'] == "4") {
-                echo "<span class='badge bg-danger'>Ditolak</span>";
+                echo "<span class='badge bg-danger' onclick='showRejectReason(\"" . $h['alasan_reject'] . "\")'>Ditolak</span>";
             }
             echo "</td>";
             echo "<td style='vertical-align:top;'>";
-            echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\")'><i class='bi bi-download'></i></button>";
+            echo "<button type='button' class='btn btn-primary' onclick='btndownload(\"" . $h['file'] . "\", \"" . $h['status'] . "\")'><i class='bi bi-download'></i></button>";
             echo "&nbsp;";
             if ($h['date_signdc'] == '') {
                 echo "<button type='button' class='btn btn-danger' onclick='btnhapus(" . $h['rowid'] . ", \"" . $h['file'] . "\")'><i class='bi bi-trash'></i></button>";
@@ -142,4 +142,14 @@ $row = json_decode($data, true);
         searching: true,
         autoWidth: false,
     });
+
+    function showRejectReason(reason) {
+        Swal.fire({
+            title: 'Alasan Penolakan',
+            text: reason,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        });
+    }
 </script>
