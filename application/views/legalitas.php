@@ -167,9 +167,9 @@
                     document.getElementById("tgl_expired").value = "";
                     document.getElementById("instansi").value = "";
                     document.getElementById("keterangan").value = "";
-                    /*setTimeout(function() {
+                    setTimeout(function() {
                         location.reload();
-                    }, 500);*/
+                    }, 500);
                 }
             }
         });
@@ -188,7 +188,7 @@
             if (result.isConfirmed) {
                 //Begin
                 $.ajax({
-                    url: "<?= base_url('Document_control/hapus_dokumen'); ?>",
+                    url: "<?= base_url('Legal/hapus_dokumen'); ?>",
                     type: 'POST',
                     cache: false,
                     data: {
@@ -202,77 +202,12 @@
                     'Your file has been deleted.',
                     'success'
                 );
-                tampildata1();
-                //end
+                tampildata();
             }
         })
     }
 
-    function btndownload(namafile) {
-        window.open("<?= base_url('uploads/') ?>" + namafile, '_blank');
-    }
-
-    function btnapprove(id) {
-        Swal.fire({
-            title: 'Apakah anda yakin?',
-            text: "Ingin menyetujui dokumen ini.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#00a000',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Approve'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                //Begin
-                $.ajax({
-                    url: "<?= base_url('Document_control/sign_approve'); ?>",
-                    type: 'POST',
-                    cache: false,
-                    data: {
-                        id: id,
-                        csrf_test_name: $.cookie('csrf_cookie_name')
-                    }
-                });
-                Swal.fire(
-                    'Approved!',
-                    'Dokumen telah anda setujui.',
-                    'success'
-                );
-                tampildata1();
-                //end
-            }
-        })
-    }
-
-    function btnreject(id) {
-        Swal.fire({
-            title: 'Apakah anda yakin?',
-            text: "Ingin menolak dokumen ini.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#00a000',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Reject'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                //Begin
-                $.ajax({
-                    url: "<?= base_url('Document_control/sign_reject'); ?>",
-                    type: 'POST',
-                    cache: false,
-                    data: {
-                        id: id,
-                        csrf_test_name: $.cookie('csrf_cookie_name')
-                    }
-                });
-                Swal.fire(
-                    'Rejected!',
-                    'Dokumen telah anda tolak.',
-                    'success'
-                );
-                tampildata1();
-                //end
-            }
-        })
+    function btndownload(filename) {
+        window.open("<?= base_url('uploads/legalitas/') ?>" + filename, '_blank');
     }
 </script>

@@ -176,7 +176,7 @@ class Document_control extends CI_Controller
         $status = $this->input->get('status');
 
         // Validasi parameter status
-        if ($status !== '0' && $status !== '1' && $status !== '2' && $status !== '3') {
+        if ($status !== '0' && $status !== '1' && $status !== '2' && $status !== '3'  && $status !== '4') {
             die('status tidak sah!');
         }
 
@@ -186,7 +186,7 @@ class Document_control extends CI_Controller
         }
 
         // Tetapkan nilai file dan text_image berdasarkan status
-        if ($status === '0') {
+        if ($status === '0' || $status === '4') {
             $text_image = 'ttd/ttd0.png';
         } elseif ($status === '1') {
             $text_image = 'ttd/ttd1.png';

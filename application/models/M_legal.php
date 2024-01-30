@@ -12,4 +12,9 @@ class M_legal extends CI_Model
     {
         return $this->db->query("Select * FROM tb_legalitas;")->result_array();
     }
+
+    public function data_administrasi()
+    {
+        return $this->db->query("Select * FROM tb_administrasi_legal;")->result_array();
+    }
 }
