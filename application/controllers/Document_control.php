@@ -98,7 +98,7 @@ class Document_control extends CI_Controller
         //echo $nama_user;
         //echo $posisi['position1'];
         if ($posisi['position1'] == 'DC' || $posisi['position1'] == 'MR' || $posisi['position1'] == 'MO') {
-            $dt['user'] = $this->db->query("SELECT DISTINCT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status, s.alasan_reject
+            $dt['user'] = $this->db->query("SELECT DISTINCT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.position1 AS user_dc, s.date_signdc, umr.position1 AS user_mr, s.date_signmr, ugm.position1 AS user_gm, s.date_signgm, s.file, s.status, s.alasan_reject, s.lokasi_hardcopy
             FROM signature s 
             LEFT JOIN tb_user udc ON s.user_dc = udc.position1
             LEFT JOIN tb_user umr ON s.user_mr = umr.position1
@@ -110,7 +110,7 @@ class Document_control extends CI_Controller
             //echo $data;
             $this->load->view("tb_signature_dc", ["data" => $data]);
         } else {
-            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.nama AS user_dc, s.date_signdc, umr.nama AS user_mr, s.date_signmr, ugm.nama AS user_gm, s.date_signgm, s.file, s.status, s.alasan_reject
+            $dt['user'] = $this->db->query("SELECT s.rowid, s.docnum, username.nama AS user_upload, s.date_upload, udc.nama AS user_dc, s.date_signdc, umr.nama AS user_mr, s.date_signmr, ugm.nama AS user_gm, s.date_signgm, s.file, s.status, s.alasan_reject, s.lokasi_hardcopy
             FROM signature s 
             LEFT JOIN tb_user udc ON s.user_dc = udc.id_user
             LEFT JOIN tb_user umr ON s.user_mr = umr.id_user 
@@ -149,6 +149,7 @@ class Document_control extends CI_Controller
         $user_mr = $this->input->post('user_mr');
         $user_gm = $this->input->post('user_mo');
         $statusawal = "0";
+        $lokasi = $this->input->post('lokhardcopy');
 
         $this->load->library('upload', $config);
 
@@ -165,6 +166,7 @@ class Document_control extends CI_Controller
                 'user_gm' => $user_gm,
                 'file' => $new_filename,
                 'status' => $statusawal,
+                'lokasi_hardcopy' => $lokasi,
             );
             $this->db->insert('signature', $data);
         }

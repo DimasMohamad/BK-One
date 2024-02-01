@@ -92,6 +92,7 @@ $row = json_decode($data, true);
             <th>Tanggal Acc (DC)</th>
             <th>Tanggal Acc (MR)</th>
             <th>Tanggal Acc (GM)</th>
+            <th>Lokasi Hardcopy</th>
             <th>Status</th>
             <th width='80px'>Action</th>
             </thead>
@@ -105,6 +106,7 @@ $row = json_decode($data, true);
             echo "<td style='vertical-align:top;'>" . $h['date_signdc'] . "</td>";
             echo "<td style='vertical-align:top;'>" . $h['date_signmr'] . "</td>";
             echo "<td style='vertical-align:top;'>" . $h['date_signgm'] . "</td>";
+            echo "<td style='vertical-align:top;'>" . $h['lokasi_hardcopy'] . "</td>";
             echo "<td style='vertical-align:top;'>";
             if ($h['status'] == "0") {
                 echo "<span class='badge bg-warning'>Proses DC</span>";

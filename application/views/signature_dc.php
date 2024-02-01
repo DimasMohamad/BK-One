@@ -26,13 +26,12 @@
                                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Pengajuan Dokumen Baru</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Dokumen</button>
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#doc-list" type="button" role="tab" aria-controls="doc-list" aria-selected="false">Daftar Dokumen</button>
                             </li>
                         </ul>
-                        <!--Konten daftar dokumen baru-->
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <!-- -->
+                                <!-- Konten tab home -->
                                 <div class="row">
                                     <div class="col-xl-3">
                                         <button class="btn btn-primary" onclick="tampildata1()" id="btntampil1"><i class="bi bi-search"></i>&nbsp;View</button>
@@ -48,9 +47,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Konten list dokumen-->
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <!-- -->
+                            <div class="tab-pane fade" id="doc-list" role="tabpanel" aria-labelledby="profile-tab">
+                                <!-- Konten tab daftar dokumen -->
                                 <div class="row">
                                     <div class='col-xl-3'>
                                         <button class="btn btn-primary" onclick="tampildata2()" id="btntampil2"><i class="bi bi-search"></i>&nbsp;View</button>
@@ -118,6 +116,9 @@
                     <div class="form-group">
                         <label class="form-label">Upload File</label>
                         <input type="file" name="userfile" size="20" class="form-control" accept=".pdf, .doc, .docx" required />
+                        <br>
+                        <label for="inputNanme4" class="form-label">Lokasi Hardcopy</label>
+                        <input type="text" name="lokhardcopy" size="20" class="form-control" required />
                     </div>
             </div>
             <div class="modal-footer">
