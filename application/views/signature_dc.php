@@ -28,6 +28,9 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#doc-list" type="button" role="tab" aria-controls="doc-list" aria-selected="false">Daftar Dokumen</button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab2" data-bs-toggle="tab" data-bs-target="#doc-location" type="button" role="tab" aria-controls="doc-location" aria-selected="false">Lokasi Dokumen</button>
+                            </li>
                         </ul>
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -38,7 +41,7 @@
                                         <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Loading...</button>
-                                        <label class="form-label"></label>
+
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Upload File</button>
                                     </div>
                                     <div class="col-xl-12">
@@ -55,11 +58,43 @@
                                         <button class="btn btn-primary" type="button" disabled="" id="btnloading2" style="display:none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Loading...</button>
-                                        <label class="form-label"></label>
                                     </div>
                                     <div class="col-xl-12">
                                         <br>
                                         <div id="tampildatasign2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="doc-location" role="tabpanel" aria-labelledby="profile-tab2">
+                                <!-- Konten tab lokasi dokumen -->
+                                <div class="row">
+                                    <div class="col-xl-2">
+                                        <select class="form-control" id="filter_divisi">
+                                            <option value='0'>--Pilih Divisi--</option>
+                                            <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
+                                            <option value='GUDANG'>GUDANG</option>
+                                            <option value='HRD - GA'>HRD - GA</option>
+                                            <option value='IT'>IT</option>
+                                            <option value='LEGAL'>LEGAL</option>
+                                            <option value='MARKETING'>MARKETING</option>
+                                            <option value='PPIC'>PPIC</option>
+                                            <option value='PRODUKSI'>PRODUKSI</option>
+                                            <option value='Purchasing'>PURCHASING</option>
+                                            <option value='QC'>QC</option>
+                                            <option value='RND'>RND</option>
+                                            <option value='TEKNISI'>TEKNISI</option>
+                                        </select>
+                                    </div>
+                                    <div class='col-xl-3'>
+                                        <button class="btn btn-primary" onclick="tampildatalokasi()" id="btntampillokasi"><i class="bi bi-search"></i>&nbsp;View</button>
+                                        <button class="btn btn-primary" type="button" disabled="" id="btnloadinglokasi" style="display:none;">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Tambah Data</button>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <br>
+                                        <div id="tampildatalokasi"></div>
                                     </div>
                                 </div>
                             </div>
@@ -116,9 +151,29 @@
                     <div class="form-group">
                         <label class="form-label">Upload File</label>
                         <input type="file" name="userfile" size="20" class="form-control" accept=".pdf, .doc, .docx" required />
-                        <br>
-                        <label for="inputNanme4" class="form-label">Lokasi Hardcopy</label>
-                        <input type="text" name="lokhardcopy" size="20" class="form-control" required />
+                    </div>
+                    <hr>
+                    <div class="col-6">
+                        <label class="form-label">Lokasi Hardcopy</label>
+                        <input type="text" name="lokhardcopy" size="20" class="form-control" placeholder="Contoh : IT-L1.A" required />
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" style="color: #ffffff;">|</label>
+                        <select class="form-control" id="filter_divisi" name="filter_divisi">
+                            <option value='0'>--Pilih Divisi--</option>
+                            <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
+                            <option value='GUDANG'>GUDANG</option>
+                            <option value='HRD - GA'>HRD - GA</option>
+                            <option value='IT'>IT</option>
+                            <option value='LEGAL'>LEGAL</option>
+                            <option value='MARKETING'>MARKETING</option>
+                            <option value='PPIC'>PPIC</option>
+                            <option value='PRODUKSI'>PRODUKSI</option>
+                            <option value='Purchasing'>PURCHASING</option>
+                            <option value='QC'>QC</option>
+                            <option value='RND'>RND</option>
+                            <option value='TEKNISI'>TEKNISI</option>
+                        </select>
                     </div>
             </div>
             <div class="modal-footer">
@@ -136,7 +191,7 @@
         document.getElementById('btnloading').style.display = '';
         document.getElementById('btntampil1').style.display = 'none';
         document.getElementById("tampildatasign").innerHTML = '';
-        $.get("<?= base_url('Document_control/tampil_data') ?>", function(data, status) {
+        $.get("<?= base_url('Document_control/tampil_data?') ?>", function(data, status) {
             document.getElementById('btnloading').style.display = 'none';
             document.getElementById('btntampil1').style.display = '';
             $("#tampildatasign").html(data);
@@ -151,6 +206,18 @@
             document.getElementById('btnloading2').style.display = 'none';
             document.getElementById('btntampil2').style.display = '';
             $("#tampildatasign2").html(data);
+        });
+    }
+
+    function tampildatalokasi() {
+        var divisi = $("#filter_divisi").val();
+        document.getElementById('btnloadinglokasi').style.display = '';
+        document.getElementById('btntampillokasi').style.display = 'none';
+        document.getElementById("tampildatasign").innerHTML = '';
+        $.get("<?= base_url('Document_control/list_lokasi?divisi=') ?>" + divisi, function(data, status) {
+            document.getElementById('btnloadinglokasi').style.display = 'none';
+            document.getElementById('btntampillokasi').style.display = '';
+            $("#tampildatalokasi").html(data);
         });
     }
 
@@ -336,5 +403,38 @@
                 });
             }
         });
+    }
+
+    function btnhapuslok(id, namafile) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //Begin
+                $.ajax({
+                    url: "<?= base_url('Document_control/hapus_lokasidokumen'); ?>",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id,
+                        namafile: namafile,
+                        csrf_test_name: $.cookie('csrf_cookie_name')
+                    }
+                });
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                );
+                tampildatalokasi();
+                //end
+            }
+        })
     }
 </script>

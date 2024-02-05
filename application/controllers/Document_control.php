@@ -150,6 +150,7 @@ class Document_control extends CI_Controller
         $user_gm = $this->input->post('user_mo');
         $statusawal = "0";
         $lokasi = $this->input->post('lokhardcopy');
+        $divisi = $this->input->post('filter_divisi');
 
         $this->load->library('upload', $config);
 
@@ -166,9 +167,14 @@ class Document_control extends CI_Controller
                 'user_gm' => $user_gm,
                 'file' => $new_filename,
                 'status' => $statusawal,
-                'lokasi_hardcopy' => $lokasi,
+                //'lokasi_hardcopy' => $lokasi,
+            );
+            $datalokasi = array(
+                'divisi' => $divisi,
+                'lokasi' => $lokasi,
             );
             $this->db->insert('signature', $data);
+            $this->db->insert('tb_lokasi_dokumen', $datalokasi);
         }
     }
 
@@ -296,6 +302,24 @@ class Document_control extends CI_Controller
         $this->db->update('signature', $data);
     }
 
+    //LOKASI DOKUMEN
+    public function list_lokasi()
+    {
+        $divisi = $this->input->get('divisi');
+        //echo $divisi;
+        $data['head'] = $this->M_dc->list_dok($divisi);
+        $row = json_encode($data);
+        //print_r($data);
+        $this->load->view("tb_lokasidokumen", ["data" => $row]);
+    }
+
+    public function hapus_lokasidokumen()
+    {
+        $id = $this->input->post('id');
+        $this->db->delete('tb_lokasi_dokumen', array('rowid' => $id));
+    }
+
+    //SASARAN MUTU
     public function sasaran_mutu()
     {
         $akses = $this->M_user->get_akses(26);

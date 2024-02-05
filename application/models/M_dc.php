@@ -29,6 +29,14 @@ class M_dc extends CI_Model
         return $this->db->query('SELECT nama, position1 from tb_user where position1 = "MO";')->result_array();
     }
 
+    //LOKASI DOKUMEN
+
+    public function list_dok($divisi)
+    {
+        return $this->db->query("SELECT * from tb_lokasi_dokumen WHERE divisi = '$divisi';")->result_array();
+    }
+
+    //SASARAN MUTU
     public function master_sarmut($divisi, $bulan, $tahun)
     {
         //echo $bulan;

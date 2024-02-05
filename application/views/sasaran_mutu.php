@@ -29,7 +29,7 @@
                                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Sasaran Mutu</button>
                             </li>
                         </ul>
-                        <!--Konten daftar dokumen baru-->
+                        <!--Konten input sasaran mutu-->
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <!-- -->
@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Konten list dokumen-->
+                            <!--Konten Daftar sasaran mutu-->
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <!-- -->
                                 <div class="row">

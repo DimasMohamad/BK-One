@@ -29,7 +29,7 @@ class Busines_partner extends CI_Controller
 
     public function daftar_rekanan_terpilih()
     {
-        $akses = $this->M_user->get_akses(11);
+        $akses = $this->M_user->get_akses(29);
         $this->load->view('header');
         if (!$akses['akses'] == 0) {
             $this->load->view('daftar_rekanan_terpilih');
@@ -41,7 +41,7 @@ class Busines_partner extends CI_Controller
 
     public function daftar_rekanan_tidakterpilih()
     {
-        $akses = $this->M_user->get_akses(11);
+        $akses = $this->M_user->get_akses(30);
         $this->load->view('header');
         if (!$akses['akses'] == 0) {
             $this->load->view('daftar_rekanan_tidakterpilih');
