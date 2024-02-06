@@ -149,8 +149,8 @@ class Document_control extends CI_Controller
         $user_mr = $this->input->post('user_mr');
         $user_gm = $this->input->post('user_mo');
         $statusawal = "0";
-        $lokasi = $this->input->post('lokhardcopy');
-        $divisi = $this->input->post('filter_divisi');
+        $lokasi = $this->input->post('lokasi_hardcopy');
+        $divisi = $this->input->post('divisi');
 
         $this->load->library('upload', $config);
 
@@ -167,14 +167,11 @@ class Document_control extends CI_Controller
                 'user_gm' => $user_gm,
                 'file' => $new_filename,
                 'status' => $statusawal,
-                //'lokasi_hardcopy' => $lokasi,
-            );
-            $datalokasi = array(
+                'lokasi_hardcopy' => $lokasi,
                 'divisi' => $divisi,
-                'lokasi' => $lokasi,
             );
+            //print_r($data);
             $this->db->insert('signature', $data);
-            $this->db->insert('tb_lokasi_dokumen', $datalokasi);
         }
     }
 
@@ -317,6 +314,37 @@ class Document_control extends CI_Controller
     {
         $id = $this->input->post('id');
         $this->db->delete('tb_lokasi_dokumen', array('rowid' => $id));
+    }
+
+    public function simpan_lokasi()
+    {
+        $lokasi = $this->input->post('lokasi');
+        $divisi = $this->input->post('divisi');
+        $data = array(
+            'lokasi' => $lokasi,
+            'divisi' => $divisi,
+        );
+        $this->db->insert('tb_lokasi_dokumen', $data);
+    }
+
+    public function get_filter_lokasi()
+    {
+        $divisi = $this->input->get('divisi');
+        $filterlokasi = $this->M_dc->get_filter_lokasi($divisi);
+        print_r($filterlokasi);
+        echo "<option value='0'>-- Pilih --</option>";
+        foreach ($filterlokasi as $ft) {
+            echo "<option value='" . htmlspecialchars($ft['lokasi']) . "'>" . htmlspecialchars($ft['lokasi']) . "</option>";
+        }
+    }
+
+    public function get_filter_divisi()
+    {
+        $filterdivisi = $this->M_dc->get_filter_divisi();
+        echo "<option value='0'>-- Pilih --</option>";
+        foreach ($filterdivisi as $ft) {
+            echo "<option value='" . htmlspecialchars($ft['divisi']) . "'>" . htmlspecialchars($ft['divisi']) . "</option>";
+        }
     }
 
     //SASARAN MUTU

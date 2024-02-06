@@ -68,8 +68,11 @@
                             <div class="tab-pane fade" id="doc-location" role="tabpanel" aria-labelledby="profile-tab2">
                                 <!-- Konten tab lokasi dokumen -->
                                 <div class="row">
+                                    <div class="col-xl-3">
+                                        <input id="lokasi_dokumen" type="text" class="form-control" placeholder="Contoh lokasi dokumen : L1.A">
+                                    </div>
                                     <div class="col-xl-2">
-                                        <select class="form-control" id="filter_divisi">
+                                        <select class="form-control" id="filter_divisi2">
                                             <option value='0'>--Pilih Divisi--</option>
                                             <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
                                             <option value='GUDANG'>GUDANG</option>
@@ -85,16 +88,42 @@
                                             <option value='TEKNISI'>TEKNISI</option>
                                         </select>
                                     </div>
-                                    <div class='col-xl-3'>
-                                        <button class="btn btn-primary" onclick="tampildatalokasi()" id="btntampillokasi"><i class="bi bi-search"></i>&nbsp;View</button>
-                                        <button class="btn btn-primary" type="button" disabled="" id="btnloadinglokasi" style="display:none;">
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                            Loading...</button>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Tambah Data</button>
+                                    <div class="col-xl-2">
+                                        <button class="btn btn-primary" onclick="simpandaftar()">Save</button>
                                     </div>
-                                    <div class="col-xl-12">
-                                        <br>
-                                        <div id="tampildatalokasi"></div>
+                                    <div>
+                                        <hr>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-2">
+                                            <select class="form-control" id="filter_divisi">
+                                                <option value='0'>--Pilih Divisi--</option>
+                                                <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
+                                                <option value='GUDANG'>GUDANG</option>
+                                                <option value='HRD - GA'>HRD - GA</option>
+                                                <option value='IT'>IT</option>
+                                                <option value='LEGAL'>LEGAL</option>
+                                                <option value='MARKETING'>MARKETING</option>
+                                                <option value='PPIC'>PPIC</option>
+                                                <option value='PRODUKSI'>PRODUKSI</option>
+                                                <option value='Purchasing'>PURCHASING</option>
+                                                <option value='QC'>QC</option>
+                                                <option value='RND'>RND</option>
+                                                <option value='TEKNISI'>TEKNISI</option>
+                                            </select>
+                                        </div>
+                                        <div class='col-xl-3'>
+                                            <button class="btn btn-primary" onclick="tampildatalokasi()" id="btntampillokasi"><i class="bi bi-search"></i>&nbsp;View</button>
+                                            <button class="btn btn-primary" type="button" disabled="" id="btnloadinglokasi" style="display:none;">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-xl-12">
+                                            <div id="tampildatalokasi"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -116,16 +145,38 @@
             <div class="modal-body">
                 <script>
                     function get_filter_posisi() {
+                        // Mendapatkan dan mengisi data untuk elemen dengan id "user_dc"
                         $.get("<?= base_url('Document_control/get_filter_dc') ?>", function(data, status) {
                             $("#user_dc").html(data);
                         });
+
+                        // Mendapatkan dan mengisi data untuk elemen dengan id "user_mr"
                         $.get("<?= base_url('Document_control/get_filter_mr') ?>", function(data, status) {
                             $("#user_mr").html(data);
                         });
+
+                        // Mendapatkan dan mengisi data untuk elemen dengan id "user_mo"
                         $.get("<?= base_url('Document_control/get_filter_mo') ?>", function(data, status) {
                             $("#user_mo").html(data);
                         });
+
+                        // Mendapatkan dan mengisi data untuk elemen dengan id "divisi"
+                        $.get("<?= base_url('Document_control/get_filter_divisi') ?>", function(data, status) {
+                            $("#divisi").html(data);
+                        });
+
+                        // Mengambil nilai divisi yang dipilih dan memuat data lokasi berdasarkan divisi yang dipilih
+                        $("#divisi").change(function() {
+                            var selectedDivisi = $(this).val();
+                            $.get("<?= base_url('Document_control/get_filter_lokasi') ?>", {
+                                divisi: selectedDivisi
+                            }, function(data, status) {
+                                $("#lokasi_hardcopy").html(data);
+                            });
+                        });
                     }
+
+                    // Memanggil fungsi get_filter_posisi saat halaman dimuat
                     window.onload = get_filter_posisi;
                 </script>
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
@@ -154,34 +205,20 @@
                     </div>
                     <hr>
                     <div class="col-6">
-                        <label class="form-label">Lokasi Hardcopy</label>
-                        <input type="text" name="lokhardcopy" size="20" class="form-control" placeholder="Contoh : IT-L1.A" required />
+                        <label class="form-label">Divisi</label>
+                        <select id="divisi" name="divisi" class="form-control"></select>
                     </div>
                     <div class="col-6">
-                        <label class="form-label" style="color: #ffffff;">|</label>
-                        <select class="form-control" id="filter_divisi" name="filter_divisi">
-                            <option value='0'>--Pilih Divisi--</option>
-                            <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
-                            <option value='GUDANG'>GUDANG</option>
-                            <option value='HRD - GA'>HRD - GA</option>
-                            <option value='IT'>IT</option>
-                            <option value='LEGAL'>LEGAL</option>
-                            <option value='MARKETING'>MARKETING</option>
-                            <option value='PPIC'>PPIC</option>
-                            <option value='PRODUKSI'>PRODUKSI</option>
-                            <option value='Purchasing'>PURCHASING</option>
-                            <option value='QC'>QC</option>
-                            <option value='RND'>RND</option>
-                            <option value='TEKNISI'>TEKNISI</option>
-                        </select>
+                        <label class="form-label">Lokasi Hardcopy</label>
+                        <select id="lokasi_hardcopy" name="lokasi_hardcopy" class="form-control"></select>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-            </div>
-            </form>
         </div>
     </div>
 </div>
@@ -436,5 +473,35 @@
                 //end
             }
         })
+    }
+
+    function simpandaftar() {
+        var lokasi = $("#lokasi_dokumen").val();
+        var divisi = $("#filter_divisi2").val();
+        if (lokasi === '') {
+            pesan('Lokasi Dokumen belum diisi');
+        } else if (divisi === '') {
+            pesan('Divisi belum diisi');
+        } else {
+            $.ajax({
+                url: "<?= base_url('Document_control/simpan_lokasi'); ?>",
+                type: 'POST',
+                cache: false,
+                data: {
+                    lokasi: lokasi,
+                    divisi: divisi,
+                    csrf_test_name: $.cookie('csrf_cookie_name')
+                },
+                success: function() {
+                    pesan_sukses('Tersimpan');
+                    tampildatalokasi();
+                    document.getElementById("lokasi_dokumen").value = "";
+                    document.getElementById("filter_divisi2").value = "";
+                },
+                error: function() {
+                    pesan('Gagal menyimpan data');
+                }
+            });
+        }
     }
 </script>

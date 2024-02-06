@@ -36,6 +36,16 @@ class M_dc extends CI_Model
         return $this->db->query("SELECT * from tb_lokasi_dokumen WHERE divisi = '$divisi';")->result_array();
     }
 
+    public function get_filter_lokasi($divisi)
+    {
+        return $this->db->query("SELECT lokasi FROM tb_lokasi_dokumen WHERE divisi = ?", array($divisi))->result_array();
+    }
+
+    public function get_filter_divisi()
+    {
+        return $this->db->query('SELECT distinct divisi from tb_lokasi_dokumen;')->result_array();
+    }
+
     //SASARAN MUTU
     public function master_sarmut($divisi, $bulan, $tahun)
     {

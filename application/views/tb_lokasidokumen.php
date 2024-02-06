@@ -11,7 +11,7 @@ $row = json_decode($data, true);
     <?php
     $i = 1;
     echo "<thead>
-    <th>NO</th>
+    <th width='40px'>NO</th>
     <th>DIVISI</th>
     <th>LOKASI DOKUMEN</th>
     <th width='80px'>ACTION</th>
