@@ -1,5 +1,3 @@
-
-
 <table id="tabel-data" class="table table-sm" style="width:100%;font-size:13px;">
     <thead>
         <th>#</th>
@@ -22,111 +20,111 @@
 -->
     </thead>
     <tbody>
-        <?php 
+        <?php
         $i = 1;
-        $row = json_decode($data,true);
-        foreach($row['head'] as $h){
-            echo"<tr>";
-            echo"<td>".$i."</td>";
-            echo"<td style='cursor:pointer;' onclick='detail(\"".$h['ItemCode']."\")'>".$h['ItemCode']."</td>";
-            echo"<td style='cursor:pointer;' width='500px;' onclick='detail(\"".$h['ItemCode']."\")'>".$h['ItemName']."</td>";
-            echo"<td style='cursor:pointer;' onclick='detail(\"".$h['ItemCode']."\")'>".$h['InvntryUom']."</td>";
-            echo"<td>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    echo $r['Warehouse']."<br>";
+        $row = json_decode($data, true);
+        foreach ($row['head'] as $h) {
+            echo "<tr>";
+            echo "<td>" . $i . "</td>";
+            echo "<td style='cursor:pointer;' onclick='detail(\"" . $h['ItemCode'] . "\")'>" . $h['ItemCode'] . "</td>";
+            echo "<td style='cursor:pointer;' width='500px;' onclick='detail(\"" . $h['ItemCode'] . "\")'>" . $h['ItemName'] . "</td>";
+            echo "<td style='cursor:pointer;' onclick='detail(\"" . $h['ItemCode'] . "\")'>" . $h['InvntryUom'] . "</td>";
+            echo "<td>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    echo $r['Warehouse'] . "<br>";
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['saldo_awal']==0){
-                        echo number_format($r['saldo_awal'], 0, '.', ',')."<br>";    
-                    }else{
-                        echo number_format($r['saldo_awal'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['saldo_awal'] == 0) {
+                        echo number_format($r['saldo_awal'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['saldo_awal'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['IM_(IT)']==0){
-                        echo number_format($r['IM_(IT)'], 0, '.', ',')."<br>";
-                    }else{
-                        echo number_format($r['IM_(IT)'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['IM_(IT)'] == 0) {
+                        echo number_format($r['IM_(IT)'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['IM_(IT)'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['SO_(GI)']==0){
-                        echo number_format($r['SO_(GI)'], 0, '.', ',')."<br>";
-                    }else{
-                        echo number_format($r['SO_(GI)'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['SO_(GI)'] == 0) {
+                        echo number_format($r['SO_(GI)'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['SO_(GI)'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['SI_(GR)']==0){
-                        echo number_format($r['SI_(GR)'], 0, '.', ',')."<br>";
-                    }else{
-                        echo number_format($r['SI_(GR)'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['SI_(GR)'] == 0) {
+                        echo number_format($r['SI_(GR)'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['SI_(GR)'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['DP_(GRPO)']==0){
-                        echo number_format($r['DP_(GRPO)'], 0, '.', ',')."<br>";
-                    }else{
-                        echo number_format($r['DP_(GRPO)'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['DP_(GRPO)'] == 0) {
+                        echo number_format($r['DP_(GRPO)'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['DP_(GRPO)'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['PR_(GRTN)']==0){
-                        echo number_format($r['PR_(GRTN)'], 0, '.', ',')."<br>";
-                    }else{
-                        echo number_format($r['PR_(GRTN)'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['PR_(GRTN)'] == 0) {
+                        echo number_format($r['PR_(GRTN)'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['PR_(GRTN)'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['DN_(DO)']==0){
-                        echo number_format($r['DN_(DO)'], 0, '.', ',')."<br>";
-                    }else{
-                        echo number_format($r['DN_(DO)'], 4, '.', ',')."<br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['DN_(DO)'] == 0) {
+                        echo number_format($r['DN_(DO)'], 0, '.', ',') . "<br>";
+                    } else {
+                        echo number_format($r['DN_(DO)'], 4, '.', ',') . "<br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td style='text-align:right;'>";
-            foreach($row['item'] as $r){
-                if($r['ItemCode'] == $h['ItemCode']){
-                    if($r['saldo_akhir']==0){
-                        echo "<label>".number_format($r['saldo_akhir'], 0, '.', ',')."</label><br>";
-                    }else{
-                        echo "<label style='cursor:pointer;' onclick='konversi(\"".$h['ItemCode']."\",".$r['saldo_akhir'].")'>".number_format($r['saldo_akhir'], 4, '.', ',')."</label><br>";
+            echo "</td>";
+            echo "<td style='text-align:right;'>";
+            foreach ($row['item'] as $r) {
+                if ($r['ItemCode'] == $h['ItemCode']) {
+                    if ($r['saldo_akhir'] == 0) {
+                        echo "<label>" . number_format($r['saldo_akhir'], 0, '.', ',') . "</label><br>";
+                    } else {
+                        echo "<label style='cursor:pointer;' onclick='konversi(\"" . $h['ItemCode'] . "\"," . $r['saldo_akhir'] . ")'>" . number_format($r['saldo_akhir'], 4, '.', ',') . "</label><br>";
                     }
                 }
             }
-            echo"</td>";
-            echo"<td>".$h['konversi']."</td>";
+            echo "</td>";
+            echo "<td>" . $h['konversi'] . "</td>";
             /*
             echo"<td style='text-align:right;'>";
             foreach($row['item'] as $r){
@@ -143,7 +141,7 @@
             }
             echo"</td>";
             */
-            echo"</tr>";
+            echo "</tr>";
             $i++;
         }
         ?>
@@ -158,11 +156,11 @@
     */
     $(document).ready(function() {
         var table = $('#tabel-data').DataTable({
-            scrollY:        "300px",
-            scrollX:        true,
+            scrollY: "300px",
+            scrollX: true,
             scrollCollapse: true,
-            paging:         true,
-            fixedColumns:   {
+            paging: true,
+            fixedColumns: {
                 left: 2
             }
         });

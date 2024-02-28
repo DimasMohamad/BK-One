@@ -37,7 +37,7 @@ $bulanMap = [
     <?php
     echo "<thead>
     <tr>
-    <th style='text-align: center; vertical-align: middle;' rowspan='4'><img src=" . base_url('assets/img/bk.png') . " style='width:80px;height:50px;'></th>
+    <th style='text-align: center; vertical-align: middle;' rowspan='4'><img src=" . base_url('assets/img/bki.png') . " style='width:170px;height:50px;'></th>
     <th style='font-size: 18px; text-align: center; vertical-align: middle;' rowspan='2' colspan='8'>LAPORAN PENCAPAIAN SASARAN MUTU</th>
     <th colspan='1' style='text-align:left;vertical-align:top;'>No. Dokumen</th>
     <th colspan='2' style='text-align:left;vertical-align:top;'>BKI.FM.MR-02</th>        

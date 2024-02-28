@@ -137,7 +137,7 @@ class Document_control extends CI_Controller
         $filename_parts = pathinfo($filename);
         $file_name_without_ext = $filename_parts['filename'];
         $file_extension = $filename_parts['extension'];
-        $file_name_without_ext = str_replace('.', '_', $file_name_without_ext);
+        $file_name_without_ext = str_replace([' ', '.'], '_', $file_name_without_ext);
         $new_filename = $file_name_without_ext . '.' . $file_extension;
         $user_upload = $this->session->id_user;
         $config['upload_path'] = './uploads/';
@@ -167,8 +167,8 @@ class Document_control extends CI_Controller
                 'user_gm' => $user_gm,
                 'file' => $new_filename,
                 'status' => $statusawal,
-                'lokasi_hardcopy' => $lokasi,
-                'divisi' => $divisi,
+                //'lokasi_hardcopy' => $lokasi,
+                //'divisi' => $divisi,
             );
             //print_r($data);
             $this->db->insert('signature', $data);
@@ -190,15 +190,17 @@ class Document_control extends CI_Controller
             die('Nama file tidak valid!');
         }
 
-        // Tetapkan nilai file dan text_image berdasarkan status
-        if ($status === '0' || $status === '4') {
-            $text_image = 'ttd/ttd0.png';
+        // Tempat menentukan tanda tangan
+        if ($status === '0') {
+            $text_image = 'ttd/ttd1.png';
         } elseif ($status === '1') {
             $text_image = 'ttd/ttd1.png';
         } elseif ($status === '2') {
             $text_image = 'ttd/ttd2.png';
         } elseif ($status === '3') {
             $text_image = 'ttd/ttd3.png';
+        } elseif ($status === '4') {
+            $text_image = 'ttd/ttd0.png';
         }
 
         $file = 'uploads/' . $namafile;
@@ -515,5 +517,15 @@ class Document_control extends CI_Controller
         foreach ($filterposisi as $ft) {
             echo "<option value='" . $ft['position1'] . "'>" . $ft['nama'] . "</option>";
         }
+    }
+
+    public function tampil_masterdata_sarmut()
+    {
+        $divisi = $this->input->get('divisi');
+        //echo $divisi;
+        $data['head'] = $this->M_dc->master_data_sarmut($divisi);
+        //print_r($data);
+        $row = json_encode($data);
+        $this->load->view("tb_masterdata_sarmut", ["data" => $row]);
     }
 }

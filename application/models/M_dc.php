@@ -90,4 +90,9 @@ class M_dc extends CI_Model
     public function PUR4($start, $end)
     {
     }
+
+    public function master_data_sarmut($divisi)
+    {
+        return $this->db->query("SELECT *  from master_sarmut WHERE divisi = '$divisi';")->result_array();
+    }
 }

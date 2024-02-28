@@ -181,8 +181,8 @@
                 </script>
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
                     <div>
-                        <label for="inputNanme4" class="form-label">Nomor Dokumen</label>
-                        <textarea id="nomor_dokumen" name="nomor_dokumen" class="form-control" placeholder="Contoh : BKI.FM.MR-01" required></textarea>
+                        <label for="inputNanme4" class="form-label">Nama/Nomor Dokumen</label>
+                        <textarea id="nomor_dokumen" name="nomor_dokumen" class="form-control" placeholder="Copy nama file dan pastekan disini" required></textarea>
                     </div>
                     <hr>
                     <div>
@@ -214,7 +214,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="submit" class="btn btn-primary" id="btnUpload">
+                            <span id="uploadText">Upload</span>
+                            <span id="loadingText" style="display: none;">Loading...</span>
+                        </button>
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                     </div>
                 </form>
@@ -297,6 +300,9 @@
     }
 
     $("#f_upld").on("submit", function(e) {
+        $("#btnUpload").prop('disabled', true); // Menonaktifkan tombol selama proses upload berlangsung
+        $("#uploadText").hide(); // Sembunyikan teks "Upload"
+        $("#loadingText").show(); // Tampilkan teks "Loading..."
         e.preventDefault();
         $.ajax({
             url: "<?= base_url('Document_control/do_upload'); ?>",
@@ -309,6 +315,9 @@
                 if (data == 1) {
                     alert('Upload gagal');
                 } else {
+                    $("#btnUpload").prop('disabled', false); // Mengaktifkan tombol setelah proses upload selesai
+                    $("#uploadText").show(); // Tampilkan kembali teks "Upload"
+                    $("#loadingText").hide(); // Sembunyikan teks "Loading..."
                     $("#tombol-tampil").click();
                     $("#f_upload_bt").modal("hide");
                     $("#upload_dokumen").modal("hide");

@@ -279,6 +279,110 @@ class M_sql extends CI_Model
 		and A."DocStatus" like' . "'%$sts%'" . ' and A."Comments" like' . "'%$cari%'" . ';')->result_array();
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------------------------//
+	//Switch merubah database, BKI_Live ada dibawah//
+	//-----------------------------------------------------------------------------------------------------------------------------------//
+	public function get_stok_confirm($no_page, $cari)
+	{
+		$hanadb = $this->load->database('hana_bki_confirm', TRUE);
+		$perpage = 10; // nilai $perpage disini sama dengan di $config['per_page']
+		if ($no_page == 1) {
+			$first = 1;
+			$last  = $perpage;
+		} else {
+			$first = ($no_page - 1) * $perpage + 1;
+			$last  = $first + ($perpage - 1);
+		}
+		return $hanadb->query('select "row","ItemCode","ItemName","FrgnName","ItmsGrpNam","OnHand","InvntryUom","UgpCode","validFor","InvntItem","SellItem","PrchseItem","U_StatusKode"
+		from(
+			select row_number() over (order by A."ItemCode") as "row",A."ItemCode",A."ItemName",A."FrgnName",C."ItmsGrpNam",A."InvntryUom",B."UgpCode",A."validFor",A."InvntItem",A."SellItem",A."PrchseItem",D."OnHand", A."U_StatusKode"
+			from "BKI_2024"."OITM" A
+			Left join "BKI_2024"."OUGP" B on B."UgpEntry" = A."UgpEntry"
+			Left join "BKI_2024"."OITB" C on C."ItmsGrpCod" = A."ItmsGrpCod"
+			Left join(
+					  select A."ItemCode",sum(A."OnHand") as "OnHand",B."InvntryUom" 
+					  from "BKI_2024"."OITW" A 
+					  Left Join(select "ItemCode","ItemName","InvntryUom" from "BKI_2024"."OITM")B on B."ItemCode" = A."ItemCode"
+					  where A."OnHand" > 0 
+					  group by A."ItemCode",B."ItemName",B."InvntryUom"
+					 )D on D."ItemCode" = A."ItemCode"
+					 where UPPER(A."ItemCode") like ' . "UPPER('%$cari%')" . ' OR UPPER(A."ItemName") like ' . "UPPER('%$cari%')" . '
+		) as "tb_item"
+		where "row" between ' . $first . ' and ' . $last . ';')->result_array();
+	}
+
+	public function get_stok_whs_confirm($no_page, $cari)
+	{
+		$hanadb = $this->load->database('hana_bki_confirm', TRUE);
+		$perpage = 10; // nilai $perpage disini sama dengan di $config['per_page']
+		if ($no_page == 1) {
+			$first = 1;
+			$last  = $perpage;
+		} else {
+			$first = ($no_page - 1) * $perpage + 1;
+			$last  = $first + ($perpage - 1);
+		}
+		return $hanadb->query('select * from(
+			select row_number() over (order by "ItemCode") as "row","ItemCode","WhsCode","OnHand","InvntryUom" from (
+			select A."ItemCode",A."WhsCode",B."ItemName",A."OnHand",B."InvntryUom" 
+			from "BKI_2024"."OITW" A 
+			Left Join(select "ItemCode","ItemName","InvntryUom" from "BKI_2024"."OITM")B on B."ItemCode" = A."ItemCode"
+			where A."OnHand" > 0) as "tb" where UPPER(A."ItemCode") like ' . "UPPER('%$cari%')" . ' OR UPPER(A."ItemName") like ' . "UPPER('%$cari%')" . '
+			) as "tb_stok"
+			where "row" between ' . $first . ' and ' . $last . ' order by "ItemCode";')->result_array();
+	}
+
+	public function get_stok_dtl_confirm($no_page, $cari)
+	{
+		$hanadb = $this->load->database('hana_bki_confirm', TRUE);
+		$perpage = 10;
+
+		if ($no_page == 1) {
+			$first = 1;
+			$last  = $perpage;
+		} else {
+			$first = ($no_page - 1) * $perpage + 1;
+			$last  = $first + ($perpage - 1);
+		}
+
+		return $hanadb->query('
+			SELECT "tb_temp3"."row", "tb_temp3"."ItemCode", B."WhsCode", B."OnHand", "tb_temp3"."InvntryUom" 
+			FROM (
+				SELECT ROW_NUMBER() OVER (ORDER BY "ItemCode") AS "row", "ItemCode", "ItemName", "InvntryUom" 
+				FROM (
+					SELECT "ItemCode", "ItemName", "InvntryUom" 
+					FROM (
+						SELECT "ItemCode", "ItemName", "InvntryUom" FROM "BKI_2024"."OITM"
+					) AS "tb_temp1" 
+					WHERE UPPER("ItemCode") LIKE ' . "UPPER('%$cari%')" . ' OR UPPER("ItemName") LIKE ' . "UPPER('%$cari%')" . '
+				) AS "tb_temp2"
+			) AS "tb_temp3"
+			LEFT JOIN (
+				SELECT "ItemCode", "OnHand", "WhsCode" 
+				FROM "BKI_2024"."OITW" 
+				WHERE "OnHand" > 0
+			) B ON B."ItemCode" = "tb_temp3"."ItemCode"
+			WHERE "row" BETWEEN ' . $first . ' AND ' . $last . ';
+		')->result_array();
+	}
+
+	public function hitung_row_stok_confirm($cari)
+	{
+		$hanadb = $this->load->database('hana_bki_confirm', TRUE);
+		$cari = strtoupper($cari); // Mengubah pencarian menjadi huruf besar
+
+		$query = $hanadb->query(
+			'
+        SELECT COUNT("ItemCode") AS "row" 
+        FROM "BKI_2024"."OITM"  
+        WHERE UPPER("ItemCode") LIKE ' . "'%$cari%'" . ' OR UPPER("ItemName") LIKE ' . "'%$cari%'" . ';'
+		)->row_array();
+
+		return $query['row'];
+	}
+	//-----------------------------------------------------------------------------------------------------------------------------------//
+	//Yang asli ada dibawah ini
+	//-----------------------------------------------------------------------------------------------------------------------------------//
 	public function get_stok($no_page, $cari)
 	{
 		$hanadb = $this->load->database('hana', TRUE);
@@ -377,6 +481,7 @@ class M_sql extends CI_Model
 
 		return $query['row'];
 	}
+	//-----------------------------------------------------------------------------------------------------------------------------------//
 
 	public function open_pr_hdr($mulai, $hingga, $cari)
 	{

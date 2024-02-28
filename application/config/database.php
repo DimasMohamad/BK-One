@@ -51,6 +51,30 @@ $db['hana'] = array(
 	'save_queries' => TRUE
 );
 
+$db['hana_bki_confirm'] = array(
+	'dsn'	=> '',
+	'hostname' => 'DRIVER={HDBODBC};SERVERNODE=10.100.4.12:30015;DATABASE=BKI_2024;UID=B1ADMIN;PWD=Password#01;',
+	//'hostname' => 'DRIVER={HDBODBC};SERVERNODE=10.100.4.12:30015;DATABASE=SANDBOX2;UID=B1ADMIN;PWD=Password#01;',
+	//'hostname' => 'DRIVER={HDBODBC};SERVERNODE=10.100.4.12:30015;DATABASE=BKI_LIVE;UID=manager;PWD=Password#01;',
+	'username' => '',
+	'password' => '',
+	'database' => '',
+	'dbdriver' => 'odbc',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
 $db['addon'] = array(
 	'dsn'	=> '',
 	//'hostname' => '206.84.101.229',

@@ -271,6 +271,35 @@ class Whse extends CI_Controller
         $this->load->view('tb_stok', ["data" => $data, 'page' => $page,]);
     }
 
+    public function tb_stok_confirm($no_page = 1)
+    {
+        $cari = $this->input->get('cari');
+        $page = $this->data_pagination("Whse/tb_stok", $this->M_sql->hitung_row_stok_confirm($cari), 3);
+        $datastok = $this->M_sql->get_stok_confirm($no_page, $cari);
+        //print_r($datastok);
+        $datadtl = $this->M_sql->get_stok_dtl_confirm($no_page, $cari);
+        $no_halaman = $no_page;
+        $row['stok'] = [];
+        $row['dtl'] = [];
+        foreach ($datastok as $dt) {
+            array_push($row['stok'], $dt);
+        }
+        foreach ($datadtl as $dtl) {
+            array_push($row['dtl'], $dtl);
+        }
+        $data = json_encode($row);
+        //echo "<br>-------------------------DATA ROW Sebelum di Encode-------------------------<br>";
+        //echo '<pre>';
+        //print_r($row);
+        //echo '</pre>';
+        //echo "<br><br>-------------------------DATA ROW Setelah di Encode-------------------------<br><br>";
+        //echo '<pre>';
+        //print_r($data);
+        //echo '</pre>';
+        //echo "<br>--------------------------------------------------------------------<br>";
+        $this->load->view('tb_stok', ["data" => $data, 'page' => $page,]);
+    }
+
     public function item_audit()
     {
         $akses = $this->M_user->get_akses(4);

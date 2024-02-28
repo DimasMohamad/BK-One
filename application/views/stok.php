@@ -25,6 +25,10 @@
                             </div>
                             <input type="hidden" name="hlmn" id="hlmn">
                         </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Aktifkan untuk mengganti database ke BKI_2024</label>
+                        </div>
                     </div>
                 </div>
                 <div id="tampildata" style="overflow-x:auto;"></div>
@@ -34,34 +38,64 @@
 </main><!-- End #main -->
 
 <script>
-    loadPagination(1);
-    document.getElementById('hlmn').value = 1;
-
-    function loadPagination(pagno) {
-        var cari = $('#cari').val();
-        $.get("<?= base_url() ?>index.php/Whse/tb_stok/" + pagno + "?cari=" + cari, function(data, status) {
-            $("#tampildata").html(data);
+    $(document).ready(function() {
+        // Fungsi untuk menangani perubahan pada switch
+        $('#flexSwitchCheckDefault').change(function() {
+            var isChecked = $(this).prop('checked');
+            // Jika switch aktif
+            if (isChecked) {
+                // Ganti URL AJAX dengan URL untuk database BKI_KONFIRM
+                $('#tombol-tampil').off('click').on('click', function(pagno) {
+                    var cari = $('#cari').val();
+                    $.get("<?= base_url() ?>index.php/Whse/tb_stok_confirm?cari=" + cari, function(data, status) {
+                        $("#tampildata").html(data);
+                    });
+                });
+            } else {
+                // Ganti URL AJAX dengan URL untuk database BKI_LIVE
+                $('#tombol-tampil').off('click').on('click', function(pagno) {
+                    var cari = $('#cari').val();
+                    $.get("<?= base_url() ?>index.php/Whse/tb_stok?cari=" + cari, function(data, status) {
+                        $("#tampildata").html(data);
+                    });
+                });
+            }
         });
-    }
 
-    $("#tombol-tampil").click(function(pagno) {
-        var cari = $('#cari').val();
-        $.get("<?= base_url() ?>index.php/Whse/tb_stok?cari=" + cari, function(data, status) {
-            $("#tampildata").html(data);
-        });
-    });
+        // Fungsi untuk memuat data stok ketika halaman pertama dimuat
+        loadPagination(1);
+        document.getElementById('hlmn').value = 1;
 
-    $('#tampildata').on('click', 'a', function(e) {
-        e.preventDefault();
-        var pageno = $(this).attr('data-ci-pagination-page');
-        loadPagination(pageno);
-        $('#hlmn').val(pageno);
-    });
-
-    var cari = document.getElementById("cari");
-    cari.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            $("#tombol-tampil").click();
+        // Fungsi untuk memuat data stok berdasarkan nomor halaman yang diberikan
+        function loadPagination(pagno) {
+            var cari = $('#cari').val();
+            $.get("<?= base_url() ?>index.php/Whse/tb_stok/" + pagno + "?cari=" + cari, function(data, status) {
+                $("#tampildata").html(data);
+            });
         }
+
+        // Event handler untuk tombol tampilkan
+        $("#tombol-tampil").click(function(pagno) {
+            var cari = $('#cari').val();
+            $.get("<?= base_url() ?>index.php/Whse/tb_stok?cari=" + cari, function(data, status) {
+                $("#tampildata").html(data);
+            });
+        });
+
+        // Event handler untuk navigasi halaman
+        $('#tampildata').on('click', 'a', function(e) {
+            e.preventDefault();
+            var pageno = $(this).attr('data-ci-pagination-page');
+            loadPagination(pageno);
+            $('#hlmn').val(pageno);
+        });
+
+        // Event listener untuk pencarian ketika tombol Enter ditekan
+        var cari = document.getElementById("cari");
+        cari.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                $("#tombol-tampil").click();
+            }
+        });
     });
 </script>

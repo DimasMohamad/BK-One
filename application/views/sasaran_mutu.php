@@ -28,6 +28,9 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Daftar Sasaran Mutu</button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab2" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Master Data Sarmut</button>
+                            </li>
                         </ul>
                         <!--Konten input sasaran mutu-->
                         <div class="tab-content pt-2" id="myTabContent">
@@ -37,7 +40,7 @@
                                     <div class="row">
                                         <div class="col-xl-2">
                                             <select class="form-control" id="filter_divisi">
-                                                <option value='0'>--Pilih Divisi--</option>
+                                                <option value='0'>--Pilih Divisi--</option>,
                                                 <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
                                                 <option value='GUDANG'>GUDANG</option>
                                                 <option value='HRD - GA'>HRD - GA</option>
@@ -105,6 +108,40 @@
                                     <div class="col-xl-12">
                                         <br>
                                         <div id="tampildatasign2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Konten Master Data sasaran mutu-->
+                            <div class="tab-pane fade" id="profile2" role="tabpanel" aria-labelledby="profile-tab">
+                                <!-- -->
+                                <div class="row">
+                                    <div class="col-xl-2">
+                                        <select class="form-control" id="filter_divisi2">
+                                            <option value='0'>--Pilih Divisi--</option>,
+                                            <option value='FINANCE ACCOUNTING'>FINANCE ACCOUNTING</option>
+                                            <option value='GUDANG'>GUDANG</option>
+                                            <option value='HRD - GA'>HRD - GA</option>
+                                            <option value='IT'>IT</option>
+                                            <option value='LEGAL'>LEGAL</option>
+                                            <option value='MARKETING'>MARKETING</option>
+                                            <option value='PPIC'>PPIC</option>
+                                            <option value='PRODUKSI'>PRODUKSI</option>
+                                            <option value='Purchasing'>PURCHASING</option>
+                                            <option value='QC'>QC</option>
+                                            <option value='RND'>RND</option>
+                                            <option value='TEKNISI'>TEKNISI</option>
+                                        </select>
+                                    </div>
+                                    <div class='col-xl-3'>
+                                        <button class="btn btn-primary" onclick="tampilmasterdata()" id="btntampilmasterdata"><i class="bi bi-search"></i>&nbsp;Test</button>
+                                        <button class="btn btn-primary" type="button" disabled="" id="btnloadingmasterdata" style="display:none;">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...</button>
+                                        <label class="form-label"></label>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <br>
+                                        <div id="tampilmasterdata"></div>
                                     </div>
                                 </div>
                             </div>
@@ -197,6 +234,18 @@
             document.getElementById('btnloading').style.display = 'none';
             document.getElementById('btntampil').style.display = '';
             $("#tampildatasarmut").html(data);
+        });
+    }
+
+    function tampilmasterdata() {
+        var divisi = $("#filter_divisi2").val();
+        document.getElementById('btnloadingmasterdata').style.display = '';
+        document.getElementById('btntampilmasterdata').style.display = 'none';
+        document.getElementById("tampilmasterdata").innerHTML = '';
+        $.get("<?= base_url('Document_control/tampil_masterdata_sarmut?divisi=') ?>" + divisi, function(data, status) {
+            document.getElementById('btnloadingmasterdata').style.display = 'none';
+            document.getElementById('btntampilmasterdata').style.display = '';
+            $("#tampilmasterdata").html(data);
         });
     }
 

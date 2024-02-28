@@ -32,17 +32,18 @@
                             <div class="col-xl-8">
                                 <button type="button" class="btn btn-primary" onclick="tampil()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
                                 <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...</button>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Loading...</button>
                                 <button type="button" class="btn btn-warning" onclick="add_supp()">Penilaian</button>
-                                <a href="<?= base_url('purchasing/master_kriteria_penilaian')?>" class="btn btn-secondary">master nilai</a>
+                                <button type="button" class="btn btn-success" onclick="down_supp()"><i class="bi bi-printer"></i>&nbsp;Print</button>
+                                <a href="<?= base_url('purchasing/master_kriteria_penilaian') ?>" class="btn btn-secondary">Master Nilai</a>
                             </div>
-                            
+
                         </div><br>
-                        
+
                     </div>
                     <div class="card-body">
-                    <div id="tampildata"></div>
+                        <div id="tampildata"></div>
                     </div>
                 </div>
             </div>
@@ -54,61 +55,66 @@
 <div class="modal fade" id="f_add_supp">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-        <form id="input_supp" name="input_supp" method="POST" action="">
-        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-            <input type="hidden" name="tglmulai" id="tglmulai">
-            <input type="hidden" name="tglhingga" id="tglhingga">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Supplier</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="form-check" style="float:right;">
-                        <input class="form-check-input" type="checkbox" id="gridCheck1" onclick="pilih_semua()">
-                        <label class="form-check-label" for="gridCheck1">Select All</label>
+            <form id="input_supp" name="input_supp" method="POST" action="">
+                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                <input type="hidden" name="tglmulai" id="tglmulai">
+                <input type="hidden" name="tglhingga" id="tglhingga">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Supplier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-check" style="float:right;">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1" onclick="pilih_semua()">
+                                <label class="form-check-label" for="gridCheck1">Select All</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <label class="small mb-1">Supplier</label>
+                            <select class="form-control" id="supp" name="supp[]" multiple="multiple"></select>
+                        </div>
+                        <div class="col-xl-12">
+                            <label class="small mb-1">Penilaian</label>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <?php
+                                    /*echo "<br>Judul<br>";
+                                    print_r($judul);
+                                    echo "<br>--------------------------------------------------------------------------------------------<br>Subtitle<br>";
+                                    print_r($subtitle);
+                                    echo "<br>--------------------------------------------------------------------------------------------";*/
+                                    $i = 1;
+                                    foreach ($judul as $j) {
+                                        echo "<tr>";
+                                        echo "<td>" . $i . "</td>";
+                                        echo "<td>" . $j['penilaian'] . "<input type='hidden' id='idnilai' name='idnilai[]' value='" . $j['rowid'] . "'></td>";
+                                        echo "<td><select id='addnilai' name='addnilai[]' class='form-control'>";
+                                        foreach ($subtitle as $st) {
+                                            if ($st['fatherid'] == $j['rowid']) {
+                                                echo "<option value='" . $st['nilai'] . "'>" . $st['penilaian'] . "&nbsp(" . $st['nilai'] . ")</option>";
+                                            }
+                                        }
+                                        echo "</select></td>";
+                                        echo "</td>";
+                                        $i++;
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
-                <div class="col-xl-12">
-                    <label class="small mb-1">Supplier</label>
-                    <select class="form-control" id="supp" name="supp[]" multiple="multiple"></select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="button" disabled="" id="btnloading2" style="display:none;">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...</button>
+                    <button type="submit" class="btn btn-primary" id="btnsimpan2">Save changes</button>
                 </div>
-                <div class="col-xl-12">
-                <label class="small mb-1">Penilaian</label>
-                    <table class="table table-sm">
-                        <tbody>
-                            <?php
-                            $i = 1;
-                            foreach($judul as $j){
-                                echo"<tr>";
-                                echo"<td>".$i."</td>";
-                                echo"<td>".$j['penilaian']."<input type='hidden' id='idnilai' name='idnilai[]' value='".$j['rowid']."'></td>";
-                                echo"<td><select id='addnilai' name='addnilai[]' class='form-control'>";
-                                foreach($subtitle as $st){
-                                    if($st['fatherid'] == $j['rowid']){
-                                        echo"<option value='".$st['nilai']."'>".$st['penilaian']."&nbsp(".$st['nilai'].")</option>";
-                                    }                                    
-                                }
-                                echo"</select></td>";
-                                echo"</td>";
-                                $i++;
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            
-            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="button" disabled="" id="btnloading2" style="display:none;">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...</button>
-                <button type="submit" class="btn btn-primary" id="btnsimpan2">Save changes</button>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
 </div><!-- End Basic Modal-->
@@ -134,33 +140,33 @@
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function(status) {                    
+                success: function(status) {
                     document.getElementById('btnsimpan2').style.display = '';
                     document.getElementById('btnloading2').style.display = 'none';
                     pesan_sukses('Nilai telah disimpan');
-                    $("#f_add_supp").modal("hide");  
-                    tampil();    
+                    $("#f_add_supp").modal("hide");
+                    tampil();
                 }
             });
         });
     });
 
-    function pesan(txt){
+    function pesan(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'error',
-        title: txt
+            icon: 'error',
+            title: txt
         })
     }
 
@@ -172,38 +178,38 @@
         });
     });
 
-    function tampil(){
+    function tampil() {
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
         //load();
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById('btnloading').style.display = '';
-        $.get("<?= base_url('purchasing/tb_penilaian_supplier?s=') ?>"+mulai+"&e="+hingga, function(data, status) {
+        $.get("<?= base_url('purchasing/tb_penilaian_supplier?s=') ?>" + mulai + "&e=" + hingga, function(data, status) {
             $("#tampildata").html(data);
-            if(status == 'success'){
+            if (status == 'success') {
                 document.getElementById('btntampil').style.display = '';
                 document.getElementById('btnloading').style.display = 'none';
             }
         });
     }
 
-    
 
-    function add_supp(){
+
+    function add_supp() {
         var s = $("#mulai").val();
         var e = $("#hingga").val();
-        document.getElementById('tglmulai').value= s;
-        document.getElementById('tglhingga').value= e;
-        if(s == ''){
+        document.getElementById('tglmulai').value = s;
+        document.getElementById('tglhingga').value = e;
+        if (s == '') {
             pesan('Tanggal harus diisi');
             $("#mulai").focus();
-        }else{
-            if(e == ''){
+        } else {
+            if (e == '') {
                 pesan('Tanggal harus diisi');
                 $("#hingga").focus();
-            }else{
+            } else {
                 $("#f_add_supp").modal("show");
-                $.get("<?= base_url('Purchasing/get_supp_penilaian?s=') ?>"+s+"&e="+e, function(data, status) {
+                $.get("<?= base_url('Purchasing/get_supp_penilaian?s=') ?>" + s + "&e=" + e, function(data, status) {
                     $("#supp").html(data);
                 });
             }
@@ -217,41 +223,54 @@
         }
     });
 
-    function pilih_semua(){
+    function pilih_semua() {
         var checkBox = document.getElementById("gridCheck1");
-        if (checkBox.checked == true){
+        if (checkBox.checked == true) {
             $('#supp').select2('destroy').find('option').prop('selected', 'selected').end().select2();
         } else {
             $('#supp').select2('destroy').find('option').prop('selected', false).end().select2();
             $('#supp').select2({
-            placeholder: "Pilih Grup",
-            allowClear: true,
-            language: "id",
-            width: '100%',
-            dropdownParent: $("#f_add_supp")
+                placeholder: "Pilih Grup",
+                allowClear: true,
+                language: "id",
+                width: '100%',
+                dropdownParent: $("#f_add_supp")
             });
         }
     }
 
-    
-    
-    function pesan_sukses(txt){
+    function pesan_sukses(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'success',
-        title: txt
+            icon: 'success',
+            title: txt
         })
     }
 
+    function down_supp() {
+        let mulai = $("#mulai").val();
+        let hingga = $("#hingga").val();
+        if (mulai == '') {
+            pesan('Tanggal harus diisi');
+            $("#mulai").focus();
+        } else {
+            if (hingga == '') {
+                pesan('Tanggal harus diisi');
+                $("#hingga").focus();
+            } else {
+                window.open("<?= base_url('Purchasing/print_supp?mulai=') ?>" + mulai + "&hingga=" + hingga);
+            }
+        }
+    }
 </script>

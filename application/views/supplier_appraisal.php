@@ -24,16 +24,16 @@
                         <!-- Default Tabs -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">PO LIST</button>
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">PO LIST</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                            <button onclick="get_filter_supp()" class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Penilaian</button>
+                                <button onclick="get_filter_supp()" class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Penilaian</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <!-- -->
-                                <div class="row"> 
+                                <div class="row">
                                     <div class="col-xl-2">
                                         <input type="date" id="mulai" class="form-control">
                                     </div>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <!-- -->
-                                <div class="row"> 
+                                <div class="row">
                                     <div class="col-xl-2">
                                         <select class="form-control" id="filter_smstr">
                                             <option value='1'>Semester 1</option>
@@ -65,28 +65,105 @@
                                     <div class="col-xl-5">
                                         <select class="form-control" id="filter_supp"></select>
                                     </div>
-                                        <div class="col-xl-3">
-                                            <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
-                                            <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
+                                    <div class="col-xl-3">
+                                        <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
+                                        <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Loading...</button>
-                                            <button class="btn btn-warning" onclick="cetak()">Print</button>
-                                        </div>
-                                    </div><br><br>
-                                    <div id="tampildatapenilaian"></div>
-                                </div>
+                                        <button class="btn btn-warning" onclick="cetak()">Print</button>
+                                    </div>
+                                </div><br><br>
+                                <div id="tampildatapenilaian"></div>
                             </div>
-                        </div><!-- End Default Tabs -->
-                    </div>
-                    <div class="card-body">
-                    
-                    </div>
+                        </div>
+                    </div><!-- End Default Tabs -->
                 </div>
-                
+                <div class="card-body">
+
+                </div>
             </div>
+
+        </div>
         </div>
     </section>
 </main><!-- End #main -->
+
+<!-- new penilaian -->
+<div class="modal fade" id="new_penilaian" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nama_supp">New Penilaian Supplier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
+                    <input type="hidden" id="id_penilaian" name="id_penilaian">
+                    <input type="hidden" id="id_supp" name="id_supp">
+                    <div class="col-8">
+                        <label for="inputNanme4" class="form-label">Semester</label>
+                        <select id="semester" name="semester" class="form-control">
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Tahun</label>
+                        <select id="tahun" name="tahun" class="form-control">
+                            <?php
+                            foreach ($tahun as $th) {
+                                echo "<option value='" . $th['tahun'] . "'>" . $th['tahun'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Mutu</label>
+                        <select id="mutu" name="mutu" class="form-control">
+                            <option value="0">-- Pilih --</option>
+                            <option value="1">Tidak sesuai persyaratan yang diminta</option>
+                            <option value="2">Kurang sesuai permintaan yang diminta</option>
+                            <option value="3">Sesuai permintaan yang diminta</option>
+                            <option value="4">Melebihi persyaratan yang diminta</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Pelayanan</label>
+                        <select id="pelayanan" name="pelayanan" class="form-control">
+                            <option value="0">-- Pilih --</option>
+                            <option value="1">Kurang Tanggap, Informasi tidak cukup, Respon sangat lambat (≥48 Jam)</option>
+                            <option value="2">Cukup Tanggap, Informasi Cukup Menjawab, Respon agak lambat</option>
+                            <option value="3">Cepat Tanggap, Informasi sangat menjawab, Respon Tepat Waktu</option>
+                            <option value="4">Sangat Tanggap, Informasi sangat memuaskan, Respon Tepat Waktu</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Kuantiti</label>
+                        <select id="kuantiti" name="kuantiti" class="form-control">
+                            <option value="0">-- Pilih --</option>
+                            <option value="1">Kelebihan atau Kekurangan > 5%</option>
+                            <option value="2">Kelebihan atau Kekurangan ≥ 5%</option>
+                            <option value="3">Kelebihan atau Kekurangan < 5%</option>
+                            <option value="4">Pas Sesuai Pemintaan</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputNanme4" class="form-label">Keterangan</label>
+                        <textarea id="keterangan" name="keterangan" class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="btnUpload">
+                            <span id="uploadText">Upload</span>
+                            <span id="loadingText" style="display: none;">Loading...</span>
+                        </button>
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- penilaian -->
 <div class="modal fade" id="add_penilaian" tabindex="-1">
@@ -97,61 +174,61 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <input type="hidden" id="id_penilaian">
-            <input type="hidden" id="id_supp">
-            <form class="row g-3">
-                <div class="col-8">
-                    <label for="inputNanme4" class="form-label">Semester</label>
-                    <select id="semester" class="form-control">
-                        <option value="1">Semester 1</option>
-                        <option value="2">Semester 2</option>
-                    </select>
-                </div>
-                <div class="col-4">
-                    <label for="inputNanme4" class="form-label">Tahun</label>
-                    <select id="tahun" class="form-control">
-                        <?php
-                        foreach($tahun as $th){
-                            echo"<option value='".$th['tahun']."'>".$th['tahun']."</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-4">
-                    <label for="inputNanme4" class="form-label">Mutu</label>
-                    <select id="mutu" class="form-control">
-                        <option value="0">-- Pilih --</option>
-                        <option value="1">Tidak sesuai persyaratan yang diminta</option>
-                        <option value="2">Kurang sesuai permintaan yang diminta</option>
-                        <option value="3">Sesuai permintaan yang diminta</option>
-                        <option value="4">Melebihi persyaratan yang diminta</option>
-                    </select>
-                </div>
-                <div class="col-4">
-                    <label for="inputNanme4" class="form-label">Pelayanan</label>
-                    <select id="pelayanan" class="form-control">
-                        <option value="0">-- Pilih --</option>
-                        <option value="1">Kurang Tanggap, Informasi tidak cukup, Respon sangat lambat (≥48 Jam)</option>
-                        <option value="2">Cukup Tanggap, Informasi Cukup Menjawab, Respon agak lambat</option>
-                        <option value="3">Cepat Tanggap, Informasi sangat menjawab, Respon Tepat Waktu</option>
-                        <option value="4">Sangat Tanggap, Informasi sangat memuaskan, Respon Tepat Waktu</option>
-                    </select>
-                </div>
-                <div class="col-4">
-                    <label for="inputNanme4" class="form-label">Kuantiti</label>
-                    <select id="kuantiti" class="form-control">
-                        <option value="0">-- Pilih --</option>
-                        <option value="1">Kelebihan atau Kekurangan > 5%</option>
-                        <option value="2">Kelebihan atau Kekurangan ≥ 5%</option>
-                        <option value="3">Kelebihan atau Kekurangan < 5%</option>
-                        <option value="4">Pas Sesuai Pemintaan</option>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <label for="inputNanme4" class="form-label">Keterangan</label>
-                    <textarea id="keterangan" class="form-control"></textarea>
-                </div>
-            </form>
+                <input type="hidden" id="id_penilaian" name="id_penilaian">
+                <input type="hidden" id="id_supp" name="id_supp">
+                <form class="row g-3">
+                    <div class="col-8">
+                        <label for="inputNanme4" class="form-label">Semester</label>
+                        <select id="semester" name="semester" class="form-control">
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Tahun</label>
+                        <select id="tahun" name="tahun" class="form-control">
+                            <?php
+                            foreach ($tahun as $th) {
+                                echo "<option value='" . $th['tahun'] . "'>" . $th['tahun'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Mutu</label>
+                        <select id="mutu" name="mutu" class="form-control">
+                            <option value="0">-- Pilih --</option>
+                            <option value="1">Tidak sesuai persyaratan yang diminta</option>
+                            <option value="2">Kurang sesuai permintaan yang diminta</option>
+                            <option value="3">Sesuai permintaan yang diminta</option>
+                            <option value="4">Melebihi persyaratan yang diminta</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Pelayanan</label>
+                        <select id="pelayanan" name="pelayanan" class="form-control">
+                            <option value="0">-- Pilih --</option>
+                            <option value="1">Kurang Tanggap, Informasi tidak cukup, Respon sangat lambat (≥48 Jam)</option>
+                            <option value="2">Cukup Tanggap, Informasi Cukup Menjawab, Respon agak lambat</option>
+                            <option value="3">Cepat Tanggap, Informasi sangat menjawab, Respon Tepat Waktu</option>
+                            <option value="4">Sangat Tanggap, Informasi sangat memuaskan, Respon Tepat Waktu</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputNanme4" class="form-label">Kuantiti</label>
+                        <select id="kuantiti" name="pelayanan" class="form-control">
+                            <option value="0">-- Pilih --</option>
+                            <option value="1">Kelebihan atau Kekurangan > 5%</option>
+                            <option value="2">Kelebihan atau Kekurangan ≥ 5%</option>
+                            <option value="3">Kelebihan atau Kekurangan < 5%</option>
+                            <option value="4">Pas Sesuai Pemintaan</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputNanme4" class="form-label">Keterangan</label>
+                        <textarea id="keterangan" name="keterangan" class="form-control"></textarea>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" onclick="simpannilai()">Simpan Penilaian</button>
@@ -161,18 +238,16 @@
 </div>
 
 <script>
-    
-
-    function tampildata(){
+    function tampildata() {
         var s = $("#filter_smstr").val();
         var t = $("#filter_tahun").val();
         var supp = $("#filter_supp").val();
-        if(supp == 0){
+        if (supp == 0) {
             pesan('Pilih supplier');
-        }else{
+        } else {
             document.getElementById('btntampil').style.display = 'none';
             document.getElementById('btnloading').style.display = '';
-            $.get("<?= base_url('Purchasing/laporan_penilaian_supp?s=') ?>"+s+"&t="+t+"&id_supp="+supp, function(data, status) {
+            $.get("<?= base_url('Purchasing/laporan_penilaian_supp?s=') ?>" + s + "&t=" + t + "&id_supp=" + supp, function(data, status) {
                 document.getElementById('btntampil').style.display = '';
                 document.getElementById('btnloading').style.display = 'none';
                 $("#tampildatapenilaian").html(data);
@@ -180,25 +255,26 @@
         }
     }
 
-    function add(docnum,supp,id){
+    function add(docnum, supp, id) {
         $("#nama_supp").html(supp);
         $("#id_penilaian").val(docnum);
         $("#id_supp").val(id);
-        $("#add_penilaian").modal("show");
+        //$("#add_penilaian").modal("show");
+        $("#new_penilaian").modal("show");
     }
 
-    function tampilpo(){
+    function tampilpo() {
         var mulai = $("#mulai").val();
         var hingga = $("#hingga").val();
-        if(mulai == ''){
+        if (mulai == '') {
             pesan('Tgl mulai belum diisi');
-        }else{
-            if(hingga == ''){
+        } else {
+            if (hingga == '') {
                 pesan('Tgl hingga belum diisi');
-            }else{
+            } else {
                 document.getElementById('btntampilpo').style.display = 'none';
                 document.getElementById('btnloadingpo').style.display = '';
-                $.get("<?= base_url('purchasing/tb_po_list?mulai=') ?>"+mulai+"&hingga="+hingga, function(data, status) {
+                $.get("<?= base_url('purchasing/tb_po_list?mulai=') ?>" + mulai + "&hingga=" + hingga, function(data, status) {
                     document.getElementById('btntampilpo').style.display = '';
                     document.getElementById('btnloadingpo').style.display = 'none';
                     $("#tbpo").html(data);
@@ -207,45 +283,51 @@
         }
     }
 
-    function pesan(txt){
+    function pesan(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'error',
-        title: txt
+            icon: 'error',
+            title: txt
         })
     }
 
-    function pesan_sukses(txt){
+    function pesan_sukses(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'success',
-        title: txt
+            icon: 'success',
+            title: txt
         })
     }
 
-    function simpannilai(){
+    $("#f_upld").on("submit", function(e) {
+        e.preventDefault();
+        var form = $(this);
+        $("#btnUpload").prop('disabled', true);
+        $("#uploadText").hide();
+        $("#loadingText").show();
+        var formData = form.serialize();
         var mutu = $("#mutu").val();
         var pelayanan = $("#pelayanan").val();
         var kuantiti = $("#kuantiti").val();
@@ -253,63 +335,134 @@
         var id_supp = $("#id_supp").val();
         var semester = $("#semester").val();
         var tahun = $("#tahun").val();
-            if(mutu == 0){
-                pesan('Penilaian Mutu belum diisi');
-            }else{
-                if(pelayanan == 0){
-                    pesan('Penilaian pelayanan belum diisi');
-                }else{
-                    if(kuantiti == 0){
-                        pesan('Penilaian kuantiti belum diisi');
-                    }else{
-                        if(keterangan == ''){
-                            pesan('keterangan belum diisi');
-                        }else{
-                            $.ajax({
-                                url: "<?= base_url('Purchasing/simpan_nilai'); ?>",
-                                type: 'POST',
-                                cache: false,
-                                data: {
-                                    id_penilaian: id_penilaian,
-                                    mutu: mutu,
-                                    pelayanan: pelayanan,
-                                    kuantiti: kuantiti,
-                                    keterangan : keterangan,
-                                    id_supp: id_supp,
-                                    semester: semester,
-                                    tahun: tahun,
-                                    csrf_test_name: $.cookie('csrf_cookie_name')
-                                },
-                                success: function() {
-                                    // begin
+        if (mutu == 0) {
+            pesan('Penilaian Mutu belum diisi');
+            $("#btnUpload").prop('disabled', false);
+            $("#uploadText").show();
+            $("#loadingText").hide();
+            $("#tombol-tampil").click();
+        } else {
+            if (pelayanan == 0) {
+                pesan('Penilaian pelayanan belum diisi');
+                $("#btnUpload").prop('disabled', false);
+                $("#uploadText").show();
+                $("#loadingText").hide();
+                $("#tombol-tampil").click();
+            } else {
+                if (kuantiti == 0) {
+                    pesan('Penilaian kuantiti belum diisi');
+                    $("#btnUpload").prop('disabled', false);
+                    $("#uploadText").show();
+                    $("#loadingText").hide();
+                    $("#tombol-tampil").click();
+                } else {
+                    if (keterangan == '') {
+                        pesan('keterangan belum diisi');
+                        $("#btnUpload").prop('disabled', false);
+                        $("#uploadText").show();
+                        $("#loadingText").hide();
+                        $("#tombol-tampil").click();
+                    } else {
+                        $.ajax({
+                            url: "<?= base_url('Purchasing/simpan_nilai2'); ?>",
+                            type: "GET",
+                            data: formData,
+                            success: function(data) {
+                                if (data == 1) {
+                                    alert('Upload gagal');
+                                    $("#btnUpload").prop('disabled', false);
+                                    $("#uploadText").show();
+                                    $("#loadingText").hide();
+                                    $("#tombol-tampil").click();
+                                } else {
+                                    $("#btnUpload").prop('disabled', false);
+                                    $("#uploadText").show();
+                                    $("#loadingText").hide();
+                                    $("#tombol-tampil").click();
+                                    $("#f_upload_bt").modal("hide");
                                     pesan_sukses('Tersimpan');
-                                    tampilpo();
-                                    $("#add_penilaian").modal("hide");
+                                    document.getElementById("semester").value = "0";
+                                    document.getElementById("tahun").value = "0";
                                     document.getElementById("mutu").value = "0";
                                     document.getElementById("pelayanan").value = "0";
                                     document.getElementById("kuantiti").value = "0";
                                     document.getElementById("keterangan").value = "";
-                                    //end
+                                    $("#new_penilaian").modal("hide");
+                                    tampilpo();
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                 }
             }
-    }
+        }
+    });
 
-    function cetak(){
-        var s = $("#filter_smstr").val();
-        var t = $("#filter_tahun").val();
-        var supp = $("#filter_supp").val();
-        if(supp == 0){
-            pesan('Pilih supplier');
-        }else{
-            window.open("<?= base_url('Purchasing/cetak_laporan_penilaian_supp?s=') ?>"+s+"&t="+t+"&id_supp="+supp,"_blank");
+    function simpannilai() {
+        var mutu = $("#mutu").val();
+        var pelayanan = $("#pelayanan").val();
+        var kuantiti = $("#kuantiti").val();
+        var keterangan = $("#keterangan").val();
+        var id_supp = $("#id_supp").val();
+        var semester = $("#semester").val();
+        var tahun = $("#tahun").val();
+        if (mutu == 0) {
+            pesan('Penilaian Mutu belum diisi');
+        } else {
+            if (pelayanan == 0) {
+                pesan('Penilaian pelayanan belum diisi');
+            } else {
+                if (kuantiti == 0) {
+                    pesan('Penilaian kuantiti belum diisi');
+                } else {
+                    if (keterangan == '') {
+                        pesan('keterangan belum diisi');
+                    } else {
+                        $.ajax({
+                            url: "<?= base_url('Purchasing/simpan_nilai'); ?>",
+                            type: 'POST',
+                            cache: false,
+                            data: {
+                                id_penilaian: id_penilaian,
+                                mutu: mutu,
+                                pelayanan: pelayanan,
+                                kuantiti: kuantiti,
+                                keterangan: keterangan,
+                                id_supp: id_supp,
+                                semester: semester,
+                                tahun: tahun,
+                                //csrf_test_name: $.cookie('csrf_cookie_name')
+                            },
+                            success: function() {
+                                // begin
+                                pesan_sukses('Tersimpan');
+                                tampilpo();
+                                $("#add_penilaian").modal("hide");
+                                document.getElementById("mutu").value = "0";
+                                document.getElementById("pelayanan").value = "0";
+                                document.getElementById("kuantiti").value = "0";
+                                document.getElementById("keterangan").value = "";
+                                //end
+                            }
+                        });
+                    }
+                }
+            }
         }
     }
 
-    function get_filter_supp(){
+    function cetak() {
+        var s = $("#filter_smstr").val();
+        var t = $("#filter_tahun").val();
+        var supp = $("#filter_supp").val();
+        if (supp == 0) {
+            pesan('Pilih supplier');
+        } else {
+            window.open("<?= base_url('Purchasing/cetak_laporan_penilaian_supp?s=') ?>" + s + "&t=" + t + "&id_supp=" + supp, "_blank");
+        }
+    }
+
+    function get_filter_supp() {
         $.get("<?= base_url('purchasing/get_filter_supp') ?>", function(data, status) {
             $("#filter_supp").html(data);
         });
