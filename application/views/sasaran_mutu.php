@@ -4,6 +4,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
+
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Sasaran Mutu</h1>
@@ -55,7 +57,7 @@
                                                 <option value='TEKNISI'>TEKNISI</option>
                                             </select>
                                         </div>
-                                        <div class="col-xl-1">
+                                        <div style="width: 170px;">
                                             <select class="form-control" id="filter_bulan">
                                                 <option value='0'>--Bulan--</option>
                                                 <option value='1'>JANUARI</option>
@@ -73,11 +75,17 @@
                                             </select>
                                         </div>
                                         <div class="col-xl-1">
-                                            <select class="form-control" id="filter_tahun">
-                                                <option value='0'>--Tahun--</option>
-                                                <option value='2023'>2023</option>
-                                                <option value='2024'>2024</option>
-                                                <option value='2025'>2025</option>
+                                            <select class="form-control" name="filter_tahun" id="filter_tahun">
+                                                <?php
+                                                // Mendapatkan tahun saat ini
+                                                $tahun_sekarang = date("Y");
+                                                $tahun_mulai = $tahun_sekarang - 1; // Mulai dari 2 tahun yang lalu
+
+                                                // Membuat dropdown list tahun dari 2 tahun yang lalu hingga tahun saat ini
+                                                for ($tahun = $tahun_mulai; $tahun <= $tahun_sekarang + 2; $tahun++) {
+                                                    echo "<option value='$tahun'>$tahun</option>";
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="col-xl-5">
@@ -197,11 +205,17 @@
                             </select>
                         </div>
                         <div class="col-2">
-                            <select class="form-control" id="filter_tahun1" name="filter_tahun1">
-                                <option value='0'>--Tahun--</option>
-                                <option value='2023'>2023</option>
-                                <option value='2024'>2024</option>
-                                <option value='2025'>2025</option>
+                            <select class="form-control" name="filter_tahun1" id="filter_tahun1">
+                                <?php
+                                // Mendapatkan tahun saat ini
+                                $tahun_sekarang = date("Y");
+                                $tahun_mulai = $tahun_sekarang - 1; // Mulai dari 2 tahun yang lalu
+
+                                // Membuat dropdown list tahun dari 2 tahun yang lalu hingga tahun saat ini
+                                for ($tahun = $tahun_mulai; $tahun <= $tahun_sekarang + 2; $tahun++) {
+                                    echo "<option value='$tahun'>$tahun</option>";
+                                }
+                                ?>
                             </select>
                         </div>
                         <div class="col-4">

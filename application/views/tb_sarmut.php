@@ -153,8 +153,8 @@ $bulanMap = [
                 <th style='text-align: center; vertical-align: middle;' width="200px">Mengetahui,</th>
             </tr>
             <tr>
-                <th style='text-align: center; vertical-align: middle;' height="80px"><img src="<?= base_url('assets\img\ttd_pur_dibuat.png') ?>" style="width:70px;height:50px;"></th>
-                <th style='text-align: center; vertical-align: middle;' height="80px"><img src="<?= base_url('assets\img\ttd_pur_disetujui.png') ?>" style="width:70px;height:50px;"></th>
+                <th style='text-align: center; vertical-align: middle;' height="80px"></th>
+                <th style='text-align: center; vertical-align: middle;' height="80px"></th>
             </tr>
             <tr>
                 <th style='text-align: center; vertical-align: middle;' height="28px"><?php echo $namaDivisi ?></th>

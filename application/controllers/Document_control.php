@@ -396,70 +396,84 @@ class Document_control extends CI_Controller
         ];
 
         if ($divisi_modal == "IT") {
-            $start = $knv_bulan[$filter_bulan1]['start'];
-            $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            $cek = $this->M_dc->cek_sarmut($divisi_modal);
+            $nilai_cocok = false;
+            foreach ($cek as $nilai) {
+                if ($filter_bulan1 == $nilai['bulan'] && $filter_tahun1 == $nilai['tahun']) {
+                    $nilai_cocok = true;
+                    break;
+                }
+            }
+            if ($nilai_cocok) {
+                echo "Sasaran Mutu Sudah diinput.";
+            } else {
+                $data['detail'] = $this->M_dc->detail_sarmutmodal($divisi_modal);
+                $row = json_encode($data);
+                $this->load->view("tb_sarmut_it", ["data" => $row]);
+            }
         } elseif ($divisi_modal == "PURCHASING") {
-            $start = $knv_bulan[$filter_bulan1]['start'];
-            $end = $knv_bulan[$filter_bulan1]['end'];
-            $pr5['pur5'] = $this->M_dc->PUR5($start, $end);
-            //echo $pur5;
-            $data['detail'] = $this->M_dc->detail_sarmutmodal($divisi_modal);
-            $row = json_encode($data);
-            $datapr5 = json_encode($pr5);
-            $this->load->view("tb_sarmut_input", ["data" => $row,  "datapr5" => $datapr5]);
-            //print_r($datapr5);
+            $cek = $this->M_dc->cek_sarmut($divisi_modal);
+            $nilai_cocok = false;
+            foreach ($cek as $nilai) {
+                if ($filter_bulan1 == $nilai['bulan'] && $filter_tahun1 == $nilai['tahun']) {
+                    $nilai_cocok = true;
+                    break;
+                }
+            }
+            if ($nilai_cocok) {
+                echo "Sasaran Mutu Sudah diinput.";
+            } else {
+                $start = $knv_bulan[$filter_bulan1]['start'];
+                $end = $knv_bulan[$filter_bulan1]['end'];
+                $pr['pur5'] = $this->M_dc->PUR5($start, $end);
+                $pr['pur2'] = $this->M_dc->PUR2($start, $end);
+                $pr['pur3'] = $this->M_dc->PUR3($start, $end);
+                $pr['pur4'] = $this->M_dc->PUR4($start, $end);
+                $data['detail'] = $this->M_dc->detail_sarmutmodal($divisi_modal);
+                $row = json_encode($data);
+                $pr_data = json_encode($pr);
+                $this->load->view("tb_sarmut_pur", ["data" => $row,  "pr_data" => $pr_data]);
+            }
         } elseif ($divisi_modal == "FINANCE ACCOUNTING") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input FINANCE tahap pengembangan";
         } elseif ($divisi_modal == "GUDANG") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input GUDANG tahap pengembangan";
         } elseif ($divisi_modal == "HRD - GA") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input HRD-GA tahap pengembangan";
         } elseif ($divisi_modal == "LEGAL") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input LEGAL tahap pengembangan";
         } elseif ($divisi_modal == "MARKETING") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input MARKETING tahap pengembangan";
         } elseif ($divisi_modal == "PPIC") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input PPIC tahap pengembangan";
         } elseif ($divisi_modal == "PRODUKSI") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input PRODUKSI tahap pengembangan";
         } elseif ($divisi_modal == "QC") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input QC tahap pengembangan";
         } elseif ($divisi_modal == "RND") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input RND tahap pengembangan";
         } elseif ($divisi_modal == "TEKNISI") {
             $start = $knv_bulan[$filter_bulan1]['start'];
             $end = $knv_bulan[$filter_bulan1]['end'];
-            echo "Start Date: " . $start . "<br>";
-            echo "End Date: " . $end;
+            echo "Sarmut input TEKNISI tahap pengembangan";
         } else {
             echo "Not Work";
         }

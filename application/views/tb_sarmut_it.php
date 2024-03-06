@@ -1,6 +1,6 @@
 <?php
+//perhatikan data yang didecode, contoh data pakai purchasing
 $row = json_decode($data, true);
-$pr5 = json_decode($datapr5, true);
 ?>
 <hr>
 <table class="table table-sm table-bordered" width="100%" border="1" rules="all" style="font-size:13px;">
@@ -15,6 +15,7 @@ $pr5 = json_decode($datapr5, true);
             <th style='text-align: center; vertical-align: middle;'>Rencana Berikutnya</th>
         </tr>
     </thead>
+    <!--Tabel body diisi sesuai sarmut masing-masing divisi, contoh ini pakai data purchasing-->
     <tbody>
         <?php
         $i = 1;
@@ -23,14 +24,7 @@ $pr5 = json_decode($datapr5, true);
             echo "<td><input type='hidden' name='id_sarmut[]' value='" . $h['id_sarmut'] . "'>" . $i . "</td>";
             echo "<td id='nama_sasaran' name='nama_sasaran[]' style='vertical-align:top;'>" . $h['nama_sasaran'] . "</td>";
             echo "<td id='target_sasaran' name='target_sasaran[]' style='vertical-align:top;'>" . $h['target_sasaran'] . "</td>";
-            foreach ($pr5['pur5'] as $d) {
-                if ($h['id_sarmut'] == "pur5") {
-                    $nilaiBulan = $d['Persentase'];
-                    echo "<td><input type='text' class='form-control' id='nilai' name='nilai[]' value='" . $nilaiBulan . "%' readonly></td>";
-                } else {
-                    echo "<td><input type='text' class='form-control' id='nilai' name='nilai[]' placeholder='-' required></td>";
-                }
-            }
+            echo "<td><input type='text' class='form-control' id='nilai' name='nilai[]' placeholder='-' required></td>";
             echo "<td><textarea class='form-control' id='analisa_penyebab' name='analisa_penyebab[]' rows='4' style='width: 100%;'></textarea></td>";
             echo "<td><textarea class='form-control' id='tindakan_dilakukan' name='tindakan_dilakukan[]' rows='4' style='width: 100%;'></textarea></td>";
             echo "<td><textarea class='form-control' id='rencana_berikutnya' name='rencana_berikutnya[]' rows='4' style='width: 100%;'></textarea></td>";
@@ -69,7 +63,7 @@ $pr5 = json_decode($datapr5, true);
                     } else {
                         $("#f_upload_bt").modal("hide");
                         $("#upload_dokumen").modal("hide");
-                        pesan_sukses('Halah');
+                        pesan_sukses('Sasaran Mutu Berhasil Diinput');
                         setTimeout(function() {
                             location.reload();
                         }, 500);
