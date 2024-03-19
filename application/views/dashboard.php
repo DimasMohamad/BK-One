@@ -1,4 +1,6 @@
-<?php $row = json_decode($data, true); ?>
+<?php
+$row = json_decode($data, true);
+?>
 
 <main id="main" class="main">
 
@@ -11,7 +13,7 @@
       </ol>
     </nav>
   </div><!-- End Page Title -->
-  <?php //print_r($row); 
+  <?php //print_r($row);
   ?>
   <section class="section dashboard">
     <div class="row">
@@ -48,7 +50,7 @@
                     new ApexCharts(document.querySelector("#reportsChart"), {
                       series: [{
                         name: 'SO',
-                        //data: [11, 32, 45, 32, 34, 52, 41]
+                        //data: [11, 32, 45, 32, 34, 82, 41]
                         data: [
                           <?php
                           foreach ($row['so'] as $so) {

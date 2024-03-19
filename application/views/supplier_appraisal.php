@@ -100,6 +100,7 @@
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
                     <input type="hidden" id="id_penilaian" name="id_penilaian">
                     <input type="hidden" id="id_supp" name="id_supp">
+                    <input type="hidden" id="item" name="item">
                     <div class="col-8">
                         <label for="inputNanme4" class="form-label">Semester</label>
                         <select id="semester" name="semester" class="form-control">
@@ -255,10 +256,11 @@
         }
     }
 
-    function add(docnum, supp, id) {
+    function add(docnum, supp, id, item) {
         $("#nama_supp").html(supp);
         $("#id_penilaian").val(docnum);
         $("#id_supp").val(id);
+        $("#item").val(item);
         //$("#add_penilaian").modal("show");
         $("#new_penilaian").modal("show");
     }
@@ -335,6 +337,7 @@
         var id_supp = $("#id_supp").val();
         var semester = $("#semester").val();
         var tahun = $("#tahun").val();
+        var item = $("#item").val();
         if (mutu == 0) {
             pesan('Penilaian Mutu belum diisi');
             $("#btnUpload").prop('disabled', false);

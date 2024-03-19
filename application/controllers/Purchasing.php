@@ -223,6 +223,7 @@ class Purchasing extends CI_Controller
         echo $uniqueString = uniqid('', true);
     }
 
+    //simpan nilai versi lama
     public function simpan_nilai()
     {
         $nopo = $this->input->post('id_penilaian');
@@ -256,6 +257,7 @@ class Purchasing extends CI_Controller
         $keterangan = $this->input->get('keterangan');
         $semester = $this->input->get('semester');
         $tahun = $this->input->get('tahun');
+        $item = $this->input->get('item');
         $data = array(
             'nopo' => $nopo,
             'n1' => $mutu,
@@ -264,9 +266,10 @@ class Purchasing extends CI_Controller
             'keterangan' => $keterangan,
             'id_supp' => $id_supp,
             'semester' => $semester,
-            'tahun' => $tahun
+            'tahun' => $tahun,
+            'item' => $item
         );
-        print_r($data);
+        //print_r($data);
         $this->db->insert('tb_supp_p_2', $data);
     }
 
@@ -277,7 +280,7 @@ class Purchasing extends CI_Controller
         $id_supp = $this->input->get('id_supp');
         $data = json_encode($this->M_purc->laporan_penilaian_supp($s, $t, $id_supp));
         $supp = $this->M_purc->get_supp($id_supp);
-        $this->load->view("laporan_penilaian_supp", ["data" => $data, "supp" => $supp]);
+        $this->load->view("laporan_penilaian_supp", ["data" => $data, "supp" => $supp, "s" => $s]);
     }
 
     public function cetak_laporan_penilaian_supp()

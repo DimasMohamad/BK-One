@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_dc extends CI_Model
 {
+    private $database_name = "BKI_2024";
     public function __construct()
     {
         parent::__construct();
@@ -79,8 +80,8 @@ class M_dc extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('SELECT CAST((COUNT(B."DocEntry") / COUNT(A."DocEntry")) * 100 AS INTEGER) AS "Persentase_pur5"
-        FROM "BKI_LIVE"."PRQ1" A
-        LEFT JOIN "BKI_LIVE"."OPOR" B ON A."DocEntry" = B."DocEntry"
+        FROM "' . $this->database_name . '"."PRQ1" A
+        LEFT JOIN "' . $this->database_name . '"."OPOR" B ON A."DocEntry" = B."DocEntry"
         WHERE B."CANCELED" = ' . "'N'" . ' AND A."TargetType" = ' . "'22'" . ' AND A."DocDate" between ' . "'$start'" . ' and ' . "'$end'" . ';')->row_array();
     }
 
@@ -91,8 +92,8 @@ class M_dc extends CI_Model
         (COUNT(CASE WHEN subquery."CardCode" IS NOT NULL THEN 1 END) / COUNT(*)) * 100 AS "Persentase_pur2"
     FROM
         (SELECT A."ItemCode", A."Dscription", B."CardCode", B."CardName", B."DocDate", B."Comments" 
-         FROM "BKI_LIVE".POR1 A
-         LEFT JOIN (SELECT "DocEntry", "CardCode", "CardName", "Comments", "DocDate" FROM "BKI_LIVE".OPDN) B 
+         FROM "' . $this->database_name . '".POR1 A
+         LEFT JOIN (SELECT "DocEntry", "CardCode", "CardName", "Comments", "DocDate" FROM "' . $this->database_name . '".OPDN) B 
          ON A."TrgetEntry" = B."DocEntry"
          WHERE B."DocDate" BETWEEN ' . "'$start'" . ' AND ' . "'$end'" . ' AND A."ItemCode" LIKE ' . "'BB%'" . ') AS subquery;')->row_array();
     }
@@ -104,8 +105,8 @@ class M_dc extends CI_Model
         (COUNT(CASE WHEN subquery."CardCode" IS NOT NULL THEN 1 END) / COUNT(*)) * 100 AS "Persentase_pur3"
     FROM
         (SELECT A."ItemCode", A."Dscription", B."CardCode", B."CardName", B."DocDate", B."Comments" 
-         FROM "BKI_LIVE".POR1 A
-         LEFT JOIN (SELECT "DocEntry", "CardCode", "CardName", "Comments", "DocDate" FROM "BKI_LIVE".OPDN) 
+         FROM "' . $this->database_name . '".POR1 A
+         LEFT JOIN (SELECT "DocEntry", "CardCode", "CardName", "Comments", "DocDate" FROM "' . $this->database_name . '".OPDN) 
          B ON A."TrgetEntry" = B."DocEntry"
          WHERE B."DocDate" BETWEEN ' . "'$start'" . ' AND ' . "'$end'" . ' AND A."ItemCode" LIKE ' . "'BP%'" . ') AS subquery;')->row_array();
     }
@@ -117,8 +118,8 @@ class M_dc extends CI_Model
         (COUNT(CASE WHEN subquery."CardCode" IS NOT NULL THEN 1 END) / COUNT(*)) * 100 AS "Persentase_pur4"
     FROM
         (SELECT A."ItemCode", A."Dscription", B."CardCode", B."CardName", B."DocDate", B."Comments" 
-        FROM "BKI_LIVE".PRQ1 A
-        LEFT JOIN (SELECT "DocEntry", "CardCode", "CardName", "Comments", "DocDate", "CANCELED" FROM "BKI_LIVE".OPDN)
+        FROM "' . $this->database_name . '".PRQ1 A
+        LEFT JOIN (SELECT "DocEntry", "CardCode", "CardName", "Comments", "DocDate", "CANCELED" FROM "' . $this->database_name . '".OPDN)
         B ON A."TrgetEntry" = B."DocEntry"
         WHERE B."DocDate" BETWEEN ' . "'$start'" . ' AND ' . "'$end'" . ') AS subquery;')->row_array();
     }

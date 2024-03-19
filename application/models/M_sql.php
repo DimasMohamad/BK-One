@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_sql extends CI_Model
 {
+	private $database_name = "BKI_2024";
 	public function __construct()
 	{
 		parent::__construct();
@@ -11,13 +12,13 @@ class M_sql extends CI_Model
 	public function ocpr()
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('select * from "BKI_LIVE"."OCPR";')->result_array();
+		return $hanadb->query('select * from "' . $this->database_name . '"."OCPR";')->result_array();
 	}
 
 	public function Item_Groups()
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('select "ItmsGrpCod","ItmsGrpNam" from "BKI_LIVE"."OITB" order by "ItmsGrpNam"')->result_array();
+		return $hanadb->query('select "ItmsGrpCod","ItmsGrpNam" from "' . $this->database_name . '"."OITB" order by "ItmsGrpNam"')->result_array();
 	}
 
 	public function bukti_penerimaan_barang($DocKey)
@@ -48,16 +49,16 @@ class M_sql extends CI_Model
 		t1."LineTotal" AS "TOTAL",
 		t0."Comments" AS "Alasan",
 		t0."DocDueDate" AS "Diterima tanggal"
-        FROM "BKI_LIVE"."OIGN" AS t0 
-        LEFT JOIN (select "DocEntry","ItemCode","Dscription","Quantity","unitMsr","PriceBefDi","VatPrcnt","LineTotal" from "BKI_LIVE"."IGN1") AS t1 ON t0."DocEntry"  = t1."DocEntry"
-        LEFT JOIN (select "Series","SeriesName" from "BKI_LIVE"."NNM1") AS t3 ON t0."Series" = t3."Series"
+        FROM "' . $this->database_name . '"."OIGN" AS t0 
+        LEFT JOIN (select "DocEntry","ItemCode","Dscription","Quantity","unitMsr","PriceBefDi","VatPrcnt","LineTotal" from "' . $this->database_name . '"."IGN1") AS t1 ON t0."DocEntry"  = t1."DocEntry"
+        LEFT JOIN (select "Series","SeriesName" from "' . $this->database_name . '"."NNM1") AS t3 ON t0."Series" = t3."Series"
         WHERE t0."DocEntry" = ' . $DocKey . ';')->result_array();
 	}
 
 	public function spk_1($id)
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('call "BKI_LIVE"."IDU_SP_SPK1"(' . $id . ')')->result_array();
+		return $hanadb->query('call "' . $this->database_name . '"."IDU_SP_SPK1"(' . $id . ')')->result_array();
 	}
 
 	public function laporan_lhmb($mulai, $hingga, $grup, $cari, $sts)
@@ -98,7 +99,7 @@ class M_sql extends CI_Model
 			B."WhsCode",
 			A."DocStatus",
 			B."AcctCode"
-		  FROM "BKI_LIVE"."OPDN" A
+		  FROM "' . $this->database_name . '"."OPDN" A
 		  Left JOIN (select 
 					"DocEntry",
 					"ItemCode",
@@ -116,9 +117,9 @@ class M_sql extends CI_Model
 					"VatPrcnt",
 					"GTotalFC",
 					"AcctCode"
-					from "BKI_LIVE"."PDN1") B ON B."DocEntry" = A."DocEntry"
-		  Left Join(select "ItemCode","ItmsGrpCod" from "BKI_LIVE"."OITM")C on C."ItemCode" = B."ItemCode"
-		  Left Join(select "ItmsGrpCod","ItmsGrpNam" from "BKI_LIVE"."OITB")D on D."ItmsGrpCod" = C."ItmsGrpCod"
+					from "' . $this->database_name . '"."PDN1") B ON B."DocEntry" = A."DocEntry"
+		  Left Join(select "ItemCode","ItmsGrpCod" from "' . $this->database_name . '"."OITM")C on C."ItemCode" = B."ItemCode"
+		  Left Join(select "ItmsGrpCod","ItmsGrpNam" from "' . $this->database_name . '"."OITB")D on D."ItmsGrpCod" = C."ItmsGrpCod"
 		  WHERE A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . $status . '
 		  AND C."ItmsGrpCod" in(' . $grup . ') AND A."CANCELED" = ' . "'N'" . ') as "grpo" 
 		  where "Supplier" like' . "'%$cari%'" . ' 
@@ -154,7 +155,7 @@ class M_sql extends CI_Model
 			B."WhsCode",
 			A."DocStatus",
 			B."AcctCode"
-		  FROM "BKI_LIVE"."OPDN" A
+		  FROM "' . $this->database_name . '"."OPDN" A
 		  Left JOIN (select 
 					"DocEntry",
 					"ItemCode",
@@ -172,9 +173,9 @@ class M_sql extends CI_Model
 					"VatPrcnt",
 					"GTotalFC" ,
 					"AcctCode"
-					from "BKI_LIVE"."PDN1") B ON B."DocEntry" = A."DocEntry"
-		  Left Join(select "ItemCode","ItmsGrpCod" from "BKI_LIVE"."OITM")C on C."ItemCode" = B."ItemCode"
-		  Left Join(select "ItmsGrpCod","ItmsGrpNam" from "BKI_LIVE"."OITB")D on D."ItmsGrpCod" = C."ItmsGrpCod"
+					from "' . $this->database_name . '"."PDN1") B ON B."DocEntry" = A."DocEntry"
+		  Left Join(select "ItemCode","ItmsGrpCod" from "' . $this->database_name . '"."OITM")C on C."ItemCode" = B."ItemCode"
+		  Left Join(select "ItmsGrpCod","ItmsGrpNam" from "' . $this->database_name . '"."OITB")D on D."ItmsGrpCod" = C."ItmsGrpCod"
 		  WHERE A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . $status . '
 		  AND A."CANCELED" = ' . "'N'" . ') as "grpo" 
 		  where "Supplier" like' . "'%$cari%'" . ' 
@@ -196,7 +197,7 @@ class M_sql extends CI_Model
 		"DocDate",
 		"CardName",
 		"DocTotal"
-		from "BKI_LIVE"."ORDR"
+		from "' . $this->database_name . '"."ORDR"
 		WHERE "DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . '
 		order by "DocEntry","DocDate";')->result_array();
 	}
@@ -204,63 +205,63 @@ class M_sql extends CI_Model
 	public function get_so_month()
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('select ' . "'1'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		return $hanadb->query('select ' . "'1'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 1 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'2'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'2'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 2 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'3'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'3'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 3 and A."CANCELED" = ' . "'N'" . '
 		Union All
-		select ' . "'4'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'4'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 4 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'5'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'5'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 5 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'6'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'6'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 6 and A."CANCELED" = ' . "'N'" . '
 		Union All
-		select ' . "'7'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'7'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 7 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'8'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'8'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 8 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'9'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'9'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 9 and A."CANCELED" = ' . "'N'" . '
 		Union All
-		select ' . "'10'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'10'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 10 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'11'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'11'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 11 and A."CANCELED" = ' . "'N'" . '
 		Union ALL
-		select ' . "'12'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "BKI_LIVE"."ORDR" A
-		Left Join(select "DocEntry","GTotal" from "BKI_LIVE"."RDR1")B on B."DocEntry" = A."DocEntry"
+		select ' . "'12'" . ' as "bln",ifnull(sum(B."GTotal"),0) as "total_so" from "' . $this->database_name . '"."ORDR" A
+		Left Join(select "DocEntry","GTotal" from "' . $this->database_name . '"."RDR1")B on B."DocEntry" = A."DocEntry"
 		where YEAR(A."DocDate") = (select YEAR(current_date) FROM DUMMY)
 		and MONTH(A."DocDate") = 12 and A."CANCELED" = ' . "'N'" . ';')->result_array();
 	}
@@ -273,14 +274,14 @@ class M_sql extends CI_Model
         TO_VARCHAR (left(monthname(TO_DATE(A."DocDate")),3)) || ' . "'-'" . ' ||
         TO_VARCHAR (year(TO_DATE(A."DocDate"))) as "tgl",
 		A."DocStatus",A."Ref1",A."ReqName", B."Dept",A."Comments"
-		FROM "BKI_LIVE"."OPRQ" A
-		Left Join(select "Code","Name" as "Dept" from "BKI_LIVE"."OUDP")B on B."Code" = A."Department"
+		FROM "' . $this->database_name . '"."OPRQ" A
+		Left Join(select "Code","Name" as "Dept" from "' . $this->database_name . '"."OUDP")B on B."Code" = A."Department"
 		where A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . ' 
 		and A."DocStatus" like' . "'%$sts%'" . ' and A."Comments" like' . "'%$cari%'" . ';')->result_array();
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------------------------//
-	//Switch merubah database, BKI_Live ada dibawah//
+	//Switch merubah database, ' . $this->database_name . ' ada dibawah//
 	//-----------------------------------------------------------------------------------------------------------------------------------//
 	public function get_stok_confirm($no_page, $cari)
 	{
@@ -397,13 +398,13 @@ class M_sql extends CI_Model
 		return $hanadb->query('select "row","ItemCode","ItemName","FrgnName","ItmsGrpNam","OnHand","InvntryUom","UgpCode","validFor","InvntItem","SellItem","PrchseItem","U_StatusKode"
 		from(
 			select row_number() over (order by A."ItemCode") as "row",A."ItemCode",A."ItemName",A."FrgnName",C."ItmsGrpNam",A."InvntryUom",B."UgpCode",A."validFor",A."InvntItem",A."SellItem",A."PrchseItem",D."OnHand", A."U_StatusKode"
-			from "BKI_LIVE"."OITM" A
-			Left join "BKI_LIVE"."OUGP" B on B."UgpEntry" = A."UgpEntry"
-			Left join "BKI_LIVE"."OITB" C on C."ItmsGrpCod" = A."ItmsGrpCod"
+			from "' . $this->database_name . '"."OITM" A
+			Left join "' . $this->database_name . '"."OUGP" B on B."UgpEntry" = A."UgpEntry"
+			Left join "' . $this->database_name . '"."OITB" C on C."ItmsGrpCod" = A."ItmsGrpCod"
 			Left join(
 					  select A."ItemCode",sum(A."OnHand") as "OnHand",B."InvntryUom" 
-					  from "BKI_LIVE"."OITW" A 
-					  Left Join(select "ItemCode","ItemName","InvntryUom" from "BKI_LIVE"."OITM")B on B."ItemCode" = A."ItemCode"
+					  from "' . $this->database_name . '"."OITW" A 
+					  Left Join(select "ItemCode","ItemName","InvntryUom" from "' . $this->database_name . '"."OITM")B on B."ItemCode" = A."ItemCode"
 					  where A."OnHand" > 0 
 					  group by A."ItemCode",B."ItemName",B."InvntryUom"
 					 )D on D."ItemCode" = A."ItemCode"
@@ -426,8 +427,8 @@ class M_sql extends CI_Model
 		return $hanadb->query('select * from(
 			select row_number() over (order by "ItemCode") as "row","ItemCode","WhsCode","OnHand","InvntryUom" from (
 			select A."ItemCode",A."WhsCode",B."ItemName",A."OnHand",B."InvntryUom" 
-			from "BKI_LIVE"."OITW" A 
-			Left Join(select "ItemCode","ItemName","InvntryUom" from "BKI_LIVE"."OITM")B on B."ItemCode" = A."ItemCode"
+			from "' . $this->database_name . '"."OITW" A 
+			Left Join(select "ItemCode","ItemName","InvntryUom" from "' . $this->database_name . '"."OITM")B on B."ItemCode" = A."ItemCode"
 			where A."OnHand" > 0) as "tb" where UPPER(A."ItemCode") like ' . "UPPER('%$cari%')" . ' OR UPPER(A."ItemName") like ' . "UPPER('%$cari%')" . '
 			) as "tb_stok"
 			where "row" between ' . $first . ' and ' . $last . ' order by "ItemCode";')->result_array();
@@ -453,14 +454,14 @@ class M_sql extends CI_Model
 				FROM (
 					SELECT "ItemCode", "ItemName", "InvntryUom" 
 					FROM (
-						SELECT "ItemCode", "ItemName", "InvntryUom" FROM "BKI_LIVE"."OITM"
+						SELECT "ItemCode", "ItemName", "InvntryUom" FROM "' . $this->database_name . '"."OITM"
 					) AS "tb_temp1" 
 					WHERE UPPER("ItemCode") LIKE ' . "UPPER('%$cari%')" . ' OR UPPER("ItemName") LIKE ' . "UPPER('%$cari%')" . '
 				) AS "tb_temp2"
 			) AS "tb_temp3"
 			LEFT JOIN (
 				SELECT "ItemCode", "OnHand", "WhsCode" 
-				FROM "BKI_LIVE"."OITW" 
+				FROM "' . $this->database_name . '"."OITW" 
 				WHERE "OnHand" > 0
 			) B ON B."ItemCode" = "tb_temp3"."ItemCode"
 			WHERE "row" BETWEEN ' . $first . ' AND ' . $last . ';
@@ -475,7 +476,7 @@ class M_sql extends CI_Model
 		$query = $hanadb->query(
 			'
         SELECT COUNT("ItemCode") AS "row" 
-        FROM "BKI_LIVE"."OITM"  
+        FROM "' . $this->database_name . '"."OITM"  
         WHERE UPPER("ItemCode") LIKE ' . "'%$cari%'" . ' OR UPPER("ItemName") LIKE ' . "'%$cari%'" . ';'
 		)->row_array();
 
@@ -487,7 +488,7 @@ class M_sql extends CI_Model
 	{
 		$hanadb = $this->load->database('hana', TRUE);
 		return $hanadb->query('select "DocNum","DocDate","Comments"
-		from "BKI_LIVE"."OPRQ"
+		from "' . $this->database_name . '"."OPRQ"
 		where "InvntSttus" = ' . "'O'" . ' and "CANCELED" = ' . "'N'" . ' and "DocDate" 
 		between ' . "'$mulai'" . ' and ' . "'$hingga'" . ' 
 		and "Comments" like ' . "'%$cari%'" . ' order by "DocNum";')->result_array();
@@ -522,7 +523,7 @@ class M_sql extends CI_Model
 		,A."InQty",A."OutQty",("InQty" - "OutQty") as "stok",
 		SUM((A."InQty" - A."OutQty")) OVER(PARTITION BY A."Warehouse" order by A."TransNum") AS "Total"
 		,A."Currency",A."Price",A."TransValue"
-		from "BKI_LIVE"."OINM" A
+		from "' . $this->database_name . '"."OINM" A
 		where A."ItemCode" = ' . "'$itemcode'" . ' order by A."TransNum";')->result_array();
 	}
 
@@ -541,13 +542,13 @@ class M_sql extends CI_Model
 	{
 		$hanadb = $this->load->database('hana', TRUE);
 		return $hanadb->query('SELECT A."ItemCode",((' . $nilai . ' / B."BaseQty")*B."AltQty") as "konversi",' . "'KG'" . ' as "uom"
-		FROM "BKI_LIVE"."OITM" A
-		Left JoiN(select "UgpEntry","AltQty","BaseQty","UomEntry" from "BKI_LIVE"."UGP1")B on B."UgpEntry" = A."UgpEntry"
+		FROM "' . $this->database_name . '"."OITM" A
+		Left JoiN(select "UgpEntry","AltQty","BaseQty","UomEntry" from "' . $this->database_name . '"."UGP1")B on B."UgpEntry" = A."UgpEntry"
 		where A."ItemCode" = ' . "'$id'" . ' and B."UomEntry" = 1
 		Union ALL
 		SELECT A."ItemCode",((' . $nilai . ' / B."BaseQty")*B."AltQty") as "konversi",' . "'ROLL'" . ' as "uom"
-		FROM "BKI_LIVE"."OITM" A
-		Left JoiN(select "UgpEntry","AltQty","BaseQty","UomEntry" from "BKI_LIVE"."UGP1")B on B."UgpEntry" = A."UgpEntry"
+		FROM "' . $this->database_name . '"."OITM" A
+		Left JoiN(select "UgpEntry","AltQty","BaseQty","UomEntry" from "' . $this->database_name . '"."UGP1")B on B."UgpEntry" = A."UgpEntry"
 		where A."ItemCode" = ' . "'$id'" . ' and B."UomEntry" = 5;')->result_array();
 	}
 
@@ -584,9 +585,9 @@ class M_sql extends CI_Model
 		return $hanadb->query('select distinct A."ItemCode",B."ItemName",B."InvntryUom",
 		case when C."UgpCode" in(' . "'BOX'" . ',' . "'PCS'" . ',' . "'PACK'" . ',' . "'BUKU'" . ',' . "'RIM'" . ',' . "'DUS'" . ',' . "'BTL'" . ',' . "'L'" . ',' . "'SET'" . ',' . "'Manual'" . ',' . "'KG'" . ',' . "'M'" . ') 
         THEN ' . "'-'" . ' else C."UgpCode" end "konversi" 
-		from "BKI_LIVE"."OINM" A 
-		Left Join(select "ItemCode","ItemName","InvntryUom","UgpEntry" from "BKI_LIVE"."OITM")B on B."ItemCode" = A."ItemCode"
-		Left Join(select "UgpEntry","UgpCode" from "BKI_LIVE"."OUGP")C on C."UgpEntry" = B."UgpEntry"
+		from "' . $this->database_name . '"."OINM" A 
+		Left Join(select "ItemCode","ItemName","InvntryUom","UgpEntry" from "' . $this->database_name . '"."OITM")B on B."ItemCode" = A."ItemCode"
+		Left Join(select "UgpEntry","UgpCode" from "' . $this->database_name . '"."OUGP")C on C."UgpEntry" = B."UgpEntry"
 		where A."DocDate" <= LAST_DAY(' . "'$periode'" . ')
 		order by A."ItemCode";')->result_array();
 	}
@@ -594,6 +595,6 @@ class M_sql extends CI_Model
 	public function rekap_item_audit($periode)
 	{
 		$hanadb = $this->load->database('hana', TRUE);
-		return $hanadb->query('CALL "BKI_LIVE"."BKI_REKAP_MUTASI_STOK"(' . "'$periode'" . ');')->result_array();
+		return $hanadb->query('CALL "' . $this->database_name . '"."BKI_REKAP_MUTASI_STOK"(' . "'$periode'" . ');')->result_array();
 	}
 }

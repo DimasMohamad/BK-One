@@ -25,10 +25,10 @@
                             </div>
                             <input type="hidden" name="hlmn" id="hlmn">
                         </div>
-                        <div class="form-check form-switch">
+                        <!--<div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                             <label class="form-check-label" for="flexSwitchCheckDefault">Aktifkan untuk mengganti database ke BKI_2024</label>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <div id="tampildata" style="overflow-x:auto;"></div>

@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_marketing extends CI_Model
 {
+    private $database_name = "BKI_2024";
     public function __construct()
     {
         parent::__construct();
@@ -22,8 +23,8 @@ class M_marketing extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", A."DocDate", B."U_Joindate", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
-        from "BKI_LIVE"."ORDR" A
-       	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
+        from "' . $this->database_name . '"."ORDR" A
+       	left join "' . $this->database_name . '"."OCRD" B ON A."CardCode" = B."CardCode"
         WHERE A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . ' AND B."CardCode" IS NOT NULL AND B."frozenFor" = ' . "'N'" . ' and B."CardType" = ' . "'C'" . ' ORDER BY B."CardName";')->result_array();
     }
 
@@ -31,8 +32,8 @@ class M_marketing extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
-        from "BKI_LIVE"."ORDR" A
-       	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
+        from "' . $this->database_name . '"."ORDR" A
+       	left join "' . $this->database_name . '"."OCRD" B ON A."CardCode" = B."CardCode"
         WHERE B."CardCode" IS NOT NULL AND B."frozenFor" = ' . "'N'" . ' and B."CardType" = ' . "'C'" . ' ORDER BY B."CardName";')->result_array();
     }
 
@@ -40,8 +41,8 @@ class M_marketing extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", B."CardName", A."Address", B."Phone1", B."CntctPrsn"
-        from "BKI_LIVE"."ORDR" A
-       	left join "BKI_LIVE"."OCRD" B ON A."CardCode" = B."CardCode"
+        from "' . $this->database_name . '"."ORDR" A
+       	left join "' . $this->database_name . '"."OCRD" B ON A."CardCode" = B."CardCode"
         WHERE B."CardName" =' . "'$nama'" . ' and B."CardCode" IS NOT NULL AND B."frozenFor" = ' . "'N'" . ' and B."CardType" = ' . "'C'" . ' ORDER BY B."CardName";')->result_array();
     }
 
@@ -49,7 +50,7 @@ class M_marketing extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('select distinct A."CardCode", A."U_Joindate", A."CardName", A."Address", A."Phone1", A."CntctPrsn"
-        from "BKI_LIVE"."OCRD" A 
+        from "' . $this->database_name . '"."OCRD" A 
         WHERE A."CardCode" IS NOT NULL AND A."frozenFor" = ' . "'N'" . ' and A."CardType" = ' . "'C'" . ' ORDER BY A."CardName";')->result_array();
     }
 
@@ -57,7 +58,7 @@ class M_marketing extends CI_Model
     {
         $hanadb = $this->load->database('hana', TRUE);
         return $hanadb->query('Select A."DocNum", A."DocDate" 
-        from "BKI_LIVE"."ORDN" A
+        from "' . $this->database_name . '"."ORDN" A
         where A."DocDate" between ' . "'$mulai'" . ' and ' . "'$hingga'" . ';')->result_array();
     }
 
