@@ -34,26 +34,26 @@ $tabel = 1;
 <table class="table table-sm table-bordered" width="100%" border="1" rules="all" style="font-size:15px;">
     <thead>
         <tr>
-            <th style='text-align: center; vertical-align: middle;' rowspan='4'><img src="<?php echo base_url('assets/img/bki.png'); ?>" style='width:150px;height:45px;'></th>
-            <th style='font-size: 18px; text-align: center; vertical-align: middle;' rowspan='4' width='320px'>KRITERIA PEMILIHAN SUPPLIER/OUTSOURCE</th>
-            <th colspan='1' style='text-align:left;vertical-align:top;' width='100px'>No. Dokumen</th>
-            <th style='text-align:left;vertical-align:top;'>BKI.FM.PUR.01</th>
+            <th style='text-align: center; vertical-align: middle;' rowspan='4'><img src="<?php echo base_url('assets/img/bki.png'); ?>" style='width:170px;height:50px;'></th>
+            <th style='font-size: 18px; text-align: center; vertical-align: middle;' rowspan='4' colspan='8'>KRITERIA PEMILIHAN SUPPLIER/OUTSOURCE</th>
+            <th colspan='1' style='text-align:left;vertical-align:top;'>No. Dokumen</th>
+            <th colspan='2' style='text-align:left;vertical-align:top;'>BKI.FM.PUR.01</th>
         </tr>
         <tr>
             <th colspan='1' style='text-align:left;vertical-align:top;'>Tgl efektif</th>
-            <th style='text-align:left;vertical-align:top;'>16 Desember 2022</th>
+            <th colspan='1' style='text-align:left;vertical-align:top;'>16 Desember 2022</th>
         </tr>
         <tr>
             <th colspan='1' style='text-align:left;vertical-align:top;'>Revisi</th>
-            <th style='text-align:left;vertical-align:top;'>03</th>
+            <th colspan='2' style='text-align:left;vertical-align:top;'>03</th>
         </tr>
         <tr>
             <th colspan='1' style='text-align:left;vertical-align:top;'>Halaman</th>
-            <th style='text-align:left;vertical-align:top;'>-</th>
+            <th colspan='2' style='text-align:left;vertical-align:top;'>-</th>
         </tr>
         <tr>
-            <th colspan="2" style='text-align:left;vertical-align:top;'>Periode :</th>
-            <th style='text-align:left;vertical-align:top;'>Material :</th>
+            <th colspan="8" style='text-align:left;vertical-align:top;'>Periode :</th>
+            <th colspan="3" style='text-align:left;vertical-align:top;'>Produk : <?= $produk ?></th>
         </tr>
     </thead>
 </table>
@@ -127,10 +127,10 @@ $tabel = 1;
             ?>
         </tr>
         <tr>
-            <th colspan="4" style='text-align: left; height: 80px;'>Kesimpulan :</th>
+            <th colspan="4" style='text-align: left; height: 80px;'>Kesimpulan : <?= $kesimpulan ?></th>
         </tr>
         <tr>
-            <th colspan="4" style='text-align: left; height: 80px;'>Catatan :</th>
+            <th colspan="4" style='text-align: left; height: 80px;'>Catatan : <?= $catatan ?></th>
         </tr>
         <tr>
             <th colspan="4" style='text-align: left; vertical-align: middle;'>Syarat dan Ketentuan : Nilai 70% dapat dipertimbangan sebagai Back Up Supplier. Jika Mencapai 60% akan masuk Tahap Percobaan atau Cadangan.</th>
@@ -142,10 +142,11 @@ $tabel = 1;
     <tbody>
         <tr>
             <th style='text-align: center; vertical-align: middle;'>Dibuat Oleh,</th>
-            <th style='text-align: center; vertical-align: middle;'>Disetujui oleh,</th>
+            <th colspan="2" style='text-align: center; vertical-align: middle;'>Disetujui oleh,</th>
             <th style='text-align: center; vertical-align: middle;'>Stempel / Cap Perusahaan,</th>
         </tr>
         <tr>
+            <th style='text-align: center; vertical-align: middle;' height="80"></th>
             <th style='text-align: center; vertical-align: middle;' height="80"></th>
             <th style='text-align: center; vertical-align: middle;' height="80"></th>
             <th rowspan="2" height="80"></th>
@@ -153,6 +154,7 @@ $tabel = 1;
         <tr>
             <th style='text-align: center; vertical-align: middle;'>Staff Purchasing</th>
             <th style='text-align: center; vertical-align: middle;'>Head Purchasing</th>
+            <th style='text-align: center; vertical-align: middle;'>Manager Operasional</th>
         </tr>
     </tbody>
 </table>

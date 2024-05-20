@@ -35,7 +35,6 @@
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
                                 <button type="button" class="btn btn-warning" onclick="add_supp()">Penilaian</button>
-                                <button type="button" class="btn btn-success" onclick="down_supp()"><i class="bi bi-printer"></i>&nbsp;Print</button>
                                 <a href="<?= base_url('purchasing/master_kriteria_penilaian') ?>" class="btn btn-secondary">Master Nilai</a>
                             </div>
 
@@ -261,6 +260,10 @@
     function down_supp() {
         let mulai = $("#mulai").val();
         let hingga = $("#hingga").val();
+        let produk = $("#produk").val();
+        let kesimpulan = $("#kesimpulan").val();
+        let catatan = $("#catatan").val();
+
         if (mulai == '') {
             pesan('Tanggal harus diisi');
             $("#mulai").focus();
@@ -269,7 +272,8 @@
                 pesan('Tanggal harus diisi');
                 $("#hingga").focus();
             } else {
-                window.open("<?= base_url('Purchasing/print_supp?mulai=') ?>" + mulai + "&hingga=" + hingga);
+                // Membuka jendela baru dengan URL cetak yang berisi parameter-parameter yang dibutuhkan
+                window.open("<?= base_url('Purchasing/print_supp') ?>?mulai=" + mulai + "&hingga=" + hingga + "&produk=" + produk + "&kesimpulan=" + kesimpulan + "&catatan=" + catatan);
             }
         }
     }

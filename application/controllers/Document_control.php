@@ -369,9 +369,10 @@ class Document_control extends CI_Controller
         $tahun = $this->input->get('tahun');
         $data['head'] = $this->M_dc->master_sarmut($divisi, $bulan, $tahun);
         $pr['detail'] = $this->M_dc->detail_sarmut($divisi, $tahun);
+        $grafik['grafik'] = $this->M_dc->grafik_sarmut($divisi, $bulan, $tahun);
         $row = json_encode($data);
         $datapr = json_encode($pr);
-        //print_r($row);
+        // /print_r($datapr);
         $this->load->view("tb_sarmut", ["data" => $row,  "datapr" => $datapr]);
     }
 

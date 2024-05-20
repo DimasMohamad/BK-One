@@ -48,6 +48,25 @@ class M_dc extends CI_Model
     }
 
     //SASARAN MUTU
+    public function grafik_sarmut($divisi, $bulan, $tahun)
+    {
+        return $this->db->query("SELECT bulan,
+            COALESCE(SUM(CASE WHEN bulan = 1 THEN nilai ELSE 0 END), 0) AS JAN,
+            COALESCE(SUM(CASE WHEN bulan = 2 THEN nilai ELSE 0 END), 0) AS FEB,
+            COALESCE(SUM(CASE WHEN bulan = 3 THEN nilai ELSE 0 END), 0) AS MAR,
+            COALESCE(SUM(CASE WHEN bulan = 4 THEN nilai ELSE 0 END), 0) AS APR,
+            COALESCE(SUM(CASE WHEN bulan = 5 THEN nilai ELSE 0 END), 0) AS MEI,
+            COALESCE(SUM(CASE WHEN bulan = 6 THEN nilai ELSE 0 END), 0) AS JUN,
+            COALESCE(SUM(CASE WHEN bulan = 7 THEN nilai ELSE 0 END), 0) AS JUL,
+            COALESCE(SUM(CASE WHEN bulan = 8 THEN nilai ELSE 0 END), 0) AS AGS,
+            COALESCE(SUM(CASE WHEN bulan = 9 THEN nilai ELSE 0 END), 0) AS SEP,
+            COALESCE(SUM(CASE WHEN bulan = 10 THEN nilai ELSE 0 END), 0) AS OKT,
+            COALESCE(SUM(CASE WHEN bulan = 11 THEN nilai ELSE 0 END), 0) AS NOV,
+            COALESCE(SUM(CASE WHEN bulan = 12 THEN nilai ELSE 0 END), 0) AS DESS
+        FROM sarmut
+        GROUP BY bulan;")->result_array();
+    }
+
     public function cek_sarmut($divisi_modal)
     {
         return $this->db->query("SELECT A.id_sarmut, A.bulan, A.tahun, B.divisi FROM sarmut A

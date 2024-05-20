@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style type="text/css">
     @page {
         size: A4;
@@ -115,6 +116,86 @@ $bulanMap = [
                 $i++;
             }
             ?>
+
+            <!--ISI GRAFIK-->
+            <table class="table table-sm table-bordered" width="100%" border="1" rules="all" style="font-size:13px;">
+                <tr>
+                    <td colspan="14">
+                        <canvas id="myChart" width="800" height="100"></canvas>
+                    </td>
+                </tr>
+                <script>
+                    // Data grafik dari PHP
+                    var dataJSON = <?php echo json_encode($pr); ?>;
+
+                    // Inisialisasi objek untuk menyimpan data nilai per id_sarmut
+                    var nilai_per_id_sarmut = {};
+
+                    // Mengisi objek dengan data nilai per id_sarmut
+                    dataJSON.detail.forEach(function(entry) {
+                        var id_sarmut = entry.id_sarmut;
+                        var bulan = parseInt(entry.bulan);
+                        if (!nilai_per_id_sarmut[id_sarmut]) {
+                            nilai_per_id_sarmut[id_sarmut] = {};
+                        }
+                        // Menyimpan nilai hanya jika bulan kurang dari atau sama dengan $periodebulan
+                        if (bulan <= <?php echo $periodebulan; ?>) {
+                            nilai_per_id_sarmut[id_sarmut][bulan] = parseInt(entry.nilai);
+                        }
+                    });
+
+                    // Label bulan
+                    var label_bulan = [];
+                    for (var i = 1; i <= 12; i++) {
+                        label_bulan.push(i);
+                    }
+
+                    // Inisialisasi chart
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: label_bulan,
+                            datasets: []
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                    // Menambahkan dataset untuk setiap id_sarmut
+                    Object.keys(nilai_per_id_sarmut).forEach(function(id_sarmut, index) {
+                        var data_nilai = [];
+                        for (var i = 1; i <= 12; i++) {
+                            // Menambahkan nilai yang ada, jika tidak ada, disisipkan nilai 0
+                            data_nilai.push(nilai_per_id_sarmut[id_sarmut][i] || 0);
+                        }
+
+                        // Warna untuk dataset yang berbeda
+                        var backgroundColor = 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 0.2)';
+                        var borderColor = 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)';
+
+                        // Menambahkan dataset ke chart
+                        myChart.data.datasets.push({
+                            label: 'Sarmut ' + (index + 1), // Menggunakan nomor urut atau indeks + 1 sebagai label
+                            data: data_nilai,
+                            backgroundColor: backgroundColor,
+                            borderColor: borderColor,
+                            borderWidth: 1
+                        });
+                    });
+
+                    // Mengupdate chart
+                    myChart.update();
+                </script>
+            </table>
+
         </tbody>
     </table>
     <table class="table table-sm table-bordered" width="100%" border="1" rules="all" style="font-size:13px;">

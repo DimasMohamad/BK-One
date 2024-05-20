@@ -463,6 +463,9 @@ class Purchasing extends CI_Controller
 
     public function print_supp()
     {
+        $produk = $this->input->get('produk');
+        $kesimpulan = $this->input->get('kesimpulan');
+        $catatan = $this->input->get('catatan');
         $s = $this->input->get('mulai');
         $e = $this->input->get('hingga');
         $datasupp = $this->M_purc->get_penilaian_supplier($s, $e);
@@ -494,7 +497,7 @@ class Purchasing extends CI_Controller
             array_push($datanilai);
         }
         //----------------
-        $this->load->view("print_pemilihan_supplier", ["data" => $datasupp, "kriteria" => $kriteria, "datanilai" => $datanilai]);
+        $this->load->view("print_pemilihan_supplier", ["data" => $datasupp, "kriteria" => $kriteria, "datanilai" => $datanilai, "produk" => $produk, "kesimpulan" => $kesimpulan, "catatan" => $catatan]);
     }
 
     public function get_supp_nilai()
