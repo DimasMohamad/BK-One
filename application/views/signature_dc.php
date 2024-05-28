@@ -241,7 +241,7 @@
     function tampildata2() {
         document.getElementById('btnloading2').style.display = '';
         document.getElementById('btntampil2').style.display = 'none';
-        document.getElementById("tampildatasign").innerHTML = '';
+        document.getElementById("tampildatasign2").innerHTML = '';
         $.get("<?= base_url('Document_control/list_dokumen') ?>", function(data, status) {
             document.getElementById('btnloading2').style.display = 'none';
             document.getElementById('btntampil2').style.display = '';
@@ -253,7 +253,7 @@
         var divisi = $("#filter_divisi").val();
         document.getElementById('btnloadinglokasi').style.display = '';
         document.getElementById('btntampillokasi').style.display = 'none';
-        document.getElementById("tampildatasign").innerHTML = '';
+        document.getElementById("tampildatalokasi").innerHTML = '';
         $.get("<?= base_url('Document_control/list_lokasi?divisi=') ?>" + divisi, function(data, status) {
             document.getElementById('btnloadinglokasi').style.display = 'none';
             document.getElementById('btntampillokasi').style.display = '';

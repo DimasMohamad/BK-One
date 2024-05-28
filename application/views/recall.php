@@ -22,35 +22,35 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                                <div class="col-xl-5">
-                                    <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
-                                    <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
+                            <div class="col-xl-5">
+                                <button class="btn btn-primary" onclick="tampildata()" id="btntampil"><i class="bi bi-search"></i>&nbsp;View</button>
+                                <button class="btn btn-primary" type="button" disabled="" id="btnloading" style="display:none;">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     Loading...</button>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Formulir Recall</button>
-                                </div>
-                                <div class="col-xl-12">
-                                    <br>
-                                    <div id="tampildatarecall"></div>
-                                </div>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload_dokumen">Formulir Recall</button>
+                            </div>
+                            <div class="col-xl-12">
+                                <br>
+                                <div id="tampildatarecall"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
+
+        </div>
         </div>
     </section>
 
 </main><!-- End #main -->
-<div class="modal fade" id="upload_dokumen" tabindex="-1" style="display: none;" aria-hidden="true" >
+<div class="modal fade" id="upload_dokumen" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Formulir Recall</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">                
+            <div class="modal-body">
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
                     <div>
                         <label for="inputNanme4" class="form-label">Nomor Form</label>
@@ -100,19 +100,19 @@
                         <label for="inputNanme4" class="form-label">Otorisasi</label>
                         <input type="text" id="otorisasi" name="otorisasi" class="form-control"></input>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Upload</button>
+                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+            </div>
             </form>
         </div>
     </div>
 </div>
 
 <script>
-    function tampildata(){
+    function tampildata() {
         document.getElementById('btnloading').style.display = '';
         document.getElementById('btntampil').style.display = 'none';
         document.getElementById("tampildatarecall").innerHTML = '';
@@ -124,76 +124,76 @@
     }
 
     function printData(id) {
-        window.open("<?= base_url('Marketing/print_recall?id=')?>"+id);
+        window.open("<?= base_url('Marketing/print_recall?id=') ?>" + id);
     }
 
-    function btnhapus(id){
+    function btnhapus(id) {
         Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-        if (result.isConfirmed) {
-            //Begin
-            $.ajax({
-                url: "<?= base_url('Marketing/hapus_recall'); ?>",
-                type: 'POST',
-                cache: false,
-                data: {
-                    id: id,
-                    csrf_test_name: $.cookie('csrf_cookie_name')
-                }
-            });
-            Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-            );
-            tampildata();
-            //end
-        }
+            if (result.isConfirmed) {
+                //Begin
+                $.ajax({
+                    url: "<?= base_url('Marketing/hapus_recall'); ?>",
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        id: id,
+                        csrf_test_name: $.cookie('csrf_cookie_name')
+                    }
+                });
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                );
+                tampildata();
+                //end
+            }
         })
     }
 
-    function pesan(txt){
+    function pesan(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => { 
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'error',
-        title: txt
+            icon: 'error',
+            title: txt
         })
     }
 
-    function pesan_sukses(txt){
+    function pesan_sukses(txt) {
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
 
         Toast.fire({
-        icon: 'success',
-        title: txt
+            icon: 'success',
+            title: txt
         })
     }
 

@@ -1,5 +1,5 @@
 <?php
-$row = json_decode($data, true);
+//$row = json_decode($data, true);
 ?>
 
 <main id="main" class="main">
@@ -40,7 +40,7 @@ $row = json_decode($data, true);
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">SALES ORDER <span>/Today</span></h5>
+                <h5 class="card-title">SALES ORDER(DATA DUMMY) <span>/Today</span></h5>
 
                 <!-- Line Chart -->
                 <div id="reportsChart"></div>
@@ -50,14 +50,14 @@ $row = json_decode($data, true);
                     new ApexCharts(document.querySelector("#reportsChart"), {
                       series: [{
                         name: 'SO',
-                        //data: [11, 32, 45, 32, 34, 82, 41]
-                        data: [
-                          <?php
-                          foreach ($row['so'] as $so) {
-                            echo $so['total_so'] . ",";
-                          }
-                          ?>
-                        ]
+                        data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+                        /*data: [
+                              <?php
+                              //foreach ($row['so'] as $so) {
+                              //echo $so['total_so'] . ",";
+                              //}
+                              ?>
+                          ]*/
                       }],
                       chart: {
                         height: 350,
