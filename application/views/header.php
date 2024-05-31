@@ -209,42 +209,44 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-inv" data-bs-toggle="collapse" href="#" onclick="pesan()">
+        <a class="nav-link collapsed" data-bs-target="#forms-inv" data-bs-toggle="collapse" href="#">
           <i class="bi bi-truck-flatbed"></i><span>Inventory</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
+        if ($current_url == base_url('Whse/kartu_stok') || $current_url == base_url('Whse/lhmb') || $current_url == base_url('Whse/item_code') || $current_url == base_url('Whse/item_audit')) {
+          echo "<ul id='forms-inv' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
+        } else {
+          echo "<ul id='forms-inv' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
+        };
+
+        if ($current_url == base_url('Whse/kartu_stok')) {
+          echo "<li><a href='" . base_url('Whse/kartu_stok') . "' class='active'><i class='bi bi-circle'></i><span>Kartu Stok (NEW)</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Whse/kartu_stok') . "'><i class='bi bi-circle'></i><span>Kartu Stok (NEW)</span></a></li>";
+        };
+
         /*
-    if ($current_url == base_url('Whse/kartu_stok') || $current_url == base_url('Whse/lhmb') || $current_url == base_url('Whse/stok') || $current_url == base_url('Whse/item_audit')) {
-        echo "<ul id='forms-inv' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
-    } else {
-        echo "<ul id='forms-inv' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
-    };
+        if ($current_url == base_url('Whse/lhmb')) {
+          echo "<li><a href='" . base_url('Whse/lhmb') . "' class='active'><i class='bi bi-circle'></i><span>LHMB (GRPO)</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Whse/lhmb') . "'><i class='bi bi-circle'></i><span>LHMB (GRPO)</span></a></li>";
+        };
+        */
 
-    if ($current_url == base_url('Whse/kartu_stok')) {
-        echo "<li><a href='" . base_url('Whse/kartu_stok') . "' class='active'><i class='bi bi-circle'></i><span>Kartu Stok (NEW)</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Whse/kartu_stok') . "'><i class='bi bi-circle'></i><span>Kartu Stok (NEW)</span></a></li>";
-    };
+        if ($current_url == base_url('Whse/item_code')) {
+          echo "<li><a href='" . base_url('Whse/item_code') . "' class='active'><i class='bi bi-circle'></i><span>Item Master Data</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Whse/item_code') . "'><i class='bi bi-circle'></i><span>Item Master Data</span></a></li>";
+        };
 
-    if ($current_url == base_url('Whse/lhmb')) {
-        echo "<li><a href='" . base_url('Whse/lhmb') . "' class='active'><i class='bi bi-circle'></i><span>LHMB (GRPO)</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Whse/lhmb') . "'><i class='bi bi-circle'></i><span>LHMB (GRPO)</span></a></li>";
-    };
-
-    if ($current_url == base_url('Whse/stok')) {
-        echo "<li><a href='" . base_url('Whse/stok') . "' class='active'><i class='bi bi-circle'></i><span>Item Master Data</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Whse/stok') . "'><i class='bi bi-circle'></i><span>Item Master Data</span></a></li>";
-    };
-
-    if ($current_url == base_url('Whse/item_audit')) {
-        echo "<li><a href='" . base_url('Whse/item_audit') . "' class='active'><i class='bi bi-circle'></i><span>Rekap Mutasi Stok</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Whse/item_audit') . "'><i class='bi bi-circle'></i><span>Rekap Mutasi Stok</span></a></li>";
-    };
-    echo "</ul>";
-    */
+        /*
+        if ($current_url == base_url('Whse/item_audit')) {
+          echo "<li><a href='" . base_url('Whse/item_audit') . "' class='active'><i class='bi bi-circle'></i><span>Rekap Mutasi Stok</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Whse/item_audit') . "'><i class='bi bi-circle'></i><span>Rekap Mutasi Stok</span></a></li>";
+        };
+        */
+        echo "</ul>";
         ?>
       </li>
 

@@ -18,26 +18,22 @@
     ?>
     <table id='tabel-data1' class='table table-sm' style='font-size:14px;'>
         <?php
-        if (isset($posisi[0]['position1']) && $posisi[0]['position1'] == 'Lab') {
+        if (isset($posisi[0]['position1']) && $posisi[0]['position1'] == 'Rnd') {
             $i = 1;
             echo "<thead>
-            <th width='30px'>No</th>
-            <th>Nama Dokumen</th>
-            <th width='200px'>Keterangan</th>
-            <th width='300px'>File</th>
-            <th width='90px'>Action</th>
-            </thead>";
+                <th width='30px'>No</th>
+                <th width='200px'>Item Code</th>
+                <th>Item Name</th>
+                <th width='30px'>Action</th>
+                </thead>";
             echo "<tbody>";
-            foreach ($row['data'] as $h) {
+            foreach ($row['head'] as $h) {
                 echo "<tr>";
                 echo "<td style='vertical-align:top;'>" . $i . "</td>";
-                echo "<td style='vertical-align:top;'>" . $h['nama_dokumen'] . "</td>";
-                echo "<td style='vertical-align:top;'>" . $h['keterangan'] . "</td>";
-                echo "<td style='vertical-align:top;'>" . $h['file'] . "</td>";
+                echo "<td style='vertical-align:top;'>" . $h['item_code'] . "</td>";
+                echo "<td style='vertical-align:top;'>" . $h['item_name'] . "</td>";
                 echo "<td style='vertical-align:top;'>";
-                echo "<button type='button' class='btn btn-primary' onclick='btnview(\"" . $h['file'] . "\")'><i class='bi bi-eye'></i></button>";
-                echo "&nbsp;";
-                echo "<button type='button' class='btn btn-danger' onclick='btnhapus(" . $h['rowid'] . ", \"" . $h['file'] . "\")'><i class='bi bi-trash'></i></button>";
+                echo "<button type='button' class='btn btn-danger' onclick='btnhapus(" . $h['rowid'] . ")'><i class='bi bi-trash'></i></button>";
                 echo "</td>";
                 $i++;
             }
@@ -45,22 +41,16 @@
         } else {
             $i = 1;
             echo "<thead>
-            <th width='30px'>No</th>
-            <th>Nama Dokumen</th>
-            <th width='200px'>Keterangan</th>
-            <th width='300px'>File</th>
-            <th width='90px'>Action</th>
-            </thead>";
+                <th width='30px'>No</th>
+                <th width='200px'>Item Code</th>
+                <th>Item Name</th>
+                </thead>";
             echo "<tbody>";
-            foreach ($row['data'] as $h) {
+            foreach ($row['head'] as $h) {
                 echo "<tr>";
                 echo "<td style='vertical-align:top;'>" . $i . "</td>";
-                echo "<td style='vertical-align:top;'>" . $h['nama_dokumen'] . "</td>";
-                echo "<td style='vertical-align:top;'>" . $h['keterangan'] . "</td>";
-                echo "<td style='vertical-align:top;'>" . $h['file'] . "</td>";
-                echo "<td style='vertical-align:top;'>";
-                echo "<button type='button' class='btn btn-primary' onclick='btnview(\"" . $h['file'] . "\")'><i class='bi bi-eye'></i></button>";
-                echo "</td>";
+                echo "<td style='vertical-align:top;'>" . $h['item_code'] . "</td>";
+                echo "<td style='vertical-align:top;'>" . $h['item_name'] . "</td>";
                 $i++;
             }
             echo "</tbody>";

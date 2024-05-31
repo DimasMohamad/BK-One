@@ -4,12 +4,12 @@ $row = json_decode($data, true);
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Update Spesifikasi</h1>
+        <h1>Item Master Data</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Lab</li>
-                <li class="breadcrumb-item active">Update Spesifikasi</li>
+                <li class="breadcrumb-item">Inventory</li>
+                <li class="breadcrumb-item active">Item Master Data</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -22,7 +22,6 @@ $row = json_decode($data, true);
                         <!--Konten daftar dokumen baru-->
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <!-- -->
                                 <div class="row">
                                     <div class="col-xl-3">
                                         <button class="btn btn-primary" onclick="tampildata()" id="btntampil1"><i class="bi bi-search"></i>&nbsp;View</button>
@@ -31,8 +30,8 @@ $row = json_decode($data, true);
                                             Loading...</button>
                                         <label class="form-label"></label>
                                         <?php
-                                        if (isset($row[0]['position1']) && $row[0]['position1'] == 'Lab') {
-                                            echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#upload_spek'>Upload File</button>";
+                                        if (isset($row[0]['position1']) && $row[0]['position1'] == 'Rnd') {
+                                            echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#tambah_item'>Tambah Code</button>";
                                         }
                                         ?>
                                     </div>
@@ -48,49 +47,35 @@ $row = json_decode($data, true);
             </div>
         </div>
     </section>
-
 </main><!-- End #main -->
-<div class="modal fade" id="upload_spek" tabindex="-1" style="display: none;" aria-hidden="true">
+
+<div class="modal fade" id="tambah_item" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Upload Spesifikasi</h5>
+                <h5 class="modal-title">Upload Item Code</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
-                    <div class="col-6">
-                        <input type="text" id="nama_spek" name="nama_spek" class="form-control" placeholder="Nama Spesifikasi">
+                    <div class="col-4">
+                        <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Item Code">
                     </div>
-                    <div class="col-6">
-                        <input type="file" name="userfile" size="20" class="form-control" accept="application/pdf" />
+                    <div class="col-8">
+                        <input type="text" id="item_name" name="item_name" class="form-control" placeholder="Item Name">
                     </div>
-                    <div>
-                        <textarea id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan"></textarea>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                     </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-            </div>
-            </form>
         </div>
     </div>
 </div>
 
 <script>
-    function tampildata() {
-        document.getElementById('btnloading').style.display = '';
-        document.getElementById('btntampil1').style.display = 'none';
-        document.getElementById("tampildata").innerHTML = '';
-        $.get("<?= base_url('Lab/tampil_data_spek') ?>", function(data, status) {
-            document.getElementById('btnloading').style.display = 'none';
-            document.getElementById('btntampil1').style.display = '';
-            $("#tampildata").html(data);
-        });
-    }
-
     function pesan_sukses(txt) {
         const Toast = Swal.mixin({
             toast: true,
@@ -116,7 +101,7 @@ $row = json_decode($data, true);
         $("#loadingText").show(); // Tampilkan teks "Loading..."
         e.preventDefault();
         $.ajax({
-            url: "<?= base_url('Lab/do_upload'); ?>",
+            url: "<?= base_url('Whse/do_upload'); ?>",
             type: "POST",
             data: new FormData(this),
             contentType: false,
@@ -130,11 +115,9 @@ $row = json_decode($data, true);
                     $("#uploadText").show(); // Tampilkan kembali teks "Upload"
                     $("#loadingText").hide(); // Sembunyikan teks "Loading..."
                     $("#tombol-tampil").click();
-                    //$("#f_upload_bt").modal("hide");
-                    //$("#upload_spek").modal("hide");
                     pesan_sukses('Tersimpan');
-                    document.getElementById("nama_spek").value = "";
-                    document.getElementById("keterangan").value = "";
+                    document.getElementById("item_code").value = "";
+                    document.getElementById("item_name").value = "";
                     setTimeout(function() {
                         location.reload();
                     }, 500);
@@ -143,7 +126,18 @@ $row = json_decode($data, true);
         });
     });
 
-    function btnhapus(id, namafile) {
+    function tampildata() {
+        document.getElementById('btnloading').style.display = '';
+        document.getElementById('btntampil1').style.display = 'none';
+        document.getElementById("tampildata").innerHTML = '';
+        $.get("<?= base_url('Whse/code') ?>", function(data, status) {
+            document.getElementById('btnloading').style.display = 'none';
+            document.getElementById('btntampil1').style.display = '';
+            $("#tampildata").html(data);
+        });
+    }
+
+    function btnhapus(id) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -156,12 +150,11 @@ $row = json_decode($data, true);
             if (result.isConfirmed) {
                 //Begin
                 $.ajax({
-                    url: "<?= base_url('Lab/hapus_spek'); ?>",
+                    url: "<?= base_url('Whse/hapus_item'); ?>",
                     type: 'POST',
                     cache: false,
                     data: {
                         id: id,
-                        namafile: namafile,
                         csrf_test_name: $.cookie('csrf_cookie_name')
                     }
                 });
@@ -173,14 +166,5 @@ $row = json_decode($data, true);
                 tampildata();
             }
         })
-    }
-
-    function btnview(filename) {
-        window.open("<?= base_url('uploads_spek/') ?>" + filename, '_blank');
-    }
-
-    function btnview1(filename) {
-        const url = "<?= base_url('uploads_spek/') ?>" + filename;
-        window.open("<?= site_url('Lab/view_update_spek?file=') ?>" + encodeURIComponent(url), '_blank', 'noopener,noreferrer');
     }
 </script>

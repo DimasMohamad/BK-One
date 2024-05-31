@@ -61,4 +61,50 @@ class Whse extends CI_Controller
     public function stok_keluar()
     {
     }
+
+    public function item_code()
+    {
+        $akses = $this->M_user->get_akses(3);
+        $sesi = $this->session->id_user;
+        //print_r($sesi);
+        $posisi = $this->M_whse->get_position($sesi);
+        $data = json_encode($posisi);
+        $this->load->view('header');
+        if (!$akses['akses'] == 0) {
+            $this->load->view('item_master_data', ['data' => $data]);
+        } else {
+            $this->load->view('denied');
+        }
+        $this->load->view('footer');
+    }
+
+    public function code()
+    {
+        $stok['head'] = $this->M_whse->get_item_code();
+        $data = json_encode($stok);
+        $sesi = $this->session->id_user;
+        //print_r($sesi);
+        $sesip = $this->M_whse->get_position($sesi);
+        $posisi = json_encode($sesip);
+        //print_r($data);
+        $this->load->view('tb_item_code', ['data' => $data, 'posisi' => $posisi]);
+    }
+
+    public function do_upload()
+    {
+        $item_code = $this->input->post('item_code');
+        $item_name = $this->input->post('item_name');
+        $data = array(
+            'item_code' => $item_code,
+            'item_name' => $item_name,
+        );
+        //print_r($data);
+        $this->db->insert('tb_item_code', $data);
+    }
+
+    public function hapus_item()
+    {
+        $id = $this->input->post('id');
+        $this->db->delete('tb_item_code', array('rowid' => $id));
+    }
 }

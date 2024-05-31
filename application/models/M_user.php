@@ -25,6 +25,6 @@ class M_user extends CI_Model
 
     public function get_filter_posisi()
     {
-        return $this->db->query('SELECT posisi from posisi;')->result_array();
+        return $this->db->query('SELECT posisi FROM posisi ORDER BY posisi ASC;')->result_array();
     }
 }

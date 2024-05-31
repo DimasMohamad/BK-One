@@ -11,6 +11,7 @@ class Lab extends CI_Controller
         }
         $this->load->model('M_lab');
         $this->load->model('M_user');
+        $this->load->model('M_whse');
         $this->load->helper(array('url'));
         $this->load->helper(array('form', 'url'));
     }
@@ -18,9 +19,13 @@ class Lab extends CI_Controller
     public function update_spek()
     {
         $akses = $this->M_user->get_akses(32);
+        $sesi = $this->session->id_user;
+        //print_r($sesi);
+        $posisi = $this->M_whse->get_position($sesi);
+        $data = json_encode($posisi);
         $this->load->view('header');
         if (!$akses['akses'] == 0) {
-            $this->load->view('update_spek');
+            $this->load->view('update_spek', ['data' => $data]);
         } else {
             $this->load->view('denied');
         }
@@ -29,9 +34,13 @@ class Lab extends CI_Controller
 
     public  function tampil_data_spek()
     {
+        $sesi = $this->session->id_user;
+        //print_r($sesi);
+        $sesip = $this->M_whse->get_position($sesi);
+        $posisi = json_encode($sesip);
         $dt['data'] = $this->M_lab->tampil_spek();
         $data = json_encode($dt);
-        $this->load->view("tb_update_spek", ["data" => $data]);
+        $this->load->view("tb_update_spek", ["data" => $data, 'posisi' => $posisi]);
     }
 
     public function do_upload()
@@ -73,5 +82,10 @@ class Lab extends CI_Controller
         echo $namafile;
         $this->db->delete('tb_lab_spek', array('rowid' => $id));
         unlink("$namafile");
+    }
+
+    public function view_update_spek()
+    {
+        $this->load->view('view_update_spek');
     }
 }
