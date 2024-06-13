@@ -54,8 +54,11 @@ class Whse extends CI_Controller
         $this->load->view('tb_master_stok', ['data' => $data]);
     }
 
-    public function stok_masuk()
+    // Method untuk mendapatkan data master stok
+    public function get_union_kartu_stok()
     {
+        $data['union_kartu_stok'] = $this->M_whse->get_union_kartu_stok();
+        echo json_encode($data); // Mengembalikan data dalam format JSON
     }
 
     public function stok_keluar()

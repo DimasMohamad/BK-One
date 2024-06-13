@@ -13,7 +13,14 @@ class M_whse extends CI_Model
 
     public function get_master_stok()
     {
-        return $this->db->query("SELECT * FROM tb_master_stok;")->result_array();
+        return $this->db->query("SELECT * FROM tb_kartu_stok_bb UNION ALL SELECT * FROM tb_kartu_stok_bp;")->result_array();
+    }
+
+    public function get_union_kartu_stok()
+    {
+        // Query database untuk mengambil data dari kedua tabel
+        $query = $this->db->query("SELECT * FROM tb_kartu_stok_bb UNION ALL SELECT * FROM tb_kartu_stok_bp");
+        return $query->result(); // Mengembalikan hasil query
     }
 
     public function get_item_code()

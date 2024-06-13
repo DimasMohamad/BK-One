@@ -1,35 +1,8 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<script>
-    function get_filter_posisi() {
-        // Mendapatkan dan mengisi data untuk elemen dengan id "nama"
-        $.get("<?= base_url('Whse/get_filter_nama') ?>", function(data, status) {
-            $("#filter_nama").html(data);
-        });
-
-        // Mendapatkan dan mengisi data untuk elemen dengan id "jenis"
-        $.get("<?= base_url('Whse/get_filter_jenis') ?>", function(data, status) {
-            $("#filter_jenis").html(data);
-        });
-
-        // Mendapatkan dan mengisi data untuk elemen dengan id "satuan"
-        $.get("<?= base_url('Whse/get_filter_satuan') ?>", function(data, status) {
-            $("#filter_satuan").html(data);
-        });
-
-        // Mendapatkan dan mengisi data untuk elemen dengan id "supplier"
-        $.get("<?= base_url('Whse/get_filter_supplier') ?>", function(data, status) {
-            $("#filter_supplier").html(data);
-        });
-    }
-
-    // Memanggil fungsi get_filter_posisi saat halaman dimuat
-    window.onload = get_filter_posisi;
-</script>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Kartu Stok</h1>
@@ -60,36 +33,9 @@
                         </ul>
                         <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <!-- Konten tab Stok Masuk -->
-                                <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="" method="">
-                                    <div class="col-2">
-                                        <label for="inputNanme4" class="form-label">Kode Item</label>
-                                        <select id="user_mr" name="user_mr" class="form-control"></select>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="inputNanme4" class="form-label">Supplier</label>
-                                        <select id="filter_supplier" name="filter_supplier" class="form-control"></select>
-                                    </div>
-                                    <div class="col-5">
-                                        <label for="inputNanme4" class="form-label">Nama Item</label>
-                                        <select id="filter_nama" name="filter_nama" class="form-control"></select>
-                                    </div>
-                                    <div class="col-1">
-                                        <label for="inputNanme4" class="form-label">Satuan</label>
-                                        <select id="filter_satuan" name="filter_satuan" class="form-control"></select>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="inputNanme4" class="form-label">Jenis</label>
-                                        <select id="filter_jenis" name="filter_jenis" class="form-control"></select>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" id="btnUpload">
-                                            <span id="uploadText">Input</span>
-                                            <span id="loadingText" style="display: none;">Loading...</span>
-                                        </button>
-                                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                                    </div>
-                                </form>
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stok_masuk" onclick="get_filter()">Stok Masuk</button>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="doc-list" role="tabpanel" aria-labelledby="profile-tab">
                                 <!-- Konten tab Stok Keluar -->
@@ -125,14 +71,130 @@
                     </div>
                 </div>
             </div>
-
-        </div>
         </div>
     </section>
-
 </main><!-- End #main -->
 
+<div class="modal fade" id="stok_masuk" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Stok Masuk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="f_upld" name="f_upld" enctype="multipart/form-data" action="<?= base_url('Whse/simpan_stok'); ?>" method="post">
+                    <div class="control-group after-add-more row g-3">
+                        <div class="col-4">
+                            <div class="input-group">
+                                <input type="text" id="search_kode_item" class="form-control" placeholder="Cari Kode Item">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Pilih</button>
+                                <ul id="dropdown_kode_item" class="dropdown-menu">
+                                    <!-- Daftar dropdown items akan diisi melalui JavaScript -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="kode_name[]" class="form-control jumlah" placeholder="Nama Barang" required>
+                        </div>
+                        <div class="col-2">
+                            <input type="text" name="supplier[]" class="form-control jenis_barang" placeholder="Supplier" required>
+                        </div>
+                        <div class="col-1">
+                            <input type="text" name="satuan[]" class="form-control keterangan" placeholder="Satuan" required>
+                        </div>
+                        <div class="col-1">
+                            <input type="text" name="nilai[]" class="form-control keterangan" placeholder="Nilai" required>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-success add-more" type="button">
+                                <i class="glyphicon glyphicon-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                    </div>
+                </form>
+                <div class="copy d-none">
+                    <div class="control-group row g-3">
+                        <div class="col-3">
+                            <input type="text" onkeyup="isi_otomatis(this)" name="kode_item[]" class="form-control kode_barang" placeholder="Kode Item" required>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="kode_name[]" class="form-control jumlah" placeholder="Nama Barang" required>
+                        </div>
+                        <div class="col-2">
+                            <input type="text" name="supplier[]" class="form-control jenis_barang" placeholder="Supplier" required>
+                        </div>
+                        <div class="col-1">
+                            <input type="text" name="satuan[]" class="form-control keterangan" placeholder="Satuan" required>
+                        </div>
+                        <div class="col-1">
+                            <input type="text" name="nilai[]" class="form-control keterangan" placeholder="Nilai" required>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    //Script add and remove kolom
+    $(document).ready(function() {
+        $(".add-more").click(function() {
+            var html = $(".copy").html();
+            $(".after-add-more").after(html);
+        });
+
+        $("body").on("click", ".remove", function() {
+            $(this).parents(".control-group").remove();
+        });
+
+        // Menyembunyikan elemen dengan class 'copy d-none'
+        $(".copy.d-none").hide();
+    });
+
+    $(document).ready(function() {
+        // AJAX request to get data for dropdown
+        $.ajax({
+            url: '<?php echo base_url('Whse/get_union_kartu_stok'); ?>',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // If request is successful, fill dropdown with received data
+                if (response.union_kartu_stok.length > 0) {
+                    var options = '';
+                    $.each(response.union_kartu_stok, function(index, item) {
+                        options += '<li><a class="dropdown-item" href="#" data-value="' + item.rowid + '">' + item.kode_item + '</a></li>';
+                    });
+                    $('#dropdown_kode_item').html(options);
+                }
+            }
+        });
+
+        // Handle input text keyup event for filtering dropdown
+        $('#search_kode_item').on('keyup', function() {
+            var searchText = $(this).val().toLowerCase();
+            $('#dropdown_kode_item li').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+            });
+        });
+
+        // Handle dropdown item click event
+        $(document).on('click', '.dropdown-item', function() {
+            var selectedValue = $(this).data('value');
+            var selectedText = $(this).text();
+            $('#search_kode_item').val(selectedText);
+        });
+    });
+
     function tampildata() {
         document.getElementById('btnloading').style.display = '';
         document.getElementById('btntampil').style.display = 'none';
@@ -166,41 +228,6 @@
         });
     }
 
-    function printData(id) {
-        window.open("<?= base_url('Marketing/print_recall?id=') ?>" + id);
-    }
-
-    function btnhapus(id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                //Begin
-                $.ajax({
-                    url: "<?= base_url('Marketing/hapus_recall'); ?>",
-                    type: 'POST',
-                    cache: false,
-                    data: {
-                        id: id,
-                        csrf_test_name: $.cookie('csrf_cookie_name')
-                    }
-                });
-                Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-                tampildata();
-                //end
-            }
-        })
-    }
 
     function pesan(txt) {
         const Toast = Swal.mixin({
@@ -239,41 +266,4 @@
             title: txt
         })
     }
-
-    $("#f_upld").on("submit", function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "<?= base_url('Marketing/do_upload_recall'); ?>",
-            type: "POST",
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function(data) {
-                if (data == 1) {
-                    alert('Upload gagal');
-                } else {
-                    $("#tombol-tampil").click();
-                    $("#f_upload_bt").modal("hide");
-                    $("#upload_dokumen").modal("hide");
-                    pesan_sukses('Tersimpan');
-                    document.getElementById("nomor_form").value = "";
-                    document.getElementById("nama_produk").value = "";
-                    document.getElementById("nie").value = "";
-                    document.getElementById("batch_lot").value = "";
-                    document.getElementById("total_recall").value = "";
-                    document.getElementById("alasan").value = "";
-                    document.getElementById("hasil_inspeksi").value = "";
-                    document.getElementById("tindakan").value = "";
-                    document.getElementById("status").value = "";
-                    document.getElementById("ketua_tim").value = "";
-                    document.getElementById("anggota").value = "";
-                    document.getElementById("otorisasi").value = "";
-                    setTimeout(function() {
-                        location.reload();
-                    }, 500);
-                }
-            }
-        });
-    });
 </script>

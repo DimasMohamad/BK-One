@@ -384,78 +384,76 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-sales" data-bs-toggle="collapse" href="#" onclick="pesan()">
+        <a class="nav-link collapsed" data-bs-target="#forms-sales" data-bs-toggle="collapse" href="#">
           <i class="bi bi-cash-coin"></i><span>Sales - A/R</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <?php
-        /*
-    if ($current_url == base_url('So/so') || $current_url == base_url('So/outstanding_so') || $current_url == base_url('So/lhkb') || $current_url == base_url('So/lhmb') || $current_url == base_url('Purchasing/nota_manual') || $current_url == base_url('Marketing/produk_palsu') || $current_url == base_url('Marketing/recall') || $current_url == base_url('Marketing/pelanggan') || $current_url == base_url('Marketing/laporan_klaim') || $current_url == base_url('Marketing/kepuasan_pelanggan')) {
-        echo "<ul id='forms-sales' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
-    } else {
-        echo "<ul id='forms-sales' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
-    };
+        if ($current_url == base_url('So/so') || $current_url == base_url('So/outstanding_so') || $current_url == base_url('So/lhkb') || $current_url == base_url('So/lhmb') || $current_url == base_url('Purchasing/nota_manual') || $current_url == base_url('Marketing/produk_palsu') || $current_url == base_url('Marketing/recall') || $current_url == base_url('Marketing/pelanggan') || $current_url == base_url('Marketing/laporan_klaim') || $current_url == base_url('Marketing/kepuasan_pelanggan')) {
+          echo "<ul id='forms-sales' class='nav-content collapse show' data-bs-parent='#sidebar-nav'>";
+        } else {
+          echo "<ul id='forms-sales' class='nav-content collapse' data-bs-parent='#sidebar-nav'>";
+        };
 
-    if ($current_url == base_url('So/so')) {
-        echo "<li><a href='" . base_url('So/so') . "' class='active'><i class='bi bi-circle'></i><span>Sales Order</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('So/so') . "'><i class='bi bi-circle'></i><span>Sales Order</span></a></li>";
-    };
+        if ($current_url == base_url('So/so')) {
+          echo "<li><a href='" . base_url('So/so') . "' class='active'><i class='bi bi-circle'></i><span>Sales Order</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('So/so') . "'><i class='bi bi-circle'></i><span>Sales Order</span></a></li>";
+        };
 
-    if ($current_url == base_url('So/outstanding_so')) {
-        echo "<li><a href='" . base_url('So/outstanding_so') . "' class='active'><i class='bi bi-circle'></i><span>Outstanding Sales Order</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('So/outstanding_so') . "'><i class='bi bi-circle'></i><span>Outstanding Sales Order</span></a></li>";
-    };
+        if ($current_url == base_url('So/outstanding_so')) {
+          echo "<li><a href='" . base_url('So/outstanding_so') . "' class='active'><i class='bi bi-circle'></i><span>Outstanding Sales Order</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('So/outstanding_so') . "'><i class='bi bi-circle'></i><span>Outstanding Sales Order</span></a></li>";
+        };
 
-    if ($current_url == base_url('So/lhkb')) {
-        echo "<li><a href='" . base_url('So/lhkb') . "' class='active'><i class='bi bi-circle'></i><span>Pengiriman Barang</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('So/lhkb') . "'><i class='bi bi-circle'></i><span>Pengiriman Barang</span></a></li>";
-    };
+        if ($current_url == base_url('So/lhkb')) {
+          echo "<li><a href='" . base_url('So/lhkb') . "' class='active'><i class='bi bi-circle'></i><span>Pengiriman Barang</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('So/lhkb') . "'><i class='bi bi-circle'></i><span>Pengiriman Barang</span></a></li>";
+        };
 
-    if ($current_url == base_url('So/lhmb')) {
-        echo "<li><a href='" . base_url('So/lhmb') . "' class='active'><i class='bi bi-circle'></i><span>Penerimaan Barang</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('So/lhmb') . "'><i class='bi bi-circle'></i><span>Penerimaan Barang</span></a></li>";
-    };
+        if ($current_url == base_url('So/lhmb')) {
+          echo "<li><a href='" . base_url('So/lhmb') . "' class='active'><i class='bi bi-circle'></i><span>Penerimaan Barang</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('So/lhmb') . "'><i class='bi bi-circle'></i><span>Penerimaan Barang</span></a></li>";
+        };
 
-    if ($current_url == base_url('Purchasing/nota_manual')) {
-        echo "<li><a href='" . base_url('Purchasing/nota_manual') . "' class='active'><i class='bi bi-circle'></i><span>PO Manual</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Purchasing/nota_manual') . "'><i class='bi bi-circle'></i><span>PO Manual</span></a></li>";
-    };
+        if ($current_url == base_url('Purchasing/nota_manual')) {
+          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "' class='active'><i class='bi bi-circle'></i><span>PO Manual</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Purchasing/nota_manual') . "'><i class='bi bi-circle'></i><span>PO Manual</span></a></li>";
+        };
 
-    if ($current_url == base_url('Marketing/produk_palsu')) {
-        echo "<li><a href='" . base_url('Marketing/produk_palsu') . "' class='active'><i class='bi bi-circle'></i><span>Form Produk Palsu</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Marketing/produk_palsu') . "'><i class='bi bi-circle'></i><span>Form Produk Palsu</span></a></li>";
-    };
+        if ($current_url == base_url('Marketing/produk_palsu')) {
+          echo "<li><a href='" . base_url('Marketing/produk_palsu') . "' class='active'><i class='bi bi-circle'></i><span>Form Produk Palsu</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Marketing/produk_palsu') . "'><i class='bi bi-circle'></i><span>Form Produk Palsu</span></a></li>";
+        };
 
-    if ($current_url == base_url('Marketing/recall')) {
-        echo "<li><a href='" . base_url('Marketing/recall') . "' class='active'><i class='bi bi-circle'></i><span>Form Recall</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Marketing/recall') . "'><i class='bi bi-circle'></i><span>Form Recall</span></a></li>";
-    };
+        if ($current_url == base_url('Marketing/recall')) {
+          echo "<li><a href='" . base_url('Marketing/recall') . "' class='active'><i class='bi bi-circle'></i><span>Form Recall</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Marketing/recall') . "'><i class='bi bi-circle'></i><span>Form Recall</span></a></li>";
+        };
 
-    if ($current_url == base_url('Marketing/pelanggan')) {
-        echo "<li><a href='" . base_url('Marketing/pelanggan') . "' class='active'><i class='bi bi-circle'></i><span>Daftar Pelanggan</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Marketing/pelanggan') . "'><i class='bi bi-circle'></i><span>Daftar Pelanggan</span></a></li>";
-    };
+        if ($current_url == base_url('Marketing/pelanggan')) {
+          echo "<li><a href='" . base_url('Marketing/pelanggan') . "' class='active'><i class='bi bi-circle'></i><span>Daftar Pelanggan</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Marketing/pelanggan') . "'><i class='bi bi-circle'></i><span>Daftar Pelanggan</span></a></li>";
+        };
 
-    if ($current_url == base_url('Marketing/laporan_klaim')) {
-        echo "<li><a href='" . base_url('Marketing/laporan_klaim') . "' class='active'><i class='bi bi-circle'></i><span>Laporan Klaim</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Marketing/laporan_klaim') . "'><i class='bi bi-circle'></i><span>Laporan Klaim</span></a></li>";
-    };
+        if ($current_url == base_url('Marketing/laporan_klaim')) {
+          echo "<li><a href='" . base_url('Marketing/laporan_klaim') . "' class='active'><i class='bi bi-circle'></i><span>Laporan Klaim</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Marketing/laporan_klaim') . "'><i class='bi bi-circle'></i><span>Laporan Klaim</span></a></li>";
+        };
 
-    if ($current_url == base_url('Marketing/kepuasan_pelanggan')) {
-        echo "<li><a href='" . base_url('Marketing/kepuasan_pelanggan') . "' class='active'><i class='bi bi-circle'></i><span>Kepuasan Pelanggan</span></a></li>";
-    } else {
-        echo "<li><a href='" . base_url('Marketing/kepuasan_pelanggan') . "'><i class='bi bi-circle'></i><span>Kepuasan Pelanggan</span></a></li>";
-    };
-    echo "</ul>";
-    */
+        if ($current_url == base_url('Marketing/kepuasan_pelanggan')) {
+          echo "<li><a href='" . base_url('Marketing/kepuasan_pelanggan') . "' class='active'><i class='bi bi-circle'></i><span>Kepuasan Pelanggan</span></a></li>";
+        } else {
+          echo "<li><a href='" . base_url('Marketing/kepuasan_pelanggan') . "'><i class='bi bi-circle'></i><span>Kepuasan Pelanggan</span></a></li>";
+        };
+        echo "</ul>";
         ?>
       </li>
 
